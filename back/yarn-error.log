@@ -1,0 +1,62 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\ludovic.vachon\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Python38\Scripts\;C:\Program Files\Python38\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Python37\;C:\wamp\bin\php\php8.0.7;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Symfony;C:\Users\ludovic.vachon\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Program Files\nodejs\;C:\Users\ludovic.vachon\AppData\Local\Programs\Python\Python38-32\Scripts\;C:\Users\ludovic.vachon\AppData\Local\Programs\Python\Python38-32\;C:\Users\ludovic.vachon\.windows-build-tools\python27\;C:\Python37\Scripts\;C:\Python37\;C:\Users\ludovic.vachon\AppData\Local\Microsoft\WindowsApps;%PyCharm Community Edition%;C:\Users\ludovic.vachon\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ludovic.vachon\AppData\Roaming\Composer\vendor\bin;C:\Users\ludovic.vachon\AppData\Local\GitHubDesktop\bin;C:\wamp\bin\php\php8.0.7;C:\Users\ludovic.vachon\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  16.13.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\react\aide_memoire\back\package.json: Unexpected token } in JSON at position 354
+      at JSON.parse (<anonymous>)
+      at C:\Users\ludovic.vachon\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\ludovic.vachon\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\ludovic.vachon\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "aide_memoire",
+    "version": "1.0.0",
+    "main": "server.js",
+    "author": "ludovic Vachon",
+    "license": "MIT",
+    "dependencies": {
+      "bcryptjs": "^2.4.3",
+      "cors": "^2.8.5",
+      "dotenv": "^11.0.0",
+      "express": "^4.17.2",
+      "jsonwebtoken": "^8.5.1",
+      "mysql2": "^2.3.3",
+      "rand-token": "^1.0.1",
+      "sequelize": "^6.16.1",
+    },
+    "proxy": "http://localhost:7000/",
+    "scripts": {
+      "start": "nodemon -r dotenv/config server.js",
+      "client": "cd client && yarn start",
+      "clientInstall": "cd client && yarn",
+      "build": "cd client && yarn build",
+      "test": "jest"
+    },
+    "devDependencies": {
+      "babel-cli": "^6.26.0",
+      "babel-preset-env": "^1.7.0",
+      "jest": "^27.5.0",
+      "superagent": "^7.1.1",
+      "supertest": "^6.2.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
