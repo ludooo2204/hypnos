@@ -40,8 +40,8 @@ db.etablissement.belongsToMany(db.user, {
 db.user.hasMany(db.suite);
 db.suite.belongsTo(db.user);
 
-//ca sert a quoi ca ??
-db.ROLES = ["visiteur", "client", "gerant", "admin"];
+//ca sert a quoi ca ?? a l'autorisation on dirait
+db.ROLES = ["user", "manager", "admin"];
 
 // Creation de etablissement
 // db.etablissement
@@ -95,13 +95,13 @@ const user_etablissement = db.sequelize.models.user_etablissement;
 // 		console.log(JSON.stringify(e, null, 2));
 // 	});
 
-db.user
-	.findAll({
-		model: db.user,
-		attributes: { exclude: ["createdAt", "updatedAt","password",] },
-		include: [{ model: db.etablissement, attributes: { exclude: ["createdAt", "updatedAt"] } }],
-	})
-	.then((e) => {
-		console.log(JSON.stringify(e, null, 2));
-	});
+// db.user
+// 	.findAll({
+// 		model: db.user,
+// 		attributes: { exclude: ["createdAt", "updatedAt","password",] },
+// 		include: [{ model: db.etablissement, attributes: { exclude: ["createdAt", "updatedAt"] } }],
+// 	})
+// 	.then((e) => {
+// 		console.log(JSON.stringify(e, null, 2));
+// 	});
 module.exports = db;

@@ -3,13 +3,6 @@ const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
 verifyToken = (req, res, next) => {
-  // console.log("req")
-  // console.log("req")
-  // console.log("req")
-  // console.log("req")
-  // console.log("req")
-  // console.log("req")
-  // console.log(req.headers)
   let token = req.headers["x-access-token"];
   console.log("token")
   console.log(token)

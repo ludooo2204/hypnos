@@ -44,23 +44,20 @@ db.sequelize.sync();
 //   initial();
 
 //   function initial() {
-//     Role.create({
-//       id: 1,
-//       name: "visiteur"
-//     });
+ 
    
   
    
 //     Role.create({
+//       id: 1,
+//       name: "user"
+//     });
+//     Role.create({
 //       id: 2,
-//       name: "client"
+//       name: "manager"
 //     });
 //     Role.create({
 //       id: 3,
-//       name: "gerant"
-//     });
-//     Role.create({
-//       id: 4,
 //       name: "admin"
 //     });
 //   }
