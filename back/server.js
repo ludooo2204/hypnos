@@ -6,7 +6,7 @@ const path = require("path");
 const config = require("./app/config/db.config");
 const mysql = require('mysql2/promise');
 
-
+console.log("coucou")
 var corsOptions = {
   origin: "http://localhost:3000"
 };

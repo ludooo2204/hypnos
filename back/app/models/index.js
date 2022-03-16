@@ -43,13 +43,21 @@ db.suite.belongsTo(db.user);
 //ca sert a quoi ca ??
 db.ROLES = ["visiteur", "client", "gerant", "admin"];
 
+// Creation de etablissement
 // db.etablissement
 // 	.create({ nom: "Hotel de chatellerault", description: "bel hotel", adresse: "47 impasse marcel 86100 chatellerault", ville: "chtellerault" })
 // 	.then((a) => {
 // 		console.log(a, "un etablissement a été crée");
 // 	})
 // 	.catch((err) => console.log("err", err));
+// db.etablissement
+// 	.create({ nom: "Hotel de poitiers", description: "bel hotel", adresse: "47 impasse marcel 86100 chatellerault", ville: "chtellerault" })
+// 	.then((a) => {
+// 		console.log(a, "un etablissement a été crée");
+// 	})
+// 	.catch((err) => console.log("err", err));
 
+// Creation de user
 // db.user
 // 	.create({ username: "anne", email: "vachon.anne@gmail.com", password: "momo" })
 // 	.then((a) => {
@@ -57,19 +65,17 @@ db.ROLES = ["visiteur", "client", "gerant", "admin"];
 // 	})
 // 	.catch((err) => console.log("err", err));
 
-const user_etablissement = db.sequelize.models.user_etablissement;
+// db.user
+// 	.create({ username: "ludo", email: "vachon.ludo@gmail.com", password: "toto" })
+// 	.then((a) => {
+// 		console.log(a, "un user a été creer");
+// 	})
+// 	.catch((err) => console.log("err", err));
 
-db.etablissement
-	.findAll({
-		model: db.etablissement,
-		attributes: { exclude: ["createdAt", "updatedAt"] },
-		include: [{ model: db.user, attributes: { exclude: ["password", "createdAt", "updatedAt"] } }],
-	})
-	.then((e) => {
-		console.log(JSON.stringify(e, null, 2));
-	});
+// affectation de gerant
+const user_etablissement = db.sequelize.models.user_etablissement;
 // user_etablissement
-// 	.create({ userId:1, etablissementId:2 })
+// 	.create({ userId:1, etablissementId:3 })
 // 	.then(() => console.log("creation relation user_etablissement effecté"))
 // 	.catch((err) => console.log("err", err));
 // user_etablissement
@@ -77,4 +83,25 @@ db.etablissement
 // 	.then(() => console.log("creation relation user_etablissement effecté"))
 // 	.catch((err) => console.log("err", err));
 
+
+
+// db.etablissement
+// 	.findAll({
+// 		model: db.etablissement,
+// 		attributes: { exclude: ["createdAt", "updatedAt"] },
+// 		include: [{ model: db.user, attributes: { exclude: ["password", "createdAt", "updatedAt"] } }],
+// 	})
+// 	.then((e) => {
+// 		console.log(JSON.stringify(e, null, 2));
+// 	});
+
+db.user
+	.findAll({
+		model: db.user,
+		attributes: { exclude: ["createdAt", "updatedAt","password",] },
+		include: [{ model: db.etablissement, attributes: { exclude: ["createdAt", "updatedAt"] } }],
+	})
+	.then((e) => {
+		console.log(JSON.stringify(e, null, 2));
+	});
 module.exports = db;
