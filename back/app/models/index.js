@@ -37,8 +37,11 @@ db.etablissement.belongsToMany(db.user, {
 	through: "user_etablissement",
 });
 
-db.user.hasMany(db.suite);
-db.suite.belongsTo(db.user);
+db.etablissement.hasMany(db.suite);
+db.suite.belongsTo(db.etablissement);
+
+db.suite.hasMany(db.image);
+db.image.belongsTo(db.suite);
 
 //ca sert a quoi ca ?? a l'autorisation on dirait
 db.ROLES = ["user", "manager", "admin"];

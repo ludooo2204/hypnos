@@ -1,34 +1,74 @@
 const db = require("../models");
-const user = db.user;
-const role = db.role;
-const user_roles = db.sequelize.models.user_roles;
+const suite = db.suite;
+const image = db.image;
+const images = db.sequelize.models.image;
 
-exports.getmanagers = (req, res) => {
-	console.log("coucou from get");
-	user.findAll({
-		model: user,
-		attributes: { exclude: ["createdAt", "updatedAt", "password"] },
-		include: [{ model: role, attributes: { exclude: ["createdAt", "updatedAt"] } }],
-	}).then((manager) => {
-		console.log(JSON.stringify(manager, null, 2));
-		res.status(200).json({ message: manager });
-	});
-};
-exports.userToManager = (req, res) => {
-	console.log("coucou");
-	role.findAll().then((roles) => {
-		console.log(req.params.id);
-		const manager = [...roles];
-		manager.pop();
-		// console.log(manager);
-		//MAJ du user en manager
+console.log("images")
+console.log(images)
+console.log("image")
+console.log(image)
+console.log("suite")
+console.log(suite)
 
-		user_roles.create({ userId: req.params.id, roleId: 2 }).then((e) => {
-			console.log("transformation !!");
-			res.status(200).json({ message: e });
+exports.getSuites = (req, res) => {
+	suite
+		.findAll({
+			model: suite,
+			attributes: { exclude: ["createdAt", "updatedAt"] },
+			include: [{ model: images, attributes: { exclude: ["createdAt", "updatedAt"] } }],
+		})
+		.then((suite) => {
+			console.log(JSON.stringify(suite, null, 2));
+			res.status(200).json({ message: suite });
 		});
-	});
 };
 
-exports.postmanager = (req, res) => {};
-exports.deletemanager = (req, res) => {};
+exports.postSuite = (req, res) => {
+	const { nom, imageMiseEnAvant,prix, description, UrlBooking, images } = req.body;
+	suite
+		.create(
+			{ nom, imageMiseEnAvant,prix, description, UrlBooking, images },
+			{
+				include: [image]
+			  }
+		)
+		.then((suite) => {
+			console.log("suite créé !!")
+			console.log(JSON.stringify(suite, null, 2));
+			res.status(200).json({ message: suite });
+		});
+};
+exports.deleteSuite = (req, res) => {
+	suite
+		.destroy(
+			{
+				where: {id:req.params.id}
+			}
+		)
+		.then((suite) => {
+			console.log("suite créé !!")
+			console.log(JSON.stringify(suite, null, 2));
+			res.status(200).json({ message: suite });
+		});
+};
+exports.updateSuite = (req, res) => {
+	const { nom, imageMiseEnAvant,prix, description, UrlBooking, images } = req.body;
+
+	suite
+		.update(
+			{ nom, imageMiseEnAvant,prix, description, UrlBooking },
+
+			{
+				where: {id:req.params.id}
+			}
+		)
+		.then((suite) => {
+			console.log("suite modifiée !!")
+			console.log(JSON.stringify(suite, null, 2));
+			res.status(200).json({ message: suite });
+		});
+};
+
+
+// exports.postmanager = (req, res) => {};
+// exports.deletemanager = (req, res) => {};

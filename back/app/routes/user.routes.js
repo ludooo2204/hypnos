@@ -1,6 +1,6 @@
 const { authJwt } = require("../middleware");
-const controller = require("../controllers/user.controller");
-let etablissement_route = require("./etablissement.routes");
+// const controller = require("../controllers/user.controller");
+let admin_route = require("./admin.routes");
 let manager_route = require("./manager.routes");
 // let sendMail_route = require("./sendMail.routes");
 // let forgotPassword = require("./forgotPassword.routes");
@@ -26,7 +26,11 @@ module.exports = function (app) {
 	// partie Admin
 	// app.use("/api/admin/tags", [authJwt.verifyToken, authJwt.isAdmin], tag_route);
 	// app.get("/api/admin", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
-	app.use("/admin/etablissement",  etablissement_route);
-	app.use("/admin/manager", manager_route);
-	// app.use("/admin/manager", [authJwt.verifyToken, authJwt.isAdmin], manager_route);
+	// app.use("/admin/etablissement",  etablissement_route);
+
+//Route de l'admin
+	app.use("/admin", admin_route);
+//Route des managers
+	app.use("/manager", manager_route);
+	// app.use("/admin", [authJwt.verifyToken, authJwt.isAdmin], admin_route);
 };
