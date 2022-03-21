@@ -21,6 +21,7 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.etablissement = require("./etablissement.model.js")(sequelize, Sequelize);
 db.suite = require("./suite.model.js")(sequelize, Sequelize);
 db.image = require("./image.model.js")(sequelize, Sequelize);
+db.reservation = require("./reservation.model.js")(sequelize, Sequelize);
 // db.ResetTokens = require("../models/ResetTokens.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
@@ -30,15 +31,19 @@ db.user.belongsToMany(db.role, {
 	through: "user_roles",
 });
 
-db.user.belongsToMany(db.etablissement, {
-	through: "user_etablissement",
-});
-db.etablissement.belongsToMany(db.user, {
-	through: "user_etablissement",
-});
 
+//manager-etablissement
+db.user.hasOne(db.etablissement);
+db.etablissement.belongsTo(db.user);
+ 
 db.etablissement.hasMany(db.suite);
 db.suite.belongsTo(db.etablissement);
+
+db.suite.hasMany(db.reservation);
+db.reservation.belongsTo(db.suite);
+
+db.user.hasMany(db.reservation);
+db.reservation.belongsTo(db.user);
 
 db.suite.hasMany(db.image);
 db.image.belongsTo(db.suite);

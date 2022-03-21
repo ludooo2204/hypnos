@@ -20,8 +20,11 @@ exports.getEtablissements = (req, res) => {
 	etablissement
 		.findAll({
 			model: etablissement,
-			attributes: { exclude: ["createdAt", "updatedAt"] },
-			include: [{ model: suite, attributes: { exclude: ["createdAt", "updatedAt"] } }],
+			attributes: { exclude: ["createdAt", "updatedAt","userId"] },
+			include: [
+				
+				{ model: user, attributes: { exclude: ["createdAt", "updatedAt"] }},
+				{ model: suite, attributes: { exclude: ["createdAt", "updatedAt"] }, include: [{ model: db.image, attributes: { exclude: ["createdAt", "updatedAt"] } }] }]
 		})
 		.then((etablissement) => {
 			console.log(JSON.stringify(etablissement, null, 2));
@@ -48,6 +51,15 @@ exports.updateEtablissement = (req, res) => {
 	const { nom, description, adresse, ville } = req.body;
 	etablissement.update({ nom, description, adresse, ville }, { where: { id: req.params.id } }).then((etablissement) => {
 		console.log("etablissement modifié!");
+		console.log(JSON.stringify(etablissement, null, 2));
+		res.status(200).json({ message: etablissement });
+	});
+};
+exports.affectManagerEtablissement = (req, res) => {
+	console.log("affectation de manager")
+	const { userId } = req.body;
+	etablissement.update({ userId }, { where: { id: req.params.id } }).then((etablissement) => {
+		console.log(user+"manager affecté à l'établissement"+req.params.id);
 		console.log(JSON.stringify(etablissement, null, 2));
 		res.status(200).json({ message: etablissement });
 	});

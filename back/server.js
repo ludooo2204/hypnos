@@ -70,7 +70,7 @@ db.sequelize.sync();
 
 // routes
 require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
+require('./app/routes/all.routes')(app);
 
 
 

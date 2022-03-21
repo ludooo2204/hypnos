@@ -1,23 +1,75 @@
-// const db = require("../models");
-// const Tag = db.tag;
+const db = require("../models");
 
-exports.allAccess = (req, res) => {
-	console.log("ALLLCAAAAAACCCCSESEEESSS");
-	res.status(200).send("Public Content");
+// router.patch("/reservation/:id", controller.patchReservation);
+// router.get("/etablissements", controller.getEtablissements);
+exports.getEtablissements = (req, res) => {
+	db.etablissement
+		.findAll({
+			model: db.etablissement,
+			attributes: { exclude: ["createdAt", "updatedAt", "userId"] },
+			include: [
+				{ model: db.user, attributes: { exclude: ["createdAt", "updatedAt", "password"] } },
+				{ model: db.suite, attributes: { exclude: ["createdAt", "updatedAt"] }, include: [{ model: db.image, attributes: { exclude: ["createdAt", "updatedAt"] } }] },
+			],
+		})
+		.then((etablissement) => {
+			console.log(JSON.stringify(etablissement, null, 2));
+			res.status(200).json({ message: etablissement });
+		});
 };
-// exports.getTags = (req, res) => {
-// 	console.log("get tag?");
-// 	Tag.findAll()
-// 		.then((tag) => {
-// 			console.log(JSON.stringify(tag));
-// 			res.status(200).send(JSON.stringify(tag));
-// 		})
 
-// 		.catch((err) => console.log("EEEERRRROOOORrrr"));
+// router.post("/reservation", controller.postReservation);
+exports.postReservation = (req, res) => {
+	//TODO revoir l'algo de filtre des date
+	// si je cherche du 1 avril 2022 au 5 avril 2022, supprimer du tri tous les fin de resa <1 avril et toutes les debut>5 avril
+	const { dateDebut, dateFin, userId, suiteId } = req.body;
+
+	db.reservation.findAll({ where: { suiteId } }).then((resa) => {
+		console.log(JSON.stringify(resa, null, 2));
+		for (const reservation of resa) {
+			if ((dateDebut.getTime() >= reservation.dateDebut.getTime() && dateDebut.getTime() <= reservation.dateFin.getTime()) || (dateFin.getTime() >= reservation.dateDebut.getTime() && dateFin.getTime() <= reservation.dateFin.getTime())) {
+				console.log("deja reservé !!!");
+			} else {
+				db.reservation.create({ dateDebut, dateFin, userId, suiteId }).then((e) => {
+					console.log("reservation créé !!");
+					console.log(JSON.stringify(e, null, 2));
+					res.status(200).json({ message: e });
+				});
+			}
+		}
+	});
+};
+// router.delete("/reservation/:id", controller.deleteReservation);
+
+exports.deleteReservation = (req, res) => {
+	//TODO controler la date . possible sil reste au moins 3 jours
+	db.reservation
+		.destroy({
+			where: { id: req.params.id },
+		})
+		.then((resa) => {
+			console.log("resa supprimé !!");
+			console.log(JSON.stringify(resa, null, 2));
+			res.status(200).json({ message: resa });
+		});
+};
+// exports.updateSuite = (req, res) => {
+// 	const { nom, imageMiseEnAvant,prix, description, UrlBooking,images } = req.body;
+
+// 	suite
+// 		.update(
+// 			{ nom, imageMiseEnAvant,prix, description, UrlBooking,images },
+
+// 			{
+// 				where: {id:req.params.id}
+// 			},
+// 			{
+// 				include: [image]
+// 			  }
+// 		)
+// 		.then((suite) => {
+// 			console.log("suite modifiée !!")
+// 			console.log(JSON.stringify(suite, null, 2));
+// 			res.status(200).json({ message: suite });
+// 		});
 // };
-exports.userBoard = (req, res) => {
-	res.status(200).send("User Content");
-};
-exports.adminBoard = (req, res) => {
-	res.status(200).send("Admin Content");
-};

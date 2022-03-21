@@ -21,5 +21,7 @@ router.post("/etablissement", controller.postEtablissement);
 router.delete("/etablissement/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.deleteEtablissement);
 
 router.patch("/etablissement/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.updateEtablissement);
+// router.patch("/etablissement/manager/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.affectManagerEtablissement);
+router.patch("/etablissement/manager/:id", controller.affectManagerEtablissement);
 
 module.exports = router;

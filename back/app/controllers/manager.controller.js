@@ -15,7 +15,10 @@ exports.getSuites = (req, res) => {
 		.findAll({
 			model: suite,
 			attributes: { exclude: ["createdAt", "updatedAt"] },
-			include: [{ model: images, attributes: { exclude: ["createdAt", "updatedAt"] } }],
+			include: [
+				{ model: images, attributes: { exclude: ["createdAt", "updatedAt"] } },
+				{ model: db.reservation, attributes: { exclude: ["createdAt", "updatedAt"] } }
+		],
 		})
 		.then((suite) => {
 			console.log(JSON.stringify(suite, null, 2));
@@ -24,10 +27,10 @@ exports.getSuites = (req, res) => {
 };
 
 exports.postSuite = (req, res) => {
-	const { nom, imageMiseEnAvant,prix, description, UrlBooking, images } = req.body;
+	const { nom, imageMiseEnAvant,prix, description, UrlBooking, images,etablissementId } = req.body;
 	suite
 		.create(
-			{ nom, imageMiseEnAvant,prix, description, UrlBooking, images },
+			{ nom, imageMiseEnAvant,prix, description, UrlBooking, images,etablissementId },
 			{
 				include: [image]
 			  }
@@ -52,15 +55,18 @@ exports.deleteSuite = (req, res) => {
 		});
 };
 exports.updateSuite = (req, res) => {
-	const { nom, imageMiseEnAvant,prix, description, UrlBooking, images } = req.body;
+	const { nom, imageMiseEnAvant,prix, description, UrlBooking,images } = req.body;
 
 	suite
 		.update(
-			{ nom, imageMiseEnAvant,prix, description, UrlBooking },
+			{ nom, imageMiseEnAvant,prix, description, UrlBooking,images },
 
 			{
 				where: {id:req.params.id}
-			}
+			},
+			{
+				include: [image]
+			  }
 		)
 		.then((suite) => {
 			console.log("suite modifiée !!")
@@ -70,5 +76,4 @@ exports.updateSuite = (req, res) => {
 };
 
 
-// exports.postmanager = (req, res) => {};
-// exports.deletemanager = (req, res) => {};
+
