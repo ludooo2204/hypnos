@@ -25,6 +25,9 @@ module.exports =(sequelize,Sequelize)=>{
             type: Sequelize.STRING,
             allowNull: false,
         },
+        photo:{
+            type: Sequelize.STRING,
+        },
     });
     return etablissement
 }

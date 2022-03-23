@@ -20,11 +20,11 @@ exports.getEtablissements = (req, res) => {
 	etablissement
 		.findAll({
 			model: etablissement,
-			attributes: { exclude: ["createdAt", "updatedAt","userId"] },
+			attributes: { exclude: ["createdAt", "updatedAt", "userId"] },
 			include: [
-				
-				{ model: user, attributes: { exclude: ["createdAt", "updatedAt"] }},
-				{ model: suite, attributes: { exclude: ["createdAt", "updatedAt"] }, include: [{ model: db.image, attributes: { exclude: ["createdAt", "updatedAt"] } }] }]
+				{ model: user, attributes: { exclude: ["createdAt", "updatedAt"] } },
+				{ model: suite, attributes: { exclude: ["createdAt", "updatedAt"] }, include: [{ model: db.image, attributes: { exclude: ["createdAt", "updatedAt"] } }] },
+			],
 		})
 		.then((etablissement) => {
 			console.log(JSON.stringify(etablissement, null, 2));
@@ -56,10 +56,10 @@ exports.updateEtablissement = (req, res) => {
 	});
 };
 exports.affectManagerEtablissement = (req, res) => {
-	console.log("affectation de manager")
+	console.log("affectation de manager");
 	const { userId } = req.body;
 	etablissement.update({ userId }, { where: { id: req.params.id } }).then((etablissement) => {
-		console.log(user+"manager affecté à l'établissement"+req.params.id);
+		console.log(user + "manager affecté à l'établissement" + req.params.id);
 		console.log(JSON.stringify(etablissement, null, 2));
 		res.status(200).json({ message: etablissement });
 	});
@@ -85,4 +85,36 @@ exports.managerToUser = (req, res) => {
 		console.log("transformation en user!!");
 		res.status(200).json({ message: e });
 	});
+};
+
+exports.postEtablissementImage = (req, res) => {
+	console.log("post images");
+
+	if (!req.files) {
+		res.send({
+			status: false,
+			message: "No file uploaded",
+		});
+	} else {
+		console.log("req");
+		console.log(req.files);
+		//Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+		let avatar = req.files.file;
+		// const rnd= Math.random()
+		//Use the mv() method to place the file in upload directory (i.e. "uploads")
+		avatar.mv("../client/src/uploads/" + avatar.name);
+		// avatar.mv('./uploads/' + rnd+avatar.name);
+
+		//send response
+		res.send({
+			status: true,
+			message: "File is uploaded",
+			data: {
+				name: avatar.name,
+				// name: rnd+avatar.name,
+				mimetype: avatar.mimetype,
+				size: avatar.size,
+			},
+		});
+	}
 };

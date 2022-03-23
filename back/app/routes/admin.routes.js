@@ -1,6 +1,7 @@
 let express = require("express");
 const { authJwt } = require("../middleware");
 
+
 let router = express.Router();
 
 const controller = require("../controllers/admin.controller");
@@ -23,5 +24,10 @@ router.delete("/etablissement/:id",[authJwt.verifyToken, authJwt.isAdmin], contr
 router.patch("/etablissement/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.updateEtablissement);
 // router.patch("/etablissement/manager/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.affectManagerEtablissement);
 router.patch("/etablissement/manager/:id", controller.affectManagerEtablissement);
+
+
+
+router.post("/etablissement/postImage", controller.postEtablissementImage);
+
 
 module.exports = router;
