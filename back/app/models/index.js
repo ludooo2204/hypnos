@@ -35,7 +35,7 @@ db.user.belongsToMany(db.role, {
 //manager-etablissement
 db.user.hasOne(db.etablissement);
 db.etablissement.belongsTo(db.user);
- 
+
 db.etablissement.hasMany(db.suite);
 db.suite.belongsTo(db.etablissement);
 
@@ -81,7 +81,7 @@ db.ROLES = ["user", "manager", "admin"];
 // 	.catch((err) => console.log("err", err));
 
 // affectation de gerant
-const user_etablissement = db.sequelize.models.user_etablissement;
+// const user_etablissement = db.sequelize.models.user_etablissement;
 // user_etablissement
 // 	.create({ userId:1, etablissementId:3 })
 // 	.then(() => console.log("creation relation user_etablissement effecté"))

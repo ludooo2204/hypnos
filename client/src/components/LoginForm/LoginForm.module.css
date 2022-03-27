@@ -1,0 +1,69 @@
+.LoginSvg1 {
+	width: 15%;
+	margin: 0 auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: scaleX(-1);
+}
+.LoginSvg2 {
+	width: 15%;
+	margin: 0 auto;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.LoginSvg3 {
+	width: 15%;
+	margin: 0 auto;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	transform: scale(-1, -1);
+}
+.LoginSvg4 {
+	width: 15%;
+	margin: 0 auto;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	transform: scaleY(-1);
+}
+
+.dev {
+	width: 100px;
+	position: absolute;
+	left: 5%;
+}
+.buttonValidation {
+	color: black;
+	height: 3rem;
+	line-height: 2rem;
+	background: #efea5a;
+	width: 30%;
+	margin: 0 auto;
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Trirong, serif;
+	font-size: 1.85rem;
+	border-radius: 0.55rem;
+	/* color: rgb(241, 239, 239); */
+}
+.buttonMotDePasseOublié {
+    /* position: relative; */
+    /* left: -10VW; */
+
+	/* color: black; */
+	/* height: auto; */
+	/* background: #efea5a; */
+
+	width: 100%;
+	margin:  0 1rem;
+	/* -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78); */
+	/* box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4); */
+	font-family: Trirong, serif;
+	opacity: 0.7;
+	font-size: 0.7rem;
+	/* border-radius: 0.2rem; */
+	/* color: rgb(241, 239, 239); */
+}

@@ -2,9 +2,19 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
+const fileUpload = require("express-fileupload");
+
 const path = require("path");
 const config = require("./app/config/db.config");
 const mysql = require('mysql2/promise');
+
+
+// enable files upload
+app.use(
+	fileUpload({
+		createParentPath: true,
+	})
+);
 
 console.log("coucou")
 var corsOptions = {

@@ -7,7 +7,7 @@ let router = express.Router();
 const controller = require("../controllers/admin.controller");
 
 
-router.get("/getManager", controller.getmanagers);
+router.get("/getUsers", controller.getUsers);
 
 // router.delete("/deleteUser/:id", controller.deleteUser);
 

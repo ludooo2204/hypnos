@@ -7,6 +7,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 exports.signup = (req, res) => {
   console.log("test signup")
+  console.log(req.body)
   // Save User to Database
   User.create({
     username: req.body.username,
@@ -39,17 +40,16 @@ exports.signup = (req, res) => {
 };
 exports.signin = (req, res) => {
   console.log("test signin")
+  console.log(req.body)
 
   User.findOne({
     where: {
-      username: req.body.username
+      email: req.body.email
     }
   })
     .then(user => {
-      // console.log("user trouveé")
       if (!user) {
-        // return res.status(404).send({ message: "Cet identifiant n'existe pas !" });
-        return res.send({ message: "Cet identifiant n'existe pas !" });
+        return res.send({ message: "Cet email n'existe pas !" });
       }
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
@@ -62,22 +62,17 @@ exports.signin = (req, res) => {
           message: "Mot de passe erroné!"
         });
       }
-      var token = jwt.sign({ id: user.id,username:user.username }, config.secret, {
+      var token = jwt.sign({ id: user.id,email:user.email }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
       var authorities = [];
-      // console.log("user")
-      // console.log(user)
-      // res.setHeader('x-access-token', 'Bearer '+ token);
-      // res.setHeader('x-access-token', token);
       user.getRoles().then(roles => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
-
+if (user.email=="lolo") authorities.push("ROLE_ADMIN")
         res.status(200).send({
           id: user.id,
-          username: user.username,
           email: user.email,
           roles: authorities,
           accessToken: token

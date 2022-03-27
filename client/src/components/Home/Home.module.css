@@ -1,0 +1,30 @@
+.fondEcran {
+	height: 100vh;
+	width: 100vw;
+	position: absolute;
+	top: 0;
+	background: url("../../img/landingPage.jpg");
+	background-size: cover;
+	background-position: bottom;
+}
+
+.citation {
+	position: absolute;
+	top: 25vh;
+	left: 6vw;
+	/* font-size: 55; */
+	font-size: calc(20px + 0.8vw);
+	color: #f1f1f1;
+	font-family: Parisienne;
+}
+.logoHypnos {
+	position: absolute;
+	top: 40vh;
+	right: 9vw;
+    height: calc(200px + 0.8vw);
+	width: calc(200px + 0.8vw);
+	background: url("../../img/CaptureRose.png");
+	background-size: contain;
+    background-repeat: no-repeat;
+	background-position: center;
+}

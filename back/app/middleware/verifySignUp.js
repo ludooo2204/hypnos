@@ -2,37 +2,23 @@ const db = require("../models");
 const ROLES = db.ROLES;
 const User = db.user;
 checkDuplicateUsernameOrEmail = (req, res, next) => {
+  console.log("fr civ")
+  console.log(req.body)
   // Username
   User.findOne({
     where: {
-      username: req.body.username
+      email: req.body.email
     }
-  }).then(user => {
-    if (user) {
-      console.log("Failed! Username is already in use!")
+  }).then(email => {
+    if (email) {
+      console.log("Failed! email is already in use!")
       // res.status(400).send({
       res.send({
-        message: "Erreur! l'identifiant est déja utilisé!"
+        message: "Erreur! l'email est déja utilisé!"
       });
       return;
     }
-    // Email
-    User.findOne({
-      where: {
-        email: req.body.email
-      }
-    }).then(user => {
-      if (user) {
-        console.log("Failed! Email is already in use!")
-        console.log("err")
-        // res.status(400).send({
-        res.send({
-          message: "Erreur! l'email est déja utilisé!"
-        });
-        return;
-      }
-      next();
-    });
+    next();
   });
 };
 checkRolesExisted = (req, res, next) => {

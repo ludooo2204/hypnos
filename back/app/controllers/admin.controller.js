@@ -1,19 +1,21 @@
 const db = require("../models");
+const fs = require("fs");
+
 const user = db.user;
 const role = db.role;
 const suite = db.suite;
 const etablissement = db.etablissement;
 const user_roles = db.sequelize.models.user_roles;
 
-exports.getmanagers = (req, res) => {
+exports.getUsers = (req, res) => {
 	console.log("coucou from get");
 	user.findAll({
 		model: user,
 		attributes: { exclude: ["createdAt", "updatedAt", "password"] },
 		include: [{ model: role, attributes: { exclude: ["createdAt", "updatedAt"] } }],
-	}).then((manager) => {
-		console.log(JSON.stringify(manager, null, 2));
-		res.status(200).json({ message: manager });
+	}).then((users) => {
+		console.log(JSON.stringify(users, null, 2));
+		res.status(200).json({ users });
 	});
 };
 exports.getEtablissements = (req, res) => {
@@ -23,7 +25,8 @@ exports.getEtablissements = (req, res) => {
 			attributes: { exclude: ["createdAt", "updatedAt", "userId"] },
 			include: [
 				{ model: user, attributes: { exclude: ["createdAt", "updatedAt"] } },
-				{ model: suite, attributes: { exclude: ["createdAt", "updatedAt"] }, include: [{ model: db.image, attributes: { exclude: ["createdAt", "updatedAt"] } }] },
+				{ model: suite, attributes: { exclude: ["createdAt", "updatedAt"] },
+				 include: [{ model: db.image, attributes: { exclude: ["createdAt", "updatedAt"] } }] },
 			],
 		})
 		.then((etablissement) => {
@@ -33,12 +36,41 @@ exports.getEtablissements = (req, res) => {
 };
 
 exports.postEtablissement = (req, res) => {
-	const { nom, description, adresse, ville } = req.body;
-	etablissement.create({ nom, description, adresse, ville }).then((etablissement) => {
-		console.log("etablissement crée!");
-		console.log(JSON.stringify(etablissement, null, 2));
-		res.status(200).json({ message: etablissement });
-	});
+	const { nom, description, adresse, ville,manager } = req.body;
+	// etablissement.create({ nom, description, adresse, ville }).then((etablissement) => {
+	// 	console.log("etablissement crée!");
+	// 	console.log(JSON.stringify(etablissement, null, 2));
+	// 	res.status(200).json({ message: etablissement });
+	// });
+
+	console.log(req.body);
+	//pour chaque image uploadé, on crée une copie minifiée en taille puis on renomme les 2 avec une rnd pour eviter les noms de fichiers en doublons
+	let data = req.body;
+	const rnd = +new Date();
+	let dataModified = [];
+	// getCurrentFilenames();
+	console.log("data.images");
+	console.log(data);
+	for (let i = 0; i < data.images.length; i++) {
+		fs.rename(__dirname + "/../../../client/src/uploads/" + data.images[i], __dirname + "/../../../client/src/uploads/" + rnd + "_" + data.images[i], (err) => {
+			if (err) throw err;
+			else {
+				console.log("REname complete");
+			}
+		});
+
+		dataModified[i] = rnd + "_" + data.images[i];
+	}
+	console.log("dataModified");
+	console.log(dataModified);
+	etablissement
+		.create({ nom, description, adresse, ville, manager, image: dataModified[0] })
+		.then((etablissement) => {
+			console.log("etablissement crée!");
+			console.log(JSON.stringify(etablissement, null, 2));
+			res.status(200).json({ message: etablissement });
+		})
+		.catch((err) => console.log("loupé", err));
 };
 exports.deleteEtablissement = (req, res) => {
 	etablissement.destroy({ where: { id: req.params.id } }).then((etablissement) => {
@@ -89,7 +121,8 @@ exports.managerToUser = (req, res) => {
 
 exports.postEtablissementImage = (req, res) => {
 	console.log("post images");
-
+	console.log("req");
+	console.log(req.files);
 	if (!req.files) {
 		res.send({
 			status: false,

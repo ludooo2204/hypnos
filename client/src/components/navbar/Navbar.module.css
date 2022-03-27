@@ -1,0 +1,76 @@
+.navbar {
+	z-index: 3;
+	position: relative;
+	height: 8vh;
+	min-height: 8vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.navBg1 {
+	background-color: transparent;
+}
+.navBg2 {
+	background-color: #5b5b5b;
+}
+.ol {
+	display: flex;
+	width: 50%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	list-style-type: none;
+}
+.text {
+	color: #f1f1f1;
+	font-family: Trirong;
+	text-decoration: none;
+	font-size: calc(8px + 0.8vw);
+}
+.connexionButton {
+	position: absolute;
+	right: 4%;
+	height: 8vh;
+	min-height: 8vh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.userConnected {
+	position: absolute;
+	right: 10%;
+	width: 5vw;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	top: 0.5vh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: calc(8px + 0.4vw);
+	color: #f1f1f1;
+	font-weight: 900;
+}
+
+.logoHypnos {
+	position: absolute;
+	top: 1vh;
+	left: 5vw;
+	height: 7vh;
+	width: 7vh;
+	background: url("../../img/CaptureRose.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* Nouvelles règles si la fenêtre fait au plus 1024px de large */
+@media screen and (max-width: 768px) {
+}
