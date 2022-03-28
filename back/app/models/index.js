@@ -1,4 +1,6 @@
 const config = require("../config/db.config");
+var bcrypt = require("bcryptjs");
+
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 	host: config.HOST,
@@ -22,6 +24,7 @@ db.etablissement = require("./etablissement.model.js")(sequelize, Sequelize);
 db.suite = require("./suite.model.js")(sequelize, Sequelize);
 db.image = require("./image.model.js")(sequelize, Sequelize);
 db.reservation = require("./reservation.model.js")(sequelize, Sequelize);
+
 // db.ResetTokens = require("../models/ResetTokens.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
@@ -30,7 +33,6 @@ db.role.belongsToMany(db.user, {
 db.user.belongsToMany(db.role, {
 	through: "user_roles",
 });
-
 
 //manager-etablissement
 db.user.hasOne(db.etablissement);
@@ -64,14 +66,30 @@ db.ROLES = ["user", "manager", "admin"];
 // 		console.log(a, "un etablissement a été crée");
 // 	})
 // 	.catch((err) => console.log("err", err));
+const emailAdmin = "admin";
+// Creation de l'admin
+db.user.findAll({ where: { email: emailAdmin } }).then((e) => {
+	if (e.length != 1) {
+		console.log("coucoud")
+		db.user
+			.create({
+				email: emailAdmin,
+				password: bcrypt.hashSync("admin", 8),
+			})
+			.then((user) => {
+				console.log("user");
+				console.log(user.id);
+				db.sequelize.models.user_roles.bulkCreate([{ userId: user.id, roleId: 1 }, { userId: user.id, roleId: 2 }, { userId: user.id, roleId: 3 }])
+				.then((e) => {
+					console.log("admin créé!!");
+				});
+			})
 
-// Creation de user
-// db.user
-// 	.create({ username: "anne", email: "vachon.anne@gmail.com", password: "momo" })
-// 	.then((a) => {
-// 		console.log(a, "un user a été creer");
-// 	})
-// 	.catch((err) => console.log("err", err));
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+});
 
 // db.user
 // 	.create({ username: "ludo", email: "vachon.ludo@gmail.com", password: "toto" })
@@ -90,8 +108,6 @@ db.ROLES = ["user", "manager", "admin"];
 // 	.create({ userId:3, etablissementId:1 })
 // 	.then(() => console.log("creation relation user_etablissement effecté"))
 // 	.catch((err) => console.log("err", err));
-
-
 
 // db.etablissement
 // 	.findAll({

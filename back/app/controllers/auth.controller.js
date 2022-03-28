@@ -55,9 +55,13 @@ exports.signin = (req, res) => {
 			});
 			var authorities = [];
 			user.getRoles().then((roles) => {
+				console.log("roles")
+				console.log(JSON.stringify(roles, null, 2));
 				for (let i = 0; i < roles.length; i++) {
 					authorities.push("ROLE_" + roles[i].name.toUpperCase());
 				}
+				console.log("authorities")
+				console.log(authorities)
 				if (user.email == "lolo") authorities.push("ROLE_ADMIN");
 				res.status(200).send({
 					id: user.id,

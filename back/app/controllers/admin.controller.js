@@ -37,12 +37,6 @@ exports.getEtablissements = (req, res) => {
 
 exports.postEtablissement = (req, res) => {
 	const { nom, description, adresse, ville,manager } = req.body;
-	// etablissement.create({ nom, description, adresse, ville }).then((etablissement) => {
-	// 	console.log("etablissement crée!");
-	// 	console.log(JSON.stringify(etablissement, null, 2));
-	// 	res.status(200).json({ message: etablissement });
-	// });
-
 	console.log(req.body);
 	//pour chaque image uploadé, on crée une copie minifiée en taille puis on renomme les 2 avec une rnd pour eviter les noms de fichiers en doublons
 	let data = req.body;
@@ -64,7 +58,7 @@ exports.postEtablissement = (req, res) => {
 	console.log("dataModified");
 	console.log(dataModified);
 	etablissement
-		.create({ nom, description, adresse, ville, manager, image: dataModified[0] })
+		.create({ nom, description, adresse, ville, userId:manager, image: dataModified[0] })
 		.then((etablissement) => {
 			console.log("etablissement crée!");
 			console.log(JSON.stringify(etablissement, null, 2));

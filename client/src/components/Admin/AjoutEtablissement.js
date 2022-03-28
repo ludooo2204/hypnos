@@ -10,16 +10,16 @@ import InputImage from "./InputImage";
 import ListeImages from "./ListeImages";
 
 const Admin = () => {
-	const [users, setUsers] = useState(null);
-	const [nom, setNom] = useState(null);
-	const [adresse, setAdresse] = useState(null);
-	const [ville, setVille] = useState(null);
-	const [description, setDescription] = useState(null);
+	const [users, setUsers] = useState("");
+	const [nom, setNom] = useState("");
+	const [adresse, setAdresse] = useState("");
+	const [ville, setVille] = useState("");
+	const [description, setDescription] = useState("");
 	const [userFinded, setUserFinded] = useState(null);
 	const [images, setImages] = useState([]);
 
 	const [modalUserFindedVisible, setModalUserFindedVisible] = useState(false);
-	const [manager, setManager] = useState(null);
+	const [manager, setManager] = useState("");
 	let navigate = useNavigate();
 	useEffect(() => {
 		axios.get("/admin/getUsers").then((users) => {
@@ -40,12 +40,17 @@ const Admin = () => {
 		if (e.target.value == "") {
 			setModalUserFindedVisible(false);
 		} else {
+			console.log("users");
 			console.log(users.users);
 			const resultatDeRecherche = matchSorter(
-				users.users.map((user) => user.email),
-				e.target.value
+				users.users,
+				// users.users.map((user) => user.email),
+				e.target.value,
+				 {keys: ['email']}
 			);
 			if (resultatDeRecherche.length < 10) {
+				console.log("resultats")
+				console.log(resultatDeRecherche)
 				setModalUserFindedVisible(true);
 				setUserFinded(resultatDeRecherche);
 			}
@@ -71,7 +76,7 @@ const Admin = () => {
 	const validerEtablissement = () => {
 		console.log("images")
 		console.log(images)
-		const etablissementData = { nom, adresse, ville,  description, manager, images: images.map((image) => (image.name ? image.name : image)) };
+		const etablissementData = { nom, adresse, ville,  description, manager:manager.id, images: images.map((image) => (image.name ? image.name : image)) };
 		console.log("validerEtablissement");
 		console.log(etablissementData);
 		axios.post('/admin/etablissement',etablissementData)
@@ -91,11 +96,11 @@ const Admin = () => {
 	return (
 		<div className={styles.mainAjout}>
 			<h1 className={styles.titre}>Création d'un nouvel établissement</h1>
-			{modalUserFindedVisible && userFinded.length > 0 && <div className={styles.userFinded}>{userFinded && userFinded.map((e) => <li onClick={() => handleSetManager(e)}>{e}</li>)}</div>}
+			{modalUserFindedVisible && userFinded.length > 0 && <div className={styles.userFinded}>{userFinded && userFinded.map((e,i) => <li key={i} onClick={() => handleSetManager(e)}>{e.email}</li>)}</div>}
 			<div className={styles.inputs}>
 				<div className={styles.input}>
 					<label>Nommer </label>
-					<input type="text" className={`${styles.inputText} ${styles.inputTextManager}`} value={manager} onChange={handleUserSearch}></input>
+					<input type="text" className={`${styles.inputText} ${styles.inputTextManager}`} value={manager.email} onChange={handleUserSearch}></input>
 					<label className={styles.inputLabelManager}> en tant que manager </label>
 				</div>
 				<div className={styles.input}>

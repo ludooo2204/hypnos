@@ -6,96 +6,153 @@ import imagePresentation from "../../img/1.jpg";
 import axios from "axios";
 import { matchSorter } from "match-sorter";
 import { useNavigate } from "react-router-dom";
+import InputImage from "./InputImage";
+import ListeImages from "./ListeImages";
 
 const Admin = () => {
-	const [users, setUsers] = useState(null);
+	const [etablissements, setEtablissements] = useState(null);
+	const [users, setUsers] = useState("");
+	const [nom, setNom] = useState("");
+	const [adresse, setAdresse] = useState("");
+	const [ville, setVille] = useState("");
+	const [description, setDescription] = useState("");
 	const [userFinded, setUserFinded] = useState(null);
+	const [images, setImages] = useState([]);
+
 	const [modalUserFindedVisible, setModalUserFindedVisible] = useState(false);
-	const [inputValue, setInputValue] = useState(null);
+	const [manager, setManager] = useState("");
 	let navigate = useNavigate();
 	useEffect(() => {
 		axios.get("/admin/getUsers").then((users) => {
 			console.log(users.data);
 			setUsers(users.data);
 		});
+		axios.get("/admin/etablissement").then((etablissement) => {
+			console.log(etablissement.data);
+			setEtablissements(etablissement.data.etablissement);
+		});
 	}, []);
 
-	const handleChangeEtablissement = () => {
-		console.log("select");
+	const handleChangeEtablissement = (e) => {
+		console.log(e.target.value)
+		console.log(etablissements.filter(element=>element.nom==e.target.value)[0])
+		const etablissementChoisi=etablissements.filter(element=>element.nom==e.target.value)[0]
+		setNom(etablissementChoisi.nom)
+		setAdresse(etablissementChoisi.adresse)
+		setDescription(etablissementChoisi.description)
+		setVille(etablissementChoisi.ville)
+		setManager(etablissementChoisi.user)
+		setImages((images) => [...images, etablissementChoisi.image]);
+
 	};
 	const handleUserSearch = (e) => {
-		setInputValue(e.target.value);
-		if ((e.target.value == "")) {
+		setManager(e.target.value);
+		if (e.target.value == "") {
 			setModalUserFindedVisible(false);
 		} else {
+			console.log("users");
 			console.log(users.users);
 			const resultatDeRecherche = matchSorter(
-				users.users.map((user) => user.email),
-				e.target.value
+				users.users,
+				// users.users.map((user) => user.email),
+				e.target.value,
+				{ keys: ["email"] }
 			);
 			if (resultatDeRecherche.length < 10) {
+				console.log("resultats");
+				console.log(resultatDeRecherche);
 				setModalUserFindedVisible(true);
 				setUserFinded(resultatDeRecherche);
 			}
 		}
 	};
+	const handleNom = (e) => {
+		setNom(e.target.value);
+	};
+	const handleAdresse = (e) => {
+		setAdresse(e.target.value);
+	};
+	const handleVille = (e) => {
+		setVille(e.target.value);
+	};
+	const handleDescription = (e) => {
+		setDescription(e.target.value);
+	};
 	const handleSetManager = (e) => {
 		console.log(e);
 		setModalUserFindedVisible(false);
-		setInputValue(e);
-	};
-	const ajouterImage = () => {
-		console.log("ajouter image");
+		setManager(e);
 	};
 	const validerEtablissement = () => {
+		console.log("images");
+		console.log(images);
+		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images: images.map((image) => (image.name ? image.name : image)) };
 		console.log("validerEtablissement");
+		console.log(etablissementData);
+		axios.post("/admin/etablissement", etablissementData);
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");
 	};
+	const handleImage = (e) => {
+		setImages((images) => [...images, e]);
+	};
+	const onDelete = (img) => {
+		console.log(images);
+		const copie = [...images];
+		copie.splice(img, 1);
+		setImages(copie);
+	};
 	return (
 		<div className={styles.main}>
-			{modalUserFindedVisible && userFinded.length > 0 && <div className={styles.userFinded}>{userFinded && userFinded.map((e) => <li className={styles.userFindedLi} onClick={() => handleSetManager(e)}>{e}</li>)}</div>}
-			<div className={styles.agence}>
+			{modalUserFindedVisible && userFinded.length > 0 && (
+				<div className={styles.userFinded}>
+					{userFinded &&
+						userFinded.map((e, i) => (
+							<li key={i} className={styles.userFindedLi} onClick={() => handleSetManager(e)}>
+								{e}
+							</li>
+						))}
+				</div>
+			)}
+			{etablissements&&<div className={styles.agence}>
 				<label> Agence de : </label>
+				
 				<select className={styles.selectAgence} value={"nada"} onChange={handleChangeEtablissement}>
-					<option value="grapefruit">Pamplemousse</option>
-					<option value="lime">Citron vert</option>
-					<option value="coconut">Noix de coco</option>
-					<option value="mango">Mangue</option>
+					{etablissements.map((x, y) => (
+						<option key={y}>{x.nom}</option>
+					))}
 				</select>
-			</div>
+			</div>}
 			<div className={styles.inputs}>
 				<div className={styles.input}>
 					<label>Nommer </label>
-					<input type="text" className={`${styles.inputText} ${styles.inputTextManager}`} value={inputValue} onChange={handleUserSearch}></input>
+					<input type="text" className={`${styles.inputText} ${styles.inputTextManager}`} value={manager.email} onChange={handleUserSearch}></input>
 					<label className={styles.inputLabelManager}> en tant que manager </label>
 				</div>
 				<div className={styles.input}>
-					<label>Modifier Nom : </label>
-					<input type="text" className={styles.inputText}></input>
+					<label>Nom : </label>
+					<input type="text" className={styles.inputText} value={nom} onChange={handleNom}></input>
 				</div>
 				<div className={styles.input}>
-					<label>Modifier adresse : </label>
-					<input type="text" className={styles.inputText}></input>
+					<label>Adresse : </label>
+					<input type="text" className={styles.inputText} value={adresse} onChange={handleAdresse}></input>
 				</div>
 				<div className={styles.input}>
-					<label>Modifier ville : </label>
-					<input type="text" className={styles.inputText}></input>
+					<label>Ville : </label>
+					<input type="text" className={styles.inputText} value={ville} onChange={handleVille}></input>
 				</div>
 				<div className={styles.input}>
-					<label>Modifier la description : </label>
-					<textarea rows={5} className={styles.inputTextArea}></textarea>
+					<label>Description : </label>
+					<textarea rows={5} className={styles.inputTextArea} value={description} onChange={handleDescription}></textarea>
 				</div>
 				<div className={styles.inputImage}>
 					<label className={styles.labelPresentation}>
-						Modifier l'image de présentation <span className={styles.miniText}>(format paysage)</span> :
+						Image de présentation <span className={styles.miniText}>(format paysage)</span> :
 					</label>
 					<div className={styles.ajoutImage}>
-						<button className={styles.button} onClick={ajouterImage}>
-							ajouter une image
-						</button>
-						{true ? <img src={imagePresentation}></img> : null}
+						<InputImage Recupererfile={handleImage} />
+						<ListeImages images={images} onDelete={onDelete} />
 					</div>
 				</div>
 			</div>
@@ -109,10 +166,10 @@ const Admin = () => {
 			</div>
 			<div>
 				<button className={styles.buttonAjoutEtablissement} onClick={() => navigate("../AjoutEtablissement")}>
-					Ajouter un établissment
+					Modifier un établissement
 				</button>
-				<button className={styles.buttonSupprimerEtablissement} onClick={ajouterImage}>
-					Supprimer un établissment
+				<button className={styles.buttonSupprimerEtablissement} onClick={() => console.log("coucou")}>
+					Supprimer un établissement
 				</button>
 			</div>
 		</div>
