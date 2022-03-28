@@ -89,7 +89,8 @@ const Admin = () => {
 		setImages(copie);
 	};
 	return (
-		<div className={styles.main}>
+		<div className={styles.mainAjout}>
+			<h1 className={styles.titre}>Création d'un nouvel établissement</h1>
 			{modalUserFindedVisible && userFinded.length > 0 && <div className={styles.userFinded}>{userFinded && userFinded.map((e) => <li onClick={() => handleSetManager(e)}>{e}</li>)}</div>}
 			<div className={styles.inputs}>
 				<div className={styles.input}>

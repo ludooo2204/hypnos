@@ -39,7 +39,7 @@ const InputImage = ({ Recupererfile }) => {
 		axios
 			.post("/admin/etablissement/postImage", formData)
 			.then((res) => {
-				alert("File Uploaded")
+				console.log("image Uploaded")
 			})
 			.catch((err) => alert("File Upload Error"));
 		Recupererfile(selectedFile);

@@ -31,7 +31,7 @@ exports.getEtablissements = (req, res) => {
 		})
 		.then((etablissement) => {
 			console.log(JSON.stringify(etablissement, null, 2));
-			res.status(200).json({ message: etablissement });
+			res.status(200).json({ etablissement });
 		});
 };
 
@@ -68,7 +68,7 @@ exports.postEtablissement = (req, res) => {
 		.then((etablissement) => {
 			console.log("etablissement crée!");
 			console.log(JSON.stringify(etablissement, null, 2));
-			res.status(200).json({ message: etablissement });
+			res.status(200).json({ etablissement });
 		})
 		.catch((err) => console.log("loupé", err));
 };
@@ -76,7 +76,7 @@ exports.deleteEtablissement = (req, res) => {
 	etablissement.destroy({ where: { id: req.params.id } }).then((etablissement) => {
 		console.log("etablissement supprimé!");
 		console.log(JSON.stringify(etablissement, null, 2));
-		res.status(200).json({ message: etablissement });
+		res.status(200).json({ etablissement });
 	});
 };
 exports.updateEtablissement = (req, res) => {
@@ -84,7 +84,7 @@ exports.updateEtablissement = (req, res) => {
 	etablissement.update({ nom, description, adresse, ville }, { where: { id: req.params.id } }).then((etablissement) => {
 		console.log("etablissement modifié!");
 		console.log(JSON.stringify(etablissement, null, 2));
-		res.status(200).json({ message: etablissement });
+		res.status(200).json({ etablissement });
 	});
 };
 exports.affectManagerEtablissement = (req, res) => {

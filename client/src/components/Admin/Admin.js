@@ -55,7 +55,7 @@ const Admin = () => {
 	};
 	return (
 		<div className={styles.main}>
-			{modalUserFindedVisible && userFinded.length > 0 && <div className={styles.userFinded}>{userFinded && userFinded.map((e) => <li onClick={() => handleSetManager(e)}>{e}</li>)}</div>}
+			{modalUserFindedVisible && userFinded.length > 0 && <div className={styles.userFinded}>{userFinded && userFinded.map((e) => <li className={styles.userFindedLi} onClick={() => handleSetManager(e)}>{e}</li>)}</div>}
 			<div className={styles.agence}>
 				<label> Agence de : </label>
 				<select className={styles.selectAgence} value={"nada"} onChange={handleChangeEtablissement}>
