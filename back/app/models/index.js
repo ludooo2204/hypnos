@@ -1,5 +1,4 @@
 const config = require("../config/db.config");
-var bcrypt = require("bcryptjs");
 
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
@@ -50,8 +49,42 @@ db.reservation.belongsTo(db.user);
 db.suite.hasMany(db.image);
 db.image.belongsTo(db.suite);
 
-//ca sert a quoi ca ?? a l'autorisation on dirait
+//sertcheckRolesExisted
 db.ROLES = ["user", "manager", "admin"];
+
+
+// Creation de l'admin
+// const emailAdmin = "admin";
+// db.user.findAll({ where: { email: emailAdmin } }).then((e) => {
+// 	if (e.length != 1) {
+// 		console.log("coucoud")
+// 		db.user
+// 			.create({
+// 				nom:emailAdmin,
+// 				prenom:emailAdmin,
+// 				email: emailAdmin,
+// 				password: bcrypt.hashSync("admin", 8),
+// 			})
+// 			.then((user) => {
+// 				console.log("user");
+// 				console.log(user.id);
+// 				db.sequelize.models.user_roles.bulkCreate([{ userId: user.id, roleId: 1 }, { userId: user.id, roleId: 2 }, { userId: user.id, roleId: 3 }])
+// 				.then((e) => {
+// 					console.log("admin créé!!");
+// 				});
+// 			})
+
+// 			.catch((err) => {
+// 				console.log(err);
+// 			});
+// 	}
+// });
+
+
+
+
+
+
 
 // Creation de etablissement
 // db.etablissement
@@ -66,31 +99,6 @@ db.ROLES = ["user", "manager", "admin"];
 // 		console.log(a, "un etablissement a été crée");
 // 	})
 // 	.catch((err) => console.log("err", err));
-const emailAdmin = "admin";
-// Creation de l'admin
-db.user.findAll({ where: { email: emailAdmin } }).then((e) => {
-	if (e.length != 1) {
-		console.log("coucoud")
-		db.user
-			.create({
-				email: emailAdmin,
-				password: bcrypt.hashSync("admin", 8),
-			})
-			.then((user) => {
-				console.log("user");
-				console.log(user.id);
-				db.sequelize.models.user_roles.bulkCreate([{ userId: user.id, roleId: 1 }, { userId: user.id, roleId: 2 }, { userId: user.id, roleId: 3 }])
-				.then((e) => {
-					console.log("admin créé!!");
-				});
-			})
-
-			.catch((err) => {
-				console.log(err);
-			});
-	}
-});
-
 // db.user
 // 	.create({ username: "ludo", email: "vachon.ludo@gmail.com", password: "toto" })
 // 	.then((a) => {

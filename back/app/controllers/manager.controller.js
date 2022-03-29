@@ -3,12 +3,7 @@ const suite = db.suite;
 const image = db.image;
 const images = db.sequelize.models.image;
 
-console.log("images");
-console.log(images);
-console.log("image");
-console.log(image);
-console.log("suite");
-console.log(suite);
+
 
 exports.getSuites = (req, res) => {
 	suite

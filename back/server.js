@@ -3,11 +3,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
 const fileUpload = require("express-fileupload");
+var bcrypt = require("bcryptjs");
 
 const path = require("path");
 const config = require("./app/config/db.config");
-const mysql = require('mysql2/promise');
-
+const mysql = require("mysql2/promise");
 
 // enable files upload
 app.use(
@@ -16,14 +16,13 @@ app.use(
 	})
 );
 
-console.log("coucou")
+console.log("coucou");
 var corsOptions = {
-  origin: "http://localhost:3000"
+	origin: "http://localhost:3000",
 };
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 // app.use(cors());
 app.use(cors(corsOptions));
@@ -34,78 +33,197 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+mysql
+	.createConnection({
+		user: config.USER,
+		password: config.PASSWORD,
+	})
+	.then((connection) => {
+		connection.query(`CREATE DATABASE IF NOT EXISTS ${config.DB};`);
+	})
+	.then(() => {
+		// database
+		const db = require("./app/models");
 
+		// const Role = db.role;
 
-mysql.createConnection({
-    user     : config.USER,
-    password : config.PASSWORD
-}).then((connection) => {
-    connection.query(`CREATE DATABASE IF NOT EXISTS ${config.DB};`);
-})
-.then(()=>{
-// database
-const db = require("./app/models");
+		db.sequelize
+			.sync({ force: true })
+			.then(() => {
+				db.role.findAll({ where: { id: 1 } }).then((e) => {
+					if (e.length != 1) {
+						db.role.create({
+							id: 1,
+							name: "user",
+						});
+						db.role.create({
+							id: 2,
+							name: "manager",
+						});
+						db.role.create({
+							id: 3,
+							name: "admin",
+						});
+					}
+				});
+			})
+			.then(() => {
+				// Creation de l'admin
+				const emailAdmin = "admin";
+				console.log(db);
+				db.user.findAll({ where: { email: emailAdmin } }).then((e) => {
+					if (e.length != 1) {
+						console.log("coucoud");
+						db.user
+							.create({
+								nom: emailAdmin,
+								prenom: emailAdmin,
+								email: emailAdmin,
+								password: bcrypt.hashSync("admin", 8),
+							})
+							.then((user) => {
+								console.log("user");
+								console.log(user.id);
+								db.sequelize.models.user_roles
+									.bulkCreate([
+										{ userId: user.id, roleId: 1 },
+										{ userId: user.id, roleId: 2 },
+										{ userId: user.id, roleId: 3 },
+									])
+									.then((e) => {
+										console.log("admin créé!!");
+									});
+							})
 
-const Role = db.role;
+							.catch((err) => {
+								console.log(err);
+							});
 
-db.sequelize.sync();
-// force: true will drop the table if it already exists
-// db.sequelize.sync({force: true}).then(() => {
-//   console.log('Drop and Resync Database with { force: true }');
-//   initial();
+						//creation de user fictif (pour avoir de potentiel manager)
+						db.user
+							.create({
+								nom: "Pogba",
+								prenom: "paul",
+								email: "pogba@gmail.com",
+								password: bcrypt.hashSync("foot", 8),
+							})
+							.then((user) => {
+								db.sequelize.models.user_roles
+									.create({ userId: user.id, roleId: 1 })
+									.then((e) => {
+										console.log("role client!!");
+									})
+						
+							});
+						db.user
+							.create({
+								nom: "Mbappe",
+								prenom: "killian",
+								email: "killian@gmail.com",
+								password: bcrypt.hashSync("foot", 8),
+							})
+							.then((user) => {
+								db.sequelize.models.user_roles
+									.create({ userId: user.id, roleId: 1 })
+									.then((e) => {
+										console.log("role client!!");
+									})
+						
+							});
+						db.user
+							.create({
+								nom: "Lloris",
+								prenom: "hugo",
+								email: "lloris@gmail.com",
+								password: bcrypt.hashSync("foot", 8),
+							})
+							.then((user) => {
+								db.sequelize.models.user_roles
+									.create({ userId: user.id, roleId: 1 })
+									.then((e) => {
+										console.log("role client!!");
+									})
+						
+							});
+						db.user
+							.create({
+								nom: "Griezman",
+								prenom: "antoine",
+								email: "griezman@gmail.com",
+								password: bcrypt.hashSync("foot", 8),
+							})
+							.then((user) => {
+								db.sequelize.models.user_roles
+									.create({ userId: user.id, roleId: 1 })
+									.then((e) => {
+										console.log("role client!!");
+									})
+						
+							});
+						db.user
+							.create({
+								nom: "ben yedder",
+								prenom: "wissam",
+								email: "benyeder@gmail.com",
+								password: bcrypt.hashSync("foot", 8),
+							})
+							.then((user) => {
+								db.sequelize.models.user_roles
+									.create({ userId: user.id, roleId: 1 })
+									.then((e) => {
+										console.log("role client!!");
+									})
+						
+							});
+						db.user
+							.create({
+								nom: "Giroud",
+								prenom: "paul",
+								email: "giroud@gmail.com",
+								password: bcrypt.hashSync("foot", 8),
+							})
+							.then((user) => {
+								db.sequelize.models.user_roles
+									.create({ userId: user.id, roleId: 1 })
+									.then((e) => {
+										console.log("role client!!");
+									})
+						
+							});
 
-//   function initial() {
- 
-   
-  
-   
-//     Role.create({
-//       id: 1,
-//       name: "user"
-//     });
-//     Role.create({
-//       id: 2,
-//       name: "manager"
-//     });
-//     Role.create({
-//       id: 3,
-//       name: "admin"
-//     });
-//   }
-// });
+						console.log("coucou ludo");
+					}
+				});
+			});
+		// force: true will drop the table if it already exists
+		// db.sequelize.sync({force: true}).then(() => {
+		//   console.log('Drop and Resync Database with { force: true }');
+		//   initial();
 
+		//   function initial() {
 
+		//     Role.create({
+		//       id: 1,
+		//       name: "user"
+		//     });
+		//     Role.create({
+		//       id: 2,
+		//       name: "manager"
+		//     });
+		//     Role.create({
+		//       id: 3,
+		//       name: "admin"
+		//     });
+		//   }
+		// });
 
-
-
-
-// routes
-require('./app/routes/auth.routes')(app);
-require('./app/routes/all.routes')(app);
-
-
-
-
-})
-
-
-
-
-
-
+		// routes
+		require("./app/routes/auth.routes")(app);
+		require("./app/routes/all.routes")(app);
+	});
 
 // set port, listen for requests
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+	console.log(`Server is running on port ${PORT}.`);
 });
-
-
-
-
-
-
-
-
-
-

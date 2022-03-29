@@ -1,8 +1,12 @@
-import React from 'react'
+import { Alert } from '@mui/material';
+import React, { useEffect } from 'react'
 import styles from "./Home.module.css";
 
 const Home = () => {
-  console.log(window.location.pathname)
+useEffect(() => {
+ alert("supprimer la BDD au taff")
+}, [])
+
   return (
     <div className={styles.fondEcran}>
         <div className={styles.citation}>"Aimer, c'est dire je t'aime sans parler..."</div>

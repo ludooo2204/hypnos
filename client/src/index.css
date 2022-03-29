@@ -157,36 +157,4 @@ code {
 }
 
 
-/* modalform */
-label{
-	font-size: 1.2rem;
-	font-family: Trirong, serif;
-	/* width: 80%; */
-	/* margin: 0 auto; */
-	position: relative;
-}
-.labelGroupModal >input{
-/* position: absolute;
-left: 0;
-top: 2.7rem;*/
-height: 2.5rem; 
-border-radius: 2px;
-width: 100%;
-margin-bottom: 1rem;
-font-family: Trirong, serif;
-font-size: 1.25rem;
-line-height: 1.5rem;
-}
-.labelGroupModal{
-	display: flex;
-	flex-direction: column;
-	margin: 0 auto;
-	justify-content: space-around;
-	align-items: flex-start;
-	width: 60%;
-}
-.inputForm{
-	height: 2rem; 
-border-radius: 5px;
-width: 100%;
-}
+

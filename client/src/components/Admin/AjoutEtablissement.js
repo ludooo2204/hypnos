@@ -80,6 +80,7 @@ const Admin = () => {
 		console.log("validerEtablissement");
 		console.log(etablissementData);
 		axios.post('/admin/etablissement',etablissementData)
+		.then(navigate("../"))
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");
@@ -141,9 +142,7 @@ const Admin = () => {
 				<button className={styles.buttonAjoutEtablissement} onClick={() => navigate("../Admin")}>
 					Modifier un établissement
 				</button>
-				<button className={styles.buttonSupprimerEtablissement} onClick={() => console.log("coucou")}>
-					Supprimer un établissement
-				</button>
+				
 			</div>
 		</div>
 	);

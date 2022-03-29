@@ -5,13 +5,13 @@ const user_roles = db.sequelize.models.user_roles;
 const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-console.log("db.user_roles");
-console.log(db.user_roles);
 exports.signup = (req, res) => {
 	console.log("test signup");
 	console.log(req.body);
 	// Save User to Database
 	User.create({
+		nom: req.body.email,
+		prenom: req.body.prenom,
 		email: req.body.email,
 		password: bcrypt.hashSync(req.body.password, 8),
 	})

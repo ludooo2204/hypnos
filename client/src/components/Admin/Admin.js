@@ -11,6 +11,7 @@ import ListeImages from "./ListeImages";
 
 const Admin = () => {
 	const [etablissements, setEtablissements] = useState(null);
+	const [etablissementChoisi, setEtablissementChoisi] = useState(null);
 	const [users, setUsers] = useState("");
 	const [nom, setNom] = useState("");
 	const [adresse, setAdresse] = useState("");
@@ -29,21 +30,41 @@ const Admin = () => {
 		});
 		axios.get("/admin/etablissement").then((etablissement) => {
 			console.log(etablissement.data);
-			setEtablissements(etablissement.data.etablissement);
+			let etablissementsTemp = etablissement.data.etablissement;
+			etablissementsTemp.unshift({ nom: "---" });
+			setEtablissements(etablissementsTemp);
 		});
 	}, []);
+	useEffect(() => {
+		if (etablissementChoisi) {
+			if (etablissementChoisi.nom === "---") {
+
+				setNom("");
+				setAdresse("");
+				setDescription("");
+				setVille("");
+				setManager({email:""});
+				setImages([]);
+			} else {
+				console.log("etablissementChoisi");
+				console.log("etablissementChoisi");
+				console.log("etablissementChoisi");
+				console.log(etablissementChoisi);
+				setNom(etablissementChoisi.nom);
+				setAdresse(etablissementChoisi.adresse);
+				setDescription(etablissementChoisi.description);
+				setVille(etablissementChoisi.ville);
+				setManager(etablissementChoisi.user);
+				setImages((images) => [...images, etablissementChoisi.image]);
+			}
+		}
+	}, [etablissementChoisi]);
 
 	const handleChangeEtablissement = (e) => {
-		console.log(e.target.value)
-		console.log(etablissements.filter(element=>element.nom==e.target.value)[0])
-		const etablissementChoisi=etablissements.filter(element=>element.nom==e.target.value)[0]
-		setNom(etablissementChoisi.nom)
-		setAdresse(etablissementChoisi.adresse)
-		setDescription(etablissementChoisi.description)
-		setVille(etablissementChoisi.ville)
-		setManager(etablissementChoisi.user)
-		setImages((images) => [...images, etablissementChoisi.image]);
-
+		console.log(etablissements);
+		console.log(e.target.value);
+		console.log(etablissements.filter((element) => element.nom == e.target.value)[0]);
+		setEtablissementChoisi(etablissements.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const handleUserSearch = (e) => {
 		setManager(e.target.value);
@@ -84,15 +105,21 @@ const Admin = () => {
 		setManager(e);
 	};
 	const validerEtablissement = () => {
-		console.log("images");
-		console.log(images);
+		console.log("etablissement from update");
+		console.log(etablissementChoisi);
 		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images: images.map((image) => (image.name ? image.name : image)) };
 		console.log("validerEtablissement");
 		console.log(etablissementData);
-		axios.post("/admin/etablissement", etablissementData);
+		axios.patch("/admin/etablissement/" + etablissementChoisi.id, etablissementData);
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");
+	};
+	const supprimerEtablissement = () => {
+		console.log("supprimerEtablissement");
+		if (window.confirm("Etes-vous sur de supprimer l'établissement " + etablissementChoisi.nom + " ?")) {
+			axios.delete("/admin/etablissement/" + etablissementChoisi.id);
+		}
 	};
 	const handleImage = (e) => {
 		setImages((images) => [...images, e]);
@@ -115,15 +142,16 @@ const Admin = () => {
 						))}
 				</div>
 			)}
-			{etablissements&&<div className={styles.agence}>
-				<label> Agence de : </label>
-				
-				<select className={styles.selectAgence} value={"nada"} onChange={handleChangeEtablissement}>
-					{etablissements.map((x, y) => (
-						<option key={y}>{x.nom}</option>
-					))}
-				</select>
-			</div>}
+			{etablissements && (
+				<div className={styles.agence}>
+					<label> Agence de : </label>
+					<select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}>
+						{etablissements.map((x, y) => (
+							<option key={y}>{x.nom}</option>
+						))}
+					</select>
+				</div>
+			)}
 			<div className={styles.inputs}>
 				<div className={styles.input}>
 					<label>Nommer </label>
@@ -166,9 +194,9 @@ const Admin = () => {
 			</div>
 			<div>
 				<button className={styles.buttonAjoutEtablissement} onClick={() => navigate("../AjoutEtablissement")}>
-					Modifier un établissement
+					Ajouter un établissement
 				</button>
-				<button className={styles.buttonSupprimerEtablissement} onClick={() => console.log("coucou")}>
+				<button className={styles.buttonSupprimerEtablissement} onClick={supprimerEtablissement}>
 					Supprimer un établissement
 				</button>
 			</div>

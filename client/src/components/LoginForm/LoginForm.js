@@ -11,6 +11,8 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	const [passwordShown, setPasswordShown] = useState(false);
 	const [MDP, setMDP] = useState("");
 	const [MDP2, setMDP2] = useState("");
+	const [nom, setNom] = useState("");
+	const [prenom, setPrenom] = useState("");
 	// const [identifiant, setIdentifiant] = useState("");
 	const [email, setEmail] = useState("");
 	const [emailForNewPassword, setEmailForNewPassword] = useState(null);
@@ -34,11 +36,11 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 		closeModal();
 	};
 	const validerInscription = () => {
-		console.log(email)
-		console.log(MDP)
+		console.log(email);
+		console.log(MDP);
 		if (MDP === MDP2) {
 			axios
-				.post("/auth/signup", { email, password: MDP, roles: ["user"] })
+				.post("/auth/signup", { prenom, nom,email, password: MDP, roles: ["user"] })
 				.then((e) => {
 					if (e.data.message == "Erreur! l'email est déja utilisé!") {
 						window.alert(e.data.message);
@@ -79,8 +81,14 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	const handleMDP2 = (e) => {
 		setMDP2(e.target.value);
 	};
+	const handleNom = (e) => {
+		setNom(e.target.value);
+	};
+	const handlePrenom = (e) => {
+		setPrenom(e.target.value);
+	};
 	const retrievePassword = () => {
-		console.log("RETROUVER MOT DE PASSE")
+		console.log("RETROUVER MOT DE PASSE");
 		setEmailVisibleforNewPassword(true);
 		setEmailVisibleforLogin(false);
 	};
@@ -150,15 +158,15 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					<span>S'inscrire</span>
 				</button>
 			</div>
-			<div className="labelGroupModal">
+			<div className={styles.labelGroupModal}>
 				<span>
-					<label data-tip data-for="email">
+					<label >
 						Adresse email
 					</label>
 				</span>
-				<input type="text" onChange={handleEmail} value={email} />
+				<input type="text" onChange={handleEmail} value={email} className={isChoixInscriptionActif?styles.inputSignin:styles.inputSignup} />
 				<span>
-					<label>Mot de passe</label>	
+					<label>Mot de passe</label>
 					<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 					{isChoixInscriptionActif && (
 						<span className={styles.buttonMotDePasseOublié} onClick={retrievePassword}>
@@ -166,12 +174,12 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 						</span>
 					)}
 				</span>
-				<input type={passwordShown ? "text" : "password"} onChange={handleMDP} value={MDP} />
-				
+				<input type={passwordShown ? "text" : "password"} onChange={handleMDP} value={MDP} className={isChoixInscriptionActif?styles.inputSignin:styles.inputSignup}/>
+
 				{isChoixInscriptionActif && emailVisibleforNewPassword && (
 					<>
 						<label>Email pour renouveller le mot de passe</label>
-						<input onChange={handleEmailForNewPasswordInput} value={emailForNewPassword} type="text" />
+						<input onChange={handleEmailForNewPasswordInput} value={emailForNewPassword} type="text" className={isChoixInscriptionActif?styles.inputSignin:styles.inputSignup}/>
 						<button className={styles.buttonMotDePasseOublié} onClick={handleSendmailForPassword}>
 							Valider
 						</button>
@@ -180,7 +188,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				{isChoixInscriptionActif && emailVisibleforLogin && (
 					<>
 						<label>Email pour récupérer login</label>
-						<input onChange={handleEmailForLoginInput} value={emailForLogin} type="text" />
+						<input onChange={handleEmailForLoginInput} value={emailForLogin} type="text" className={styles.inputSignin}/>
 						<button className={styles.buttonMotDePasseOublié} onClick={handleSendmailForLogin}>
 							Valider
 						</button>
@@ -188,11 +196,23 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				)}
 				{!isChoixInscriptionActif && (
 					<span>
-						<label>Confirmation mot de passe</label>
+						<label >Confirmation mot de passe</label>
 						<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 					</span>
 				)}
-				{!isChoixInscriptionActif && <input type={passwordShown ? "text" : "password"} onChange={handleMDP2} value={MDP2} />}
+				{!isChoixInscriptionActif && <input className={styles.inputSignup} type={passwordShown ? "text" : "password"} onChange={handleMDP2} value={MDP2} />}
+				{!isChoixInscriptionActif && (
+					<>
+						<span>
+							<label >Prénom</label>
+						</span>
+						<input className={styles.inputSignup} type="text" onChange={handlePrenom} value={prenom} />
+						<span>
+							<label >Nom</label>
+						</span>
+						<input className={styles.inputSignup} type="text" onChange={handleNom} value={nom} />
+					</>
+				)}
 				{/* {!isChoixInscriptionActif && (
 					<span>
 						<label data-tip data-for="mail">

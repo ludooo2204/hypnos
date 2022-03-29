@@ -50,15 +50,15 @@
 	/* color: rgb(241, 239, 239); */
 }
 .buttonMotDePasseOublié {
-    /* position: relative; */
-    /* left: -10VW; */
+	/* position: relative; */
+	/* left: -10VW; */
 
 	/* color: black; */
 	/* height: auto; */
 	/* background: #efea5a; */
 
 	width: 100%;
-	margin:  0 1rem;
+	margin: 0 1rem;
 	/* -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78); */
 	/* box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4); */
 	font-family: Trirong, serif;
@@ -67,3 +67,49 @@
 	/* border-radius: 0.2rem; */
 	/* color: rgb(241, 239, 239); */
 }
+.label {
+	background-color: yellow;
+}
+.inputSignup {
+	height: 1.5rem;
+	border-radius: 2px;
+	width: 100%;
+	/* margin-bottom: 0.5rem; */
+	font-family: Trirong, serif;
+	font-size: 1rem;
+	line-height: 1.2rem;
+}
+
+/* modalform */
+label {
+	font-size: 1.2rem;
+	font-family: Trirong, serif;
+	/* width: 80%; */
+	/* margin: 0 auto; */
+	position: relative;
+}
+.inputSignin {
+	/* position: absolute;
+left: 0;
+top: 2.7rem;*/
+	height: 2.5rem;
+	border-radius: 2px;
+	width: 100%;
+	margin-bottom: 1rem;
+	font-family: Trirong, serif;
+	font-size: 1.25rem;
+	line-height: 1.5rem;
+}
+.labelGroupModal {
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	justify-content: space-around;
+	align-items: flex-start;
+	width: 60%;
+}
+/* .inputForm{
+	height: 2rem; 
+border-radius: 5px;
+width: 100%;
+} */

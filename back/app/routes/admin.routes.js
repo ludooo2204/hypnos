@@ -19,9 +19,10 @@ router.get("/etablissement", controller.getEtablissements);
 router.post("/etablissement", controller.postEtablissement);
 // router.post("/etablissement",[authJwt.verifyToken, authJwt.isAdmin], controller.postEtablissement);
 
+router.delete("/etablissement/:id", controller.deleteEtablissement);
 router.delete("/etablissement/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.deleteEtablissement);
 
-router.patch("/etablissement/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.updateEtablissement);
+router.patch("/etablissement/:id", controller.updateEtablissement);
 // router.patch("/etablissement/manager/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.affectManagerEtablissement);
 router.patch("/etablissement/manager/:id", controller.affectManagerEtablissement);
 

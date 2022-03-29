@@ -74,6 +74,7 @@ exports.deleteEtablissement = (req, res) => {
 	});
 };
 exports.updateEtablissement = (req, res) => {
+	console.log("update etablissement")
 	const { nom, description, adresse, ville } = req.body;
 	etablissement.update({ nom, description, adresse, ville }, { where: { id: req.params.id } }).then((etablissement) => {
 		console.log("etablissement modifié!");
