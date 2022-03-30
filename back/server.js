@@ -70,152 +70,161 @@ mysql
 			.then(() => {
 				// Creation de l'admin
 				const emailAdmin = "admin";
-				console.log(db);
-				db.user.findAll({ where: { email: emailAdmin } }).then((e) => {
-					if (e.length != 1) {
-						console.log("coucoud");
-						db.user
-							.create({
-								nom: emailAdmin,
-								prenom: emailAdmin,
-								email: emailAdmin,
-								password: bcrypt.hashSync("admin", 8),
-							})
-							.then((user) => {
-								console.log("user");
-								console.log(user.id);
-								db.sequelize.models.user_roles
-									.bulkCreate([
-										{ userId: user.id, roleId: 1 },
-										{ userId: user.id, roleId: 2 },
-										{ userId: user.id, roleId: 3 },
-									])
-									.then((e) => {
-										console.log("admin créé!!");
+				// console.log(db);
+				db.user
+					.findAll({ where: { email: emailAdmin } })
+					.then((e) => {
+						if (e.length != 1) {
+							console.log("coucoud");
+							db.user
+								.create({
+									nom: emailAdmin,
+									prenom: emailAdmin,
+									email: emailAdmin,
+									password: bcrypt.hashSync("admin", 8),
+								})
+								.then((user) => {
+									console.log("user");
+									console.log(user.id);
+									db.sequelize.models.user_roles
+										.bulkCreate([
+											{ userId: user.id, roleId: 1 },
+											{ userId: user.id, roleId: 2 },
+											{ userId: user.id, roleId: 3 },
+										])
+										.then((e) => {
+											console.log("admin créé!!");
+										});
+								})
+
+								.catch((err) => {
+									console.log(err);
+								});
+
+							//creation de user fictif (pour avoir de potentiel manager)
+							db.user
+								.create({
+									nom: "Pogba",
+									prenom: "paul",
+									email: "pogba@gmail.com",
+									password: bcrypt.hashSync("foot", 8),
+								})
+								.then((user) => {
+									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
+										console.log("role client!!");
 									});
-							})
+								});
+							db.user
+								.create({
+									nom: "Mbappe",
+									prenom: "killian",
+									email: "killian@gmail.com",
+									password: bcrypt.hashSync("foot", 8),
+								})
+								.then((user) => {
+									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
+										console.log("role client!!");
+									});
+								});
+							db.user
+								.create({
+									nom: "Lloris",
+									prenom: "hugo",
+									email: "lloris@gmail.com",
+									password: bcrypt.hashSync("foot", 8),
+								})
+								.then((user) => {
+									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
+										console.log("role client!!");
+									});
+								});
+							db.user
+								.create({
+									nom: "Griezman",
+									prenom: "antoine",
+									email: "griezman@gmail.com",
+									password: bcrypt.hashSync("foot", 8),
+								})
+								.then((user) => {
+									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
+										console.log("role client!!");
+									});
+								});
+							db.user
+								.create({
+									nom: "ben yedder",
+									prenom: "wissam",
+									email: "benyeder@gmail.com",
+									password: bcrypt.hashSync("foot", 8),
+								})
+								.then((user) => {
+									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
+										console.log("role client!!");
+									});
+								});
+							db.user
+								.create({
+									nom: "Giroud",
+									prenom: "paul",
+									email: "giroud@gmail.com",
+									password: bcrypt.hashSync("foot", 8),
+								})
+								.then((user) => {
+									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
+										console.log("role client!!");
+									});
+								});
 
-							.catch((err) => {
-								console.log(err);
-							});
+							console.log("coucou ludo");
+						}
+					})
+					.then(() => {
+						// Creation de etablissement
+						db.etablissement
+							.create({ nom: "Hotel de chatellerault", description: "bel hotel", adresse: "47 impasse marcel 86100 chatellerault", ville: "chtellerault", image: "etablissement_1.jpg", userId: 2 })
+							.then((a) => {
+								console.log("un etablissement a été crée");
+							})
+							.catch((err) => console.log("err", err));
+						db.etablissement
+							.create({ nom: "Hotel de poitiers", description: "bel hotel", adresse: "47 impasse marcel 86100 poitiers", ville: "poitiers", image: "etablissement_2.jpg", userId: 3 })
+							.then((a) => {
+								console.log("un etablissement a été crée");
+							})
+							.catch((err) => console.log("err", err));
+						db.etablissement
+							.create({ nom: "Hotel de Paris", description: "hotel bof", adresse: "47 imp paris", ville: "paris", image: "etablissement_3.jpg", userId: 4 })
+							.then((a) => {
+								console.log("un etablissement a été crée");
+							})
+							.catch((err) => console.log("err", err));
+						db.etablissement
+							.create({ nom: "Hotel de Grenible", description: "miteux hotel", adresse: "47 impasse marcel 86100 grenoble", ville: "Grenoble", image: "etablissement_4.jpg", userId: 5 })
+							.then((a) => {
+								console.log("un etablissement a été crée");
+							})
+							.catch((err) => console.log("err", err));
+					})
 
-						//creation de user fictif (pour avoir de potentiel manager)
-						db.user
-							.create({
-								nom: "Pogba",
-								prenom: "paul",
-								email: "pogba@gmail.com",
-								password: bcrypt.hashSync("foot", 8),
+					.then(() => {
+						console.log("creation suites")
+						db.suite
+							.create(
+								{ nom: "Cocon de Soie", imageMiseEnAvant: "suite_1.jpg", prix: 150, description: "Une suite que vous n'etes pas pret d'oublier!", UrlBooking: "www.booking.com/totolescagot", images:[{nom:"suite_2.jpg",nom:"suite_3.jpg",nom:"suite_4.jpg",nom:"suite_5.jpg"}], etablissementId: 1 },
+								{
+									include: [db.image],
+								}
+							)
+							.then((suite) => {
+								console.log("suite créé !!");
+								console.log(JSON.stringify(suite, null, 2));
 							})
-							.then((user) => {
-								db.sequelize.models.user_roles
-									.create({ userId: user.id, roleId: 1 })
-									.then((e) => {
-										console.log("role client!!");
-									})
-						
-							});
-						db.user
-							.create({
-								nom: "Mbappe",
-								prenom: "killian",
-								email: "killian@gmail.com",
-								password: bcrypt.hashSync("foot", 8),
-							})
-							.then((user) => {
-								db.sequelize.models.user_roles
-									.create({ userId: user.id, roleId: 1 })
-									.then((e) => {
-										console.log("role client!!");
-									})
-						
-							});
-						db.user
-							.create({
-								nom: "Lloris",
-								prenom: "hugo",
-								email: "lloris@gmail.com",
-								password: bcrypt.hashSync("foot", 8),
-							})
-							.then((user) => {
-								db.sequelize.models.user_roles
-									.create({ userId: user.id, roleId: 1 })
-									.then((e) => {
-										console.log("role client!!");
-									})
-						
-							});
-						db.user
-							.create({
-								nom: "Griezman",
-								prenom: "antoine",
-								email: "griezman@gmail.com",
-								password: bcrypt.hashSync("foot", 8),
-							})
-							.then((user) => {
-								db.sequelize.models.user_roles
-									.create({ userId: user.id, roleId: 1 })
-									.then((e) => {
-										console.log("role client!!");
-									})
-						
-							});
-						db.user
-							.create({
-								nom: "ben yedder",
-								prenom: "wissam",
-								email: "benyeder@gmail.com",
-								password: bcrypt.hashSync("foot", 8),
-							})
-							.then((user) => {
-								db.sequelize.models.user_roles
-									.create({ userId: user.id, roleId: 1 })
-									.then((e) => {
-										console.log("role client!!");
-									})
-						
-							});
-						db.user
-							.create({
-								nom: "Giroud",
-								prenom: "paul",
-								email: "giroud@gmail.com",
-								password: bcrypt.hashSync("foot", 8),
-							})
-							.then((user) => {
-								db.sequelize.models.user_roles
-									.create({ userId: user.id, roleId: 1 })
-									.then((e) => {
-										console.log("role client!!");
-									})
-						
-							});
-
-						console.log("coucou ludo");
-					}
-				});
+							.catch(err=>console.log(err))
+					});
 			});
 		// force: true will drop the table if it already exists
 		// db.sequelize.sync({force: true}).then(() => {
 		//   console.log('Drop and Resync Database with { force: true }');
-		//   initial();
-
-		//   function initial() {
-
-		//     Role.create({
-		//       id: 1,
-		//       name: "user"
-		//     });
-		//     Role.create({
-		//       id: 2,
-		//       name: "manager"
-		//     });
-		//     Role.create({
-		//       id: 3,
-		//       name: "admin"
-		//     });
-		//   }
-		// });
 
 		// routes
 		require("./app/routes/auth.routes")(app);
