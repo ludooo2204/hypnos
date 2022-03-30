@@ -14,7 +14,7 @@ exports.getEtablissements = (req, res) => {
 		})
 		.then((etablissement) => {
 			console.log(JSON.stringify(etablissement, null, 2));
-			res.status(200).json({ message: etablissement });
+			res.status(200).json({ etablissement });
 		});
 };
 

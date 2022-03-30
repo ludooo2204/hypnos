@@ -13,6 +13,7 @@ exports.getSuites = (req, res) => {
 			include: [
 				{ model: images, attributes: { exclude: ["createdAt", "updatedAt"] } },
 				{ model: db.reservation, attributes: { exclude: ["createdAt", "updatedAt"] } },
+				{ model: db.reservation, attributes: { exclude: ["createdAt", "updatedAt"] } },
 			],
 		})
 		.then((suite) => {

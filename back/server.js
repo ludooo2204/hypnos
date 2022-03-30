@@ -9,6 +9,8 @@ const path = require("path");
 const config = require("./app/config/db.config");
 const mysql = require("mysql2/promise");
 
+const fakeData = require("./app/config/fakeData");
+console.log(fakeData);
 // enable files upload
 app.use(
 	fileUpload({
@@ -102,124 +104,63 @@ mysql
 								});
 
 							//creation de user fictif (pour avoir de potentiel manager)
-							db.user
-								.create({
-									nom: "Pogba",
-									prenom: "paul",
-									email: "pogba@gmail.com",
-									password: bcrypt.hashSync("foot", 8),
-								})
-								.then((user) => {
-									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
-										console.log("role client!!");
+							for (const fakeUser of fakeData.fakeData.users) {
+								db.user
+									.create({
+										nom: fakeUser.nom,
+										prenom: fakeUser.prenom,
+										email: fakeUser.email,
+										password: bcrypt.hashSync("foot", 8),
+									})
+									.then((user) => {
+										db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
+											console.log("role client!!");
+										});
 									});
-								});
-							db.user
-								.create({
-									nom: "Mbappe",
-									prenom: "killian",
-									email: "killian@gmail.com",
-									password: bcrypt.hashSync("foot", 8),
-								})
-								.then((user) => {
-									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
-										console.log("role client!!");
-									});
-								});
-							db.user
-								.create({
-									nom: "Lloris",
-									prenom: "hugo",
-									email: "lloris@gmail.com",
-									password: bcrypt.hashSync("foot", 8),
-								})
-								.then((user) => {
-									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
-										console.log("role client!!");
-									});
-								});
-							db.user
-								.create({
-									nom: "Griezman",
-									prenom: "antoine",
-									email: "griezman@gmail.com",
-									password: bcrypt.hashSync("foot", 8),
-								})
-								.then((user) => {
-									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
-										console.log("role client!!");
-									});
-								});
-							db.user
-								.create({
-									nom: "ben yedder",
-									prenom: "wissam",
-									email: "benyeder@gmail.com",
-									password: bcrypt.hashSync("foot", 8),
-								})
-								.then((user) => {
-									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
-										console.log("role client!!");
-									});
-								});
-							db.user
-								.create({
-									nom: "Giroud",
-									prenom: "paul",
-									email: "giroud@gmail.com",
-									password: bcrypt.hashSync("foot", 8),
-								})
-								.then((user) => {
-									db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
-										console.log("role client!!");
-									});
-								});
+							}
 
-							console.log("coucou ludo");
+							console.log("Fake users créé !");
 						}
 					})
 					.then(() => {
-						// Creation de etablissement
-						db.etablissement
-							.create({ nom: "Hotel de chatellerault", description: "bel hotel", adresse: "47 impasse marcel 86100 chatellerault", ville: "chtellerault", image: "etablissement_1.jpg", userId: 2 })
-							.then((a) => {
-								console.log("un etablissement a été crée");
-							})
-							.catch((err) => console.log("err", err));
-						db.etablissement
-							.create({ nom: "Hotel de poitiers", description: "bel hotel", adresse: "47 impasse marcel 86100 poitiers", ville: "poitiers", image: "etablissement_2.jpg", userId: 3 })
-							.then((a) => {
-								console.log("un etablissement a été crée");
-							})
-							.catch((err) => console.log("err", err));
-						db.etablissement
-							.create({ nom: "Hotel de Paris", description: "hotel bof", adresse: "47 imp paris", ville: "paris", image: "etablissement_3.jpg", userId: 4 })
-							.then((a) => {
-								console.log("un etablissement a été crée");
-							})
-							.catch((err) => console.log("err", err));
-						db.etablissement
-							.create({ nom: "Hotel de Grenible", description: "miteux hotel", adresse: "47 impasse marcel 86100 grenoble", ville: "Grenoble", image: "etablissement_4.jpg", userId: 5 })
-							.then((a) => {
-								console.log("un etablissement a été crée");
-							})
-							.catch((err) => console.log("err", err));
+						for (const fakeEtablissement of fakeData.fakeData.etablissements) {
+							db.etablissement
+								.create({ nom: fakeEtablissement.nom, description: fakeEtablissement.description, adresse: fakeEtablissement.adresse, ville: fakeEtablissement.ville, image: fakeEtablissement.image, userId: fakeEtablissement.userId })
+								.then((a) => {
+									console.log("un etablissement a été crée");
+								})
+								.catch((err) => console.log("errrrrrrrrrrrrrrr", err));
+						}
 					})
 
 					.then(() => {
-						console.log("creation suites")
-						db.suite
-							.create(
-								{ nom: "Cocon de Soie", imageMiseEnAvant: "suite_1.jpg", prix: 150, description: "Une suite que vous n'etes pas pret d'oublier!", UrlBooking: "www.booking.com/totolescagot", images:[{nom:"suite_2.jpg",nom:"suite_3.jpg",nom:"suite_4.jpg",nom:"suite_5.jpg"}], etablissementId: 1 },
-								{
-									include: [db.image],
-								}
-							)
-							.then((suite) => {
-								console.log("suite créé !!");
-								console.log(JSON.stringify(suite, null, 2));
-							})
-							.catch(err=>console.log(err))
+						for (const fakeSuite of fakeData.fakeData.suites) {
+							db.suite
+								.create(
+									{
+										nom: fakeSuite.nom,
+										imageMiseEnAvant: fakeSuite.imageMiseEnAvant,
+										prix: fakeSuite.prix,
+										description: fakeSuite.description,
+										UrlBooking: fakeSuite.UrlBooking,
+										images: fakeSuite.images,
+										etablissementId: fakeSuite.etablissementId,
+									},
+									{
+										include: [db.image],
+									}
+								)
+								.then(() => console.log("une suite a été crée"))
+								.catch((err) => console.log(err));
+						}
+					})
+					.then(() => {
+						for (const fakeReservation of fakeData.fakeData.reservations) {
+							db.reservation
+								.create({ dateDebut: fakeReservation.dateDebut, dateFin: fakeReservation.dateFin, userId: fakeReservation.userId, suiteId: fakeReservation.suiteId })
+								.then((resa) => console.log("une reservation a été crée"))
+								.catch((err) => console.log(err));
+						}
 					});
 			});
 		// force: true will drop the table if it already exists

@@ -55,7 +55,7 @@ const Admin = () => {
 				setDescription(etablissementChoisi.description);
 				setVille(etablissementChoisi.ville);
 				setManager(etablissementChoisi.user);
-				setImages((images) => [...images, etablissementChoisi.image]);
+				setImages([etablissementChoisi.image]);
 			}
 		}
 	}, [etablissementChoisi]);
@@ -118,11 +118,13 @@ const Admin = () => {
 	const supprimerEtablissement = () => {
 		console.log("supprimerEtablissement");
 		if (window.confirm("Etes-vous sur de supprimer l'établissement " + etablissementChoisi.nom + " ?")) {
-			axios.delete("/admin/etablissement/" + etablissementChoisi.id);
+			axios.delete("/admin/etablissement/" + etablissementChoisi.id)
+			.then(() => window.location.reload())
 		}
 	};
 	const handleImage = (e) => {
-		setImages((images) => [...images, e]);
+		// setImages((images) => [...images, e]);
+		setImages([e]);
 	};
 	const onDelete = (img) => {
 		console.log(images);
