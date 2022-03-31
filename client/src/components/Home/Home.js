@@ -4,7 +4,7 @@ import styles from "./Home.module.css";
 
 const Home = () => {
 useEffect(() => {
- alert("supprimer la BDD au taff")
+ alert("qd on nomme un manager, il faut enlever celiu en place !!!!")
 }, [])
 
   return (

@@ -5,6 +5,7 @@ import Admin from "./components/Admin/Admin";
 import AjoutEtablissement from "./components/Admin/AjoutEtablissement";
 import Etablissements from "./components/Etablissements/Etablissements";
 import Suites from "./components/Suites/Suites";
+import Suite from "./components/Suites/Suite";
 // import RenouvellerPassword from "./RenouvellerPassword/RenouvellerPassword";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
 				<Route path="/AjoutEtablissement" element={<AjoutEtablissement />} />
 				<Route path="/etablissements" element={<Etablissements />} />
 				<Route path="/suites" element={<Suites />} />
+				<Route path="/suite" element={<Suite />} />
 				{/* <Route path="reservation" element={<QuiSuisJe />} /> */}
 				{/* <Route path="contact" element={<Contact />} />  */}
 			</Routes>

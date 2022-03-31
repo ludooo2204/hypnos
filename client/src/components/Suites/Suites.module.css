@@ -1,0 +1,47 @@
+.legende {
+	background-color: blueviolet;
+	display: none;
+	/* transition: all 1s; */
+
+	/* position: absolute; */
+	/* top:1000%; */
+	/* z-index: -1; */
+}
+.titre {
+	font-family: Parisienne;
+	margin: 1rem auto;
+	color: #f1f1f1;
+	font-weight: 100;
+}
+
+.cardMain {
+	background-color: #5b5b5b;
+	display: flex;
+	flex-direction: column;
+	width: 30%;
+	margin: 3% 1%;
+	/* animation-delay: 2s; */
+}
+.cardMain:hover {
+	transform: scale(1.05);
+	transition: all 0.3s;
+}
+/* .cardMain:hover .legende{
+
+ display: unset;
+
+} */
+.main {
+	background-color: #f1f1f1;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.photo {
+	height: 100%;
+	width: 100%;
+}
+.infoEtablissement{
+   list-style:  none;
+   font-family: Trirong;
+}

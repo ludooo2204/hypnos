@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 import styles from "./Etablissements.module.css";
 
-
 const EtablissementCard = (etablissementData) => {
 	console.log("coucou from Card");
 	let navigate = useNavigate();
@@ -12,21 +11,12 @@ const EtablissementCard = (etablissementData) => {
 	const { id, nom, adresse, description, image, user, ville } = etablissementData.etablissementData;
 	const selectionnerEtablissement = () => {
 		console.log("ta choisi " + nom);
-		navigate('../suites',{state:etablissementData.etablissementData})
-
+		navigate("../suites", { state: etablissementData.etablissementData });
 	};
 	return (
-		<div className={styles.cardMain}  onClick={selectionnerEtablissement}>
-			
+		<div className={styles.cardMain} onClick={selectionnerEtablissement}>
 			<img className={styles.photo} src={require("../../uploads/" + image)}></img>
-			<h1  className={styles.titre}>{nom} </h1>
-		<div className={styles.legende}>
-				{/* <div>{description}</div>
-				<div >{adresse}</div>
-				
-				<div>{ville}</div>
-				<div>Contact : {user.nom + " - " + user.prenom}</div> */}
-			</div>
+			<h1 className={styles.titre}>{nom} </h1>
 		</div>
 	);
 };
