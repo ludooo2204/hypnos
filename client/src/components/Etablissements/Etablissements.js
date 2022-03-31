@@ -1,21 +1,32 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import styles from "./Etablissements.module.css";
+
 
 const EtablissementCard = (etablissementData) => {
 	console.log("coucou from Card");
-const {id,nom,adresse,description,image,user,ville}=etablissementData.etablissementData
-const selectionnerEtablissement=()=>{
-    console.log("ta choisi "+ nom)
-}
+	let navigate = useNavigate();
+
+	const { id, nom, adresse, description, image, user, ville } = etablissementData.etablissementData;
+	const selectionnerEtablissement = () => {
+		console.log("ta choisi " + nom);
+		navigate('../suites',{state:etablissementData.etablissementData})
+
+	};
 	return (
-		<div onClick={selectionnerEtablissement} >
-            <h1>{nom}</h1>
-			<img src={require("../../uploads/" + image)}></img>
-            <label>{description}</label>
-            <label>{adresse}</label>
-            <label>{ville}</label>
-            <label>Contact : {user.nom+" - "+user.prenom}</label>
+		<div className={styles.cardMain}  onClick={selectionnerEtablissement}>
+			
+			<img className={styles.photo} src={require("../../uploads/" + image)}></img>
+			<h1  className={styles.titre}>{nom} </h1>
+		<div className={styles.legende}>
+				{/* <div>{description}</div>
+				<div >{adresse}</div>
+				
+				<div>{ville}</div>
+				<div>Contact : {user.nom + " - " + user.prenom}</div> */}
+			</div>
 		</div>
 	);
 };
@@ -28,18 +39,8 @@ const Etablissements = () => {
 			setEtablissements(data.data.etablissement);
 		});
 	}, []);
-   
 
-	return (
-		<>
-			{etablissements &&
-				etablissements.map(
-					(etablissement, i) => 
-				<EtablissementCard key={i} etablissementData={etablissement} /> 
-                       
-				)}
-		</>
-	);
+	return <div className={styles.main}>{etablissements && etablissements.map((etablissement, i) => <EtablissementCard key={i} etablissementData={etablissement} />)}</div>;
 };
 
 export default Etablissements;

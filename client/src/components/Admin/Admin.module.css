@@ -153,14 +153,14 @@ margin-top: 1REM;
 	padding: 0.3rem;
 	border-radius: 0.2rem;
 }
-img{
+/* img{
 	width: 15VW;
 	height: 15VW;
-/* position: relative; */
-/* left: 30%; */
+position: relative;
+left: 30%;
 	margin-top: 5%;
 	margin-left: 15%
-}
+}  */
 .buttonValidation {
 	color: black;
 	height: 3rem;

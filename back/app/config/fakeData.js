@@ -66,6 +66,41 @@ const fakeEtablissements = [
 
 		userId: 5,
 	},
+	{
+		nom: "Hotel d'Angouleme",
+		description: "L'hotel date du 16eme siecle !",
+		adresse: "47 impasse marcel 86100 Angouleme",
+		ville: "Angouleme",
+		image: "etablissement_5.jpg",
+		userId: 2,
+	},
+	{
+		nom: "Hotel de Nice",
+		description: "bel hotel",
+		adresse: "47 impasse marcel 65004 Nice",
+		ville: "Nice",
+		image: "etablissement_6.jpg",
+
+		userId: 3,
+	},
+	{
+		nom: "Hotel de Strasbourg",
+		description: "hotel miteux",
+		adresse: "47 imp Strasbourg",
+		ville: "Strasbourg",
+		image: "etablissement_2.jpg",
+
+		userId: 4,
+	},
+	{
+		nom: "Hotel de Lille",
+		description: "Le plus beau des hotel",
+		adresse: "47 impasse des chtis 86100 Lille",
+		ville: "Lille",
+		image: "etablissement_1.jpg",
+
+		userId: 5,
+	},
 ];
 const fakeReservations = [
 	{
