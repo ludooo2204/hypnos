@@ -1,0 +1,13 @@
+{
+	"name": "hypnos",
+	"version": "1.0.0",
+	"description": "site pour l'ECFstudi",
+	"main": "index.js",
+	"repository": "https://github.com/ludooo2204/hypnos.git",
+	"author": "ludovic Vachon <vachon.ludovic@gmail.com>",
+	"scripts": {
+		"client": "cd client && yarn start",
+		"back": "cd back && yarn start"
+	},
+	"license": "MIT"
+}

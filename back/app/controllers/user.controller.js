@@ -9,7 +9,7 @@ exports.getEtablissements = (req, res) => {
 			attributes: { exclude: ["createdAt", "updatedAt", "userId"] },
 			include: [
 				{ model: db.user, attributes: { exclude: ["createdAt", "updatedAt", "password"] } },
-				{ model: db.suite, attributes: { exclude: ["createdAt", "updatedAt"] }, include: [{ model: db.image, attributes: { exclude: ["createdAt", "updatedAt"] } }] },
+				{ model: db.suite, attributes: { exclude: ["createdAt", "updatedAt"] }, include: [{ model: db.reservation, attributes: { exclude: ["createdAt", "updatedAt"] } },{ model: db.image, attributes: { exclude: ["createdAt", "updatedAt"] } }] },
 			],
 		})
 		.then((etablissement) => {

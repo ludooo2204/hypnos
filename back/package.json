@@ -18,9 +18,6 @@
   },
   "scripts": {
     "start": "nodemon -r dotenv/config server.js",
-    "client": "cd client && yarn start",
-    "clientInstall": "cd client && yarn",
-    "build": "cd client && yarn build",
     "test": "jest"
   },
   "proxy": "http://127.0.0.1:7000/",
