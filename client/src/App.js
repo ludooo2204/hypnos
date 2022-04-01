@@ -6,6 +6,7 @@ import AjoutEtablissement from "./components/Admin/AjoutEtablissement";
 import Etablissements from "./components/Etablissements/Etablissements";
 import Suites from "./components/Suites/Suites";
 import Suite from "./components/Suites/Suite";
+import Reservation from "./components/Suites/Reservation";
 // import RenouvellerPassword from "./RenouvellerPassword/RenouvellerPassword";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
 				<Route path="/etablissements" element={<Etablissements />} />
 				<Route path="/suites" element={<Suites />} />
 				<Route path="/suite" element={<Suite />} />
-				{/* <Route path="reservation" element={<QuiSuisJe />} /> */}
+				<Route path="/reservation" element={<Reservation />} />
 				{/* <Route path="contact" element={<Contact />} />  */}
 			</Routes>
 		</Router>

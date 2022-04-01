@@ -16,7 +16,7 @@ const SuiteCard = (suiteData) => {
 	return (
 		<div className={styles.cardMain} onClick={selectionnerSuite}>
 			<img className={styles.photo} src={require("../../uploads/" + imageMiseEnAvant)}></img>
-			<h1 className={styles.titre}>{nom} </h1>
+			<h1 className={styles.titreSuite}>{nom} </h1>
 		
 		</div>
 	);
@@ -28,7 +28,7 @@ const Suites = () => {
 
 	return (
 		<div className={styles.main}>
-			<h1>Nos suites romantiques à {ville}</h1>
+			<h1 className={styles.titre}>Nos suites romantiques à {ville}</h1>
 			<div className={styles.main}>
 				{state.suites && state.suites.map((suite, i) => <SuiteCard key={i} suiteData={suite} />)}
 				</div>

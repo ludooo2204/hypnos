@@ -1,17 +1,19 @@
 .legende {
 	background-color: blueviolet;
 	display: none;
-	/* transition: all 1s; */
-
-	/* position: absolute; */
-	/* top:1000%; */
-	/* z-index: -1; */
 }
-.titre {
+.titreSuite {
 	font-family: Parisienne;
 	margin: 1rem auto;
 	color: #f1f1f1;
 	font-weight: 100;
+}
+.titre {
+	font-family: Parisienne;
+	margin: 1rem auto;
+	font-size: 3rem;
+	/* color: #5b5b5b; */
+	font-weight: 500;
 }
 
 .cardMain {
@@ -20,28 +22,64 @@
 	flex-direction: column;
 	width: 30%;
 	margin: 3% 1%;
-	/* animation-delay: 2s; */
 }
 .cardMain:hover {
 	transform: scale(1.05);
 	transition: all 0.3s;
 }
-/* .cardMain:hover .legende{
+.suiteCardGroup {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
 
- display: unset;
-
-} */
 .main {
 	background-color: #f1f1f1;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 }
-.photo {
-	height: 100%;
-	width: 100%;
+.mainSuite {
+	background-color: #f1f1f1;
+	display: flex;
+	min-height: 92VH;
+	justify-content: center;
+	flex-direction: column;
+}
+.photoSuite {
+	height: auto;
+	width: 30%;
+	margin: 1%;
 }
 .infoEtablissement{
    list-style:  none;
    font-family: Trirong;
+   font-size: 1.5rem;
+}
+.photo {
+	height: 100%;
+	width: 100%;
+}
+.bookingLien {
+	font-weight: 500;
+	
+}
+.buttonReserver {
+	color: black;
+	height: 3rem;
+	line-height: 2rem;
+	background: #efea5a;
+	/* width: 5%; */
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Trirong, serif;
+	font-size: 1.85rem;
+	border-radius: 0.55rem;
+	/* color: rgb(241, 239, 239); */
+}
+.infoSuite{
+	display: flex;
+	align-items: center;
+justify-content: space-between;
+padding: 0 5%;
 }
