@@ -35,7 +35,7 @@ const fakeEtablissements = [
 		nom: "Hotel de chatellerault",
 		description: "bel hotel",
 		adresse: "47 impasse marcel 86100 chatellerault",
-		ville: "chtellerault",
+		ville: "chatellerault",
 		image: "etablissement_1.jpg",
 		userId: 2,
 	},

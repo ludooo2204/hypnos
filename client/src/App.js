@@ -10,9 +10,12 @@ import Reservation from "./components/Suites/Reservation";
 // import RenouvellerPassword from "./RenouvellerPassword/RenouvellerPassword";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 const App = () => {
+	const [user, setUser] = useState(null)
+	console.log("user from App")
+	console.log(user)
 	return (
 		<Router>
-            <Navbar   />
+            <Navbar   userGlobal={setUser}/>
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/admin" element={<Admin />} />
@@ -20,7 +23,7 @@ const App = () => {
 				<Route path="/etablissements" element={<Etablissements />} />
 				<Route path="/suites" element={<Suites />} />
 				<Route path="/suite" element={<Suite />} />
-				<Route path="/reservation" element={<Reservation />} />
+				<Route path="/reservation" element={<Reservation user={user}  />} />
 				{/* <Route path="contact" element={<Contact />} />  */}
 			</Routes>
 		</Router>

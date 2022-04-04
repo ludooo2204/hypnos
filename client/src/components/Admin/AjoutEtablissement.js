@@ -46,11 +46,11 @@ const Admin = () => {
 				users.users,
 				// users.users.map((user) => user.email),
 				e.target.value,
-				 {keys: ['email']}
+				{ keys: ["email"] }
 			);
 			if (resultatDeRecherche.length < 10) {
-				console.log("resultats")
-				console.log(resultatDeRecherche)
+				console.log("resultats");
+				console.log(resultatDeRecherche);
 				setModalUserFindedVisible(true);
 				setUserFinded(resultatDeRecherche);
 			}
@@ -74,13 +74,12 @@ const Admin = () => {
 		setManager(e);
 	};
 	const validerEtablissement = () => {
-		console.log("images")
-		console.log(images)
-		const etablissementData = { nom, adresse, ville,  description, manager:manager.id, images: images.map((image) => (image.name ? image.name : image)) };
+		console.log("images");
+		console.log(images);
+		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images: images.map((image) => (image.name ? image.name : image)) };
 		console.log("validerEtablissement");
 		console.log(etablissementData);
-		axios.post('/admin/etablissement',etablissementData)
-		.then(navigate("../"))
+		axios.post("/admin/etablissement", etablissementData).then(navigate("../"));
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");
@@ -97,7 +96,16 @@ const Admin = () => {
 	return (
 		<div className={styles.mainAjout}>
 			<h1 className={styles.titre}>Création d'un nouvel établissement</h1>
-			{modalUserFindedVisible && userFinded.length > 0 && <div className={styles.userFinded}>{userFinded && userFinded.map((e,i) => <li key={i} onClick={() => handleSetManager(e)}>{e.email}</li>)}</div>}
+			{modalUserFindedVisible && userFinded.length > 0 && (
+				<div className={styles.userFinded}>
+					{userFinded &&
+						userFinded.map((e, i) => (
+							<li key={i} onClick={() => handleSetManager(e)}>
+								{e.email}
+							</li>
+						))}
+				</div>
+			)}
 			<div className={styles.inputs}>
 				<div className={styles.input}>
 					<label>Nommer </label>
@@ -142,7 +150,6 @@ const Admin = () => {
 				<button className={styles.buttonAjoutEtablissement} onClick={() => navigate("../Admin")}>
 					Modifier un établissement
 				</button>
-				
 			</div>
 		</div>
 	);

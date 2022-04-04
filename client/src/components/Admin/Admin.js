@@ -22,6 +22,7 @@ const Admin = () => {
 
 	const [modalUserFindedVisible, setModalUserFindedVisible] = useState(false);
 	const [manager, setManager] = useState("");
+	const [managerOrigine, setManagerOrigine] = useState("");
 	let navigate = useNavigate();
 	useEffect(() => {
 		axios.get("/admin/getUsers").then((users) => {
@@ -38,12 +39,11 @@ const Admin = () => {
 	useEffect(() => {
 		if (etablissementChoisi) {
 			if (etablissementChoisi.nom === "---") {
-
 				setNom("");
 				setAdresse("");
 				setDescription("");
 				setVille("");
-				setManager({email:""});
+				setManager({ email: "" });
 				setImages([]);
 			} else {
 				console.log("etablissementChoisi");
@@ -55,6 +55,7 @@ const Admin = () => {
 				setDescription(etablissementChoisi.description);
 				setVille(etablissementChoisi.ville);
 				setManager(etablissementChoisi.user);
+				setManagerOrigine(etablissementChoisi.user);
 				setImages([etablissementChoisi.image]);
 			}
 		}
@@ -67,6 +68,7 @@ const Admin = () => {
 		setEtablissementChoisi(etablissements.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const handleUserSearch = (e) => {
+		console.log(e.target.value);
 		setManager(e.target.value);
 		if (e.target.value == "") {
 			setModalUserFindedVisible(false);
@@ -107,10 +109,18 @@ const Admin = () => {
 	const validerEtablissement = () => {
 		console.log("etablissement from update");
 		console.log(etablissementChoisi);
+		console.log("manager");
+		console.log(manager);
+		console.log("manager origine");
+		console.log(managerOrigine);
 		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images: images.map((image) => (image.name ? image.name : image)) };
 		console.log("validerEtablissement");
 		console.log(etablissementData);
-		axios.patch("/admin/etablissement/" + etablissementChoisi.id, etablissementData);
+		axios.patch("/admin/etablissement/" + etablissementChoisi.id, etablissementData)
+		.then(()=>axios.patch("/admin/etablissement/manager/"+etablissementChoisi.id,{userId:manager.id}))
+		.then(()=>axios.patch("/admin/userToManager/"+manager.id))
+		.then(()=>axios.patch("/admin/managerToUser/"+managerOrigine.id))
+		.then(()=>alert(`l'ancien manager ${managerOrigine.email} a été viré et ${manager.email} a été nommé !!`))
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");
@@ -118,8 +128,7 @@ const Admin = () => {
 	const supprimerEtablissement = () => {
 		console.log("supprimerEtablissement");
 		if (window.confirm("Etes-vous sur de supprimer l'établissement " + etablissementChoisi.nom + " ?")) {
-			axios.delete("/admin/etablissement/" + etablissementChoisi.id)
-			.then(() => window.location.reload())
+			axios.delete("/admin/etablissement/" + etablissementChoisi.id).then(() => window.location.reload());
 		}
 	};
 	const handleImage = (e) => {
@@ -134,12 +143,14 @@ const Admin = () => {
 	};
 	return (
 		<div className={styles.main}>
+			{console.log("userFinded")}
+			{console.log(userFinded)}
 			{modalUserFindedVisible && userFinded.length > 0 && (
 				<div className={styles.userFinded}>
 					{userFinded &&
 						userFinded.map((e, i) => (
 							<li key={i} className={styles.userFindedLi} onClick={() => handleSetManager(e)}>
-								{e}
+								{e.email}
 							</li>
 						))}
 				</div>

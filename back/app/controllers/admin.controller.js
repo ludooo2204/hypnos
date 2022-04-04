@@ -84,9 +84,15 @@ exports.updateEtablissement = (req, res) => {
 };
 exports.affectManagerEtablissement = (req, res) => {
 	console.log("affectation de manager");
-	const { userId } = req.body;
+	const  {userId}  = req.body;
+	console.log("userId")
+	console.log(userId)
+	console.log("req.body")
+	console.log(req.body)
+	console.log("etablissement id")
+	console.log(req.params.id)
 	etablissement.update({ userId }, { where: { id: req.params.id } }).then((etablissement) => {
-		console.log(user + "manager affecté à l'établissement" + req.params.id);
+		console.log(userId + "manager affecté à l'établissement" + req.params.id);
 		console.log(JSON.stringify(etablissement, null, 2));
 		res.status(200).json({ message: etablissement });
 	});

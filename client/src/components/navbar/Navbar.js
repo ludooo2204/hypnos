@@ -32,7 +32,7 @@ const customStyles = {
 
 Modal.setAppElement("body");
 
-const Navbar = () => {
+const Navbar = ({userGlobal}) => {
 	const [userConnected, setUserConnected] = useState(null);
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [isAdmin, setAdmin] = useState(false);
@@ -78,6 +78,7 @@ const Navbar = () => {
 			setAdmin(true);
 		}
 		setUserConnected(user.username);
+		userGlobal(user)
 	};
 	const seDeconnecter = () => {
 		setUserConnected(null);

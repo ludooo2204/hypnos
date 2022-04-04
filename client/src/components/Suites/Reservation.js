@@ -4,13 +4,13 @@ import styles from "./Suites.module.css";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { addDays, subDays } from "date-fns";
 import fr from "date-fns/locale/fr";
 import "react-datepicker/dist/react-datepicker.css";
 registerLocale("fr", fr);
 // setDefaultLocale('fr');
-const Reservation = () => {
+const Reservation = ({ user }) => {
 	const [etablissements, setEtablissements] = useState(null);
 	const [suites, setSuites] = useState(null);
 	const [reservations, setReservations] = useState(null);
@@ -19,45 +19,81 @@ const Reservation = () => {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 
-	const navigate = useNavigate();
 	const { state } = useLocation();
-	console.log("state from resa");
-	console.log(state);
+	// console.log("state from resa");
+	// console.log(state);
+	console.log(etablissementChoisi ? etablissementChoisi.nom : "---")
 	useEffect(() => {
 		axios.get("user/etablissements").then((_etablissements) => {
-			setEtablissements(_etablissements.data.etablissement);
-			setEtablissementChoisi(_etablissements.data.etablissement.filter((e) => e.id === state.id)[0]);
-			setSuites(_etablissements.data.etablissement.filter((e) => e.id === state.id)[0].suites);
-			setSuiteChoisi(state.nom);
-			let resaTemp=[]
-			for (const resa of state.reservations) {
-				console.log(resa.dateDebut)
-				resaTemp.push({start:new Date(resa.dateDebut),end:new Date(resa.dateFin)})
+			console.log("_etablissements.data.etablissement");
+			console.log(_etablissements.data.etablissement);
+			let etablissementsTemp = _etablissements.data.etablissement;
+			etablissementsTemp.unshift({ nom: "---" });
+			setEtablissements(etablissementsTemp);
+			// setEtablissements(_etablissements.data.etablissement);
+			if (state) {
+				setSuites(_etablissements.data.etablissement.filter((e) => e.id === state.etablissementId)[0].suites);
+				setEtablissementChoisi(_etablissements.data.etablissement.filter((e) => e.id === state.id)[0]);
+				setSuiteChoisi(state.nom);
+				const resaSuiteChoisi = _etablissements.data.etablissement.filter((e) => e.id === state.id)[0].suites.filter((_suite) => _suite.id === state.id)[0].reservations;
+				let resaTemp = [];
+				for (const resa of resaSuiteChoisi) {
+					resaTemp.push({ start: new Date(resa.dateDebut), end: new Date(resa.dateFin) });
+				}
+				setReservations(resaTemp);
 			}
-			console.log(resaTemp)
-			setReservations(resaTemp)
 		});
 	}, []);
-	const { id, nom, UrlBooking, description, images, etablissementId, imageMiseEnAvant, prix } = state;
-	const CustomInput = forwardRef(({onClick }, ref) => (
+	useEffect(() => {
+		if (etablissementChoisi) {
+			console.log(etablissementChoisi.suites)
+			let suitesTemp = etablissementChoisi.suites;
+			suitesTemp.unshift({ nom: "---" });
+			setSuites(suitesTemp);
+		}
+	}, [etablissementChoisi]);
+	useEffect(() => {
+		if (suiteChoisi) {
+			console.log(suiteChoisi	)
+			let resaTemp = [];
+			for (const resa of suiteChoisi.reservations) {
+				resaTemp.push({ start: new Date(resa.dateDebut), end: new Date(resa.dateFin) });
+			}
+			setReservations(resaTemp);
+		}
+	}, [suiteChoisi]);
+	console.log(suiteChoisi)
+	// const { id, nom, UrlBooking, description, images, etablissementId, imageMiseEnAvant, prix } = state;
+	const CustomInput = forwardRef(({ onClick }, ref) => (
 		<button className="example-custom-input" onClick={onClick} ref={ref}>
-	<CalendarMonthIcon /> Arrivée - Départ
+			<CalendarMonthIcon /> Arrivée - Départ
 		</button>
 	));
 	const handleChangeEtablissement = (e) => {
 		console.log(etablissements);
 		console.log(e.target.value);
 		console.log(etablissements.filter((element) => element.nom == e.target.value)[0]);
-		setEtablissementChoisi(e.target.value);
+		setEtablissementChoisi(etablissements.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const handleChangeSuite = (e) => {
 		console.log(suiteChoisi);
 		console.log(e.target.value);
-		// console.log(etablissements.filter((element) => element.nom == e.target.value)[0]);
-		setSuiteChoisi(e.target.value);
+		console.log(suites.filter((element) => element.nom == e.target.value)[0]);
+		setSuiteChoisi(suites.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const validerReservation = () => {
 		console.log("valider");
+		console.log("suiteChoisi");
+		console.log(suiteChoisi);
+		console.log("user id == ", user.userId);
+		axios.post("/user/reservation", { dateDebut: startDate, dateFin: endDate, userId: user.userId, suiteId: state.id }).then((e) => {
+			if (e.data.validation === "ok") {
+				alert("la reservation à été validé!");
+				window.location.reload();
+			} else alert("la reservation à échoué!");
+
+			// ;
+		});
 	};
 	const annulerReservation = () => {
 		console.log("valider");
@@ -73,6 +109,7 @@ const Reservation = () => {
 				<div className={styles.agence}>
 					<label> Agence de : </label>
 					<select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}>
+					{/* <select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}> */}
 						{etablissements.map((x, y) => (
 							<option key={y}>{x.nom}</option>
 						))}
@@ -113,9 +150,15 @@ const Reservation = () => {
 				</div>
 			</div>
 			<div className={styles.buttonGroup}>
-				<button className={styles.buttonValidation} onClick={validerReservation}>
-					Valider
-				</button>
+				{user ? (
+					<button className={styles.buttonReserver} onClick={validerReservation}>
+						Valider
+					</button>
+				) : (
+					<button className={styles.buttonReserverOpaque} onClick={() => alert("pour reserver, merci de vous connecter")}>
+						Valider
+					</button>
+				)}
 				<button className={styles.buttonAnnulation} onClick={annulerReservation}>
 					Annuler
 				</button>
