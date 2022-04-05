@@ -1,5 +1,6 @@
 const db = require("../models");
 const fs = require("fs");
+const sharp = require("sharp");
 
 const user = db.user;
 const role = db.role;
@@ -36,6 +37,42 @@ exports.getEtablissements = (req, res) => {
 };
 
 exports.postEtablissement = (req, res) => {
+
+
+	// for (let i = 0; i < data.images.length; i++) {
+	// 	sharp(__dirname + "/../../../client/src/uploads/" + data.images[i])
+	// 		.resize(200, 200)
+	// 		.toFile(__dirname + "/../../../client/src/uploads/min_" + data.images[i])
+	// 		.then((info) => {
+	// 			//rename fichier
+	// 			console.log("coucou");
+	// 			fs.rename(__dirname + "/../../../client/src/uploads/" + data.images[i], __dirname + "/../../../client/src/uploads/" + rnd + "_" + data.images[i], (err) => {
+	// 				if (err) throw err;
+	// 				else {
+	// 					console.log("REname complete");
+	// 				}
+	// 			});
+	// 			//rename fichier min
+	// 			fs.rename(__dirname + "/../../../client/src/uploads/min_" + data.images[i], __dirname + "/../../../client/src/uploads/min_" + rnd + "_" + data.images[i], (err) => {
+	// 				if (err) throw err;
+	// 				else {
+	// 					console.log("rename min complete");
+	// 				}
+	// 			});
+	// 		})
+	// 		.catch((err) => console.log(err));
+	// 	dataModified[i] = rnd + "_" + data.images[i];
+	// }
+	// console.log("dataModified");
+	// console.log(dataModified);
+
+
+
+
+
+
+
+
 	const { nom, description, adresse, ville,manager } = req.body;
 	console.log(req.body);
 	//pour chaque image uploadé, on crée une copie minifiée en taille puis on renomme les 2 avec une rnd pour eviter les noms de fichiers en doublons
@@ -46,13 +83,25 @@ exports.postEtablissement = (req, res) => {
 	console.log("data.images");
 	console.log(data);
 	for (let i = 0; i < data.images.length; i++) {
+		sharp(__dirname + "/../../../client/src/uploads/" + data.images[i])
+			.resize(450, 300)
+			.toFile(__dirname + "/../../../client/src/uploads/min_" + data.images[i])
+			.then((info) => {
 		fs.rename(__dirname + "/../../../client/src/uploads/" + data.images[i], __dirname + "/../../../client/src/uploads/" + rnd + "_" + data.images[i], (err) => {
 			if (err) throw err;
 			else {
 				console.log("REname complete");
 			}
 		});
-
+		//rename fichier min
+		fs.rename(__dirname + "/../../../client/src/uploads/min_" + data.images[i], __dirname + "/../../../client/src/uploads/min_" + rnd + "_" + data.images[i], (err) => {
+			if (err) throw err;
+			else {
+				console.log("rename min complete");
+			}
+		});
+	})
+	.catch((err) => console.log(err));
 		dataModified[i] = rnd + "_" + data.images[i];
 	}
 	console.log("dataModified");

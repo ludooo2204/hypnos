@@ -113,14 +113,18 @@ const Admin = () => {
 		console.log(manager);
 		console.log("manager origine");
 		console.log(managerOrigine);
-		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images: images.map((image) => (image.name ? image.name : image)) };
-		console.log("validerEtablissement");
-		console.log(etablissementData);
-		axios.patch("/admin/etablissement/" + etablissementChoisi.id, etablissementData)
-		.then(()=>axios.patch("/admin/etablissement/manager/"+etablissementChoisi.id,{userId:manager.id}))
-		.then(()=>axios.patch("/admin/userToManager/"+manager.id))
-		.then(()=>axios.patch("/admin/managerToUser/"+managerOrigine.id))
-		.then(()=>alert(`l'ancien manager ${managerOrigine.email} a été viré et ${manager.email} a été nommé !!`))
+		if (etablissementChoisi) {
+			const etablissementData = { nom, adresse, ville, description, manager: manager.id, images: images.map((image) => (image.name ? image.name : image)) };
+			console.log("validerEtablissement");
+			console.log(etablissementData);
+			axios
+				.patch("/admin/etablissement/" + etablissementChoisi.id, etablissementData)
+				.then(() => axios.patch("/admin/etablissement/manager/" + etablissementChoisi.id, { userId: manager.id }))
+				.then(() => axios.patch("/admin/userToManager/" + manager.id))
+				.then(() => axios.patch("/admin/managerToUser/" + managerOrigine.id))
+				.then(() => alert(`l'ancien manager ${managerOrigine.email} a été viré et ${manager.email} a été nommé !!`));
+		}
+		else {alert('Merci de choisir un établissement à modifier !')}
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");

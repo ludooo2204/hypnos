@@ -20,7 +20,7 @@ exports.getEtablissements = (req, res) => {
 			],
 		})
 		.then((etablissement) => {
-			console.log(JSON.stringify(etablissement, null, 2));
+			// console.log(JSON.stringify(etablissement, null, 2));
 			res.status(200).json({ etablissement });
 		});
 };
@@ -46,7 +46,7 @@ exports.postReservation = (req, res) => {
 			db.reservation.create({ dateDebut, dateFin, userId, suiteId }).then((e) => {
 				console.log("reservation créé !!");
 				console.log(JSON.stringify(e, null, 2));
-				res.status(200).json({ validation: "ok" });
+				res.status(200).json({ validation: "ok",dateDebut,dateFin });
 			});
 	});
 };
