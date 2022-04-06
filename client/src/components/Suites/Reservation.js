@@ -143,13 +143,13 @@ const navigate=useNavigate()
 						// inline
 						customInput={<CustomInput />}
 					/>
-					<label>Date de la première nuitée : </label>
+					<label>Première nuitée : </label>
 					{startDate && startDate.toLocaleDateString()}
 					{/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy"  startDate={startDate} locale="fr" includeDateIntervals={[{ start: subDays(new Date(), 5), end: addDays(new Date(), 5) },{ start: addDays(new Date(), 8), end: addDays(new Date(), 25) }]} selectsRange withPortal endDate={endDate} /> */}
 					{/* <input type="text" className={styles.inputText} value={nom} onChange={handleNom}></input> */}
 				</div>
 				<div className={styles.input}>
-					<label>Date de la dernière nuitée : </label>
+					<label>Dernière nuitée : </label>
 					{endDate && endDate.toLocaleDateString()}
 					{/* <DatePicker selected={endDate} onChange={(date) => setEndDate(date)}  dateFormat="dd/MM/yyyy" selectsEnd startDate={startDate} locale="fr" includeDateIntervals={[{ start: subDays(new Date(), 5), end: addDays(new Date(), 5) }]} withPortal endDate={endDate} minDate={startDate} /> */}
 					{/* <input type="text" className={styles.inputText} value={nom} onChange={handleNom}></input> */}

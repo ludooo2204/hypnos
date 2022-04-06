@@ -29,6 +29,21 @@ const fakeUsers = [
 		prenom: "paul",
 		email: "giroud@gmail.com",
 	},
+	{
+		nom: "Nada",
+		prenom: "rafa",
+		email: "rafa@gmail.com",
+	},
+	{
+		nom: "pistache",
+		prenom: "toto",
+		email: "pistaoche@gmail.com",
+	},
+	{
+		nom: "Cruise",
+		prenom: "Tom",
+		email: "tomcruise@gmail.com",
+	},
 ];
 const fakeEtablissements = [
 	{
@@ -72,7 +87,7 @@ const fakeEtablissements = [
 		adresse: "47 impasse marcel 86100 Angouleme",
 		ville: "Angouleme",
 		image: "min_etablissement_5.jpg",
-		userId: 2,
+		userId: 6,
 	},
 	{
 		nom: "Hotel de Nice",
@@ -81,7 +96,7 @@ const fakeEtablissements = [
 		ville: "Nice",
 		image: "min_etablissement_6.jpg",
 
-		userId: 3,
+		userId: 7,
 	},
 	{
 		nom: "Hotel de Strasbourg",
@@ -90,7 +105,7 @@ const fakeEtablissements = [
 		ville: "Strasbourg",
 		image: "min_etablissement_2.jpg",
 
-		userId: 4,
+		userId: 8,
 	},
 	{
 		nom: "Hotel de Lille",
@@ -99,7 +114,7 @@ const fakeEtablissements = [
 		ville: "Lille",
 		image: "min_etablissement_2.jpg",
 
-		userId: 5,
+		userId: 9,
 	},
 ];
 const fakeReservations = [

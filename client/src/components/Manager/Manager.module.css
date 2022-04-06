@@ -1,0 +1,197 @@
+.main {
+	background-color: #f1f1f1;
+	display: flex;
+	flex-direction: column;
+	height: 130vh;
+	align-items: center;
+	justify-content: center;
+}
+.mainAjout {
+	background-color: #f1f1f1;
+	display: flex;
+	flex-direction: column;
+	height: 140vh;
+	align-items: center;
+	justify-content: center;
+}
+.titre{
+	margin-top: 3REM;
+	font-family: trirong;
+
+}
+.agence {
+	flex: 0.5;
+	margin: 1rem 0;
+}
+.agence > label {
+	font-size: 2REM;
+	font-family: trirong;
+	font-weight: 600;
+}
+label{
+	font-size: 1.5REM;
+	font-family: trirong;
+
+}
+.inputs {
+	flex: 6;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	/* background-color: #efea5a; */
+	width: 80%;
+}
+.input {
+	flex: 1;
+	margin-top: 2.5rem;
+}
+.inputImage {
+	flex: 1;
+	/* width: 60VW; */
+	display: flex;
+	margin-top: 2.5rem;
+	/* margin-bottom: 25VH; */
+	/* background-color: bisque; */
+}
+.inputText {
+	position: absolute;
+	left: 29%;
+	width: 39vw;
+	height: 6vh;
+}
+.labelPresentation {
+	width: 18VW;
+	display:inline-block;
+	overflow-wrap: break-word;
+/* background-color: #fa63a4; */
+}
+.miniText {
+	font-size: 0.8rem;
+}
+.inputTextArea {
+	position: absolute;
+	left: 29%;
+	width: 39vw;
+	/* height: 6vh; */
+}
+.inputTextManager {
+	width: 15vw;
+}
+.userFinded{
+	/* list-style-type: none; */
+	position: fixed;
+	top:35vh;
+	left: 29%;
+	z-index: 3;
+	background: #fa63a4;
+	padding: 1rem;
+	border-radius: 0.5REM;
+}
+.userFindedLi:hover{
+	background: #5b5b5b;
+	color: #f1f1f1;
+}
+.inputLabelManager {
+	position: absolute;
+	left: 47%;
+}
+.ajoutImage {
+	width: 40VW;
+	display: flex;
+	justify-content: center;
+    align-items: flex-start;
+margin-top: 1REM;
+}
+
+.button {
+	margin: 1rem;
+	padding: 0.5rem;
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Trirong, serif;
+	/* opacity: 0.7; */
+	border-radius: 0.4rem;
+	font-size: 0.7rem;
+	background-color: #fa63a4;
+	/* position: relative; */
+	/* top: -25VH; */
+}
+.buttonAjoutEtablissement {
+	margin: 1rem;
+	padding: 0.5rem;
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Trirong, serif;
+	border-radius: 0.4rem;
+	font-weight: 600;
+	background-color: #fa63a4;
+	position: absolute;
+	top : 25VH;
+	right : 10VW;
+	width:8VW;
+	min-width:80px
+}
+.buttonSupprimerEtablissement {
+	margin: 1rem;
+	padding: 0.5rem;
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Trirong, serif;
+	font-weight: 600;
+	border-radius: 0.4rem;
+	background-color: #fa63a4;
+	position: absolute;
+	top : 40VH;
+	right : 10VW;
+	width:8VW;
+	min-width:80px
+
+}
+.selectAgence{
+	font-size: 2rem;
+	padding: 0.3rem;
+	border-radius: 0.2rem;
+}
+/* img{
+	width: 15VW;
+	height: 15VW;
+position: relative;
+left: 30%;
+	margin-top: 5%;
+	margin-left: 15%
+}  */
+.buttonValidation {
+	color: black;
+	height: 3rem;
+	line-height: 2rem;
+	background: #efea5a;
+	/* width: 30%; */
+	margin: 3rem auto;
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Trirong, serif;
+	font-size: 1.85rem;
+	border-radius: 0.55rem;
+	/* color: rgb(241, 239, 239); */
+}
+.buttonAnnulation {
+	color: black;
+	height: 3rem;
+	line-height: 2rem;
+	background: #efea5a60;
+	/* width: 30%; */
+	margin: 3rem auto;
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Trirong, serif;
+	font-size: 1.85rem;
+	border-radius: 0.55rem;
+	/* color: rgb(241, 239, 239); */
+}
+.buttonGroup{
+	width: 80%;
+	display: flex;
+	
+	/* background-color: #e14444; */
+}

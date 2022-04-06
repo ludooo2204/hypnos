@@ -128,6 +128,10 @@ mysql
 								.create({ nom: fakeEtablissement.nom, description: fakeEtablissement.description, adresse: fakeEtablissement.adresse, ville: fakeEtablissement.ville, image: fakeEtablissement.image, userId: fakeEtablissement.userId })
 								.then((a) => {
 									console.log("un etablissement a été crée");
+									console.log(JSON.stringify(a, null, 2));
+									db.sequelize.models.user_roles.create({ userId: a.userId, roleId: 2 }).then((e) => {
+										console.log("role manager!!");
+									});
 								})
 								.catch((err) => console.log("errrrrrrrrrrrrrrr", err));
 						}

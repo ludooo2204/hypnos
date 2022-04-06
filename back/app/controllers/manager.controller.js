@@ -18,7 +18,7 @@ exports.getSuites = (req, res) => {
 		})
 		.then((suite) => {
 			console.log(JSON.stringify(suite, null, 2));
-			res.status(200).json({ message: suite });
+			res.status(200).json({ suite });
 		});
 };
 
@@ -34,7 +34,7 @@ exports.postSuite = (req, res) => {
 		.then((suite) => {
 			console.log("suite créé !!");
 			console.log(JSON.stringify(suite, null, 2));
-			res.status(200).json({ message: suite });
+			res.status(200).json({ suite });
 		});
 };
 exports.deleteSuite = (req, res) => {
@@ -45,7 +45,7 @@ exports.deleteSuite = (req, res) => {
 		.then((suite) => {
 			console.log("suite créé !!");
 			console.log(JSON.stringify(suite, null, 2));
-			res.status(200).json({ message: suite });
+			res.status(200).json({ suite });
 		});
 };
 exports.updateSuite = (req, res) => {
@@ -65,6 +65,6 @@ exports.updateSuite = (req, res) => {
 		.then((suite) => {
 			console.log("suite modifiée !!");
 			console.log(JSON.stringify(suite, null, 2));
-			res.status(200).json({ message: suite });
+			res.status(200).json({  suite });
 		});
 };
