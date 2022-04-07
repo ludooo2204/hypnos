@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import React, { forwardRef, useEffect, useState } from "react";
-import styles from "./Suites.module.css";
+import styles from "../Suites/Suites.module.css";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import { registerLocale, setDefaultLocale } from "react-datepicker";

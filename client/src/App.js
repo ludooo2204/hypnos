@@ -6,9 +6,10 @@ import AjoutEtablissement from "./components/Admin/AjoutEtablissement";
 import Etablissements from "./components/Etablissements/Etablissements";
 import Suites from "./components/Suites/Suites";
 import Suite from "./components/Suites/Suite";
-import Reservation from "./components/Suites/Reservation";
+import Reservation from "./components/User/Reservation";
 import Manager from "./components/Manager/Manager";
 import AjoutSuite from "./components/Manager/AjoutSuite";
+import MesReservations from "./components/User/MesReservations";
 // import RenouvellerPassword from "./RenouvellerPassword/RenouvellerPassword";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
 				<Route path="/suites" element={<Suites />} />
 				<Route path="/suite" element={<Suite />} />
 				<Route path="/reservation" element={<Reservation user={user}  />} />
+				<Route path="/mesReservations" element={<MesReservations user={user}  />} />
 				{/* <Route path="contact" element={<Contact />} />  */}
 			</Routes>
 		</Router>

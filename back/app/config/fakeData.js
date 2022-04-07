@@ -44,6 +44,11 @@ const fakeUsers = [
 		prenom: "Tom",
 		email: "tomcruise@gmail.com",
 	},
+	{
+		nom: "a",
+		prenom: "a",
+		email: "a",
+	},
 ];
 const fakeEtablissements = [
 	{
@@ -121,25 +126,25 @@ const fakeReservations = [
 	{
 		dateDebut: new Date("04/01/2022 12:00:00"),
 		dateFin: new Date("04/05/2022 12:00:00"),
-		userId: 2,
+		userId: 11,
 		suiteId: 1,
 	},
 	{
 		dateDebut: new Date("04/08/2022 12:00:00"),
 		dateFin: new Date("04/12/2022 12:00:00"),
-		userId: 3,
+		userId: 11,
 		suiteId: 1,
 	},
 	{
 		dateDebut: new Date("04/17/2022 12:00:00"),
 		dateFin: new Date("04/28/2022 12:00:00"),
-		userId: 4,
+		userId: 11,
 		suiteId: 1,
 	},
 	{
 		dateDebut: new Date("02/03/2021 12:00:00"),
 		dateFin: new Date("02/05/2021 12:00:00"),
-		userId: 2,
+		userId: 11	,
 		suiteId: 2,
 	},
 	{

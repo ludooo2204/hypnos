@@ -24,6 +24,26 @@ exports.getEtablissements = (req, res) => {
 			res.status(200).json({ etablissement });
 		});
 };
+exports.getReservationsByUser = (req, res) => {
+	db.reservation
+		.findAll({
+			model: db.reservation,
+			attributes: { exclude: ["createdAt", "updatedAt", "userId"] },
+			where:{userId: req.params.id},
+			include: [
+				{
+					model: db.suite,
+					attributes: { exclude: ["createdAt", "updatedAt"] },
+					include: [
+					],
+				},
+			],
+		})
+		.then((reservations) => {
+			// console.log(JSON.stringify(etablissement, null, 2));
+			res.status(200).json({ reservations });
+		});
+};
 
 // router.post("/reservation", controller.postReservation);
 exports.postReservation = (req, res) => {

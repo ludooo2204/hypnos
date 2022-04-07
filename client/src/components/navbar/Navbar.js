@@ -36,7 +36,8 @@ const Navbar = ({userGlobal}) => {
 	const [userConnected, setUserConnected] = useState(null);
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [isAdmin, setAdmin] = useState(false);
-	const [IsManager, setManager] = useState(false);
+	const [isManager, setManager] = useState(false);
+	const [isUser, setUser] = useState(false);
 	const [navBg, setNavBg] = React.useState(styles.navBg1);
 	const location = useLocation();
 	React.useEffect(() => {
@@ -80,11 +81,15 @@ const Navbar = ({userGlobal}) => {
 			console.log("ROLE ADMIN");
 			setAdmin(true);
 		}
-		if (user.roles.includes("ROLE_MANAGER")) {
+		else if (user.roles.includes("ROLE_MANAGER")) {
 			console.log("ROLE MANAGER");
 			setManager(true);
 		}
-		setUserConnected(user.username);
+		else if (user.roles.includes("ROLE_USER")) {
+			console.log("ROLE USER");
+			setUser(true);
+		}
+		setUserConnected(true);
 		userGlobal(user)
 	};
 	const seDeconnecter = () => {
@@ -131,10 +136,17 @@ const Navbar = ({userGlobal}) => {
 							</Link>
 						</li>
 					)}
-					{IsManager && (
+					{isManager && (
 						<li>
 							<Link to="/manager" className={styles.text}>
 								Section Manager
+							</Link>
+						</li>
+					)}
+					{isUser && (
+						<li>
+							<Link to="/mesReservations" className={styles.text}>
+								Mes réservations
 							</Link>
 						</li>
 					)}
