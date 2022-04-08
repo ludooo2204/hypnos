@@ -7,7 +7,7 @@ let user_route = require("./user.routes");
 // let forgotPassword = require("./forgotPassword.routes");
 // let forgotLogin = require("./forgotLogin.routes");
 // let resetPassword = require("./resetPassword.routes");
-// let signinAuto_route = require("./signinAuto.routes");
+let signinAuto_route = require("./signinAuto.routes");
 
 module.exports = function (app) {
 	app.use(function (req, res, next) {
@@ -22,7 +22,8 @@ module.exports = function (app) {
 	// app.use("/api/reset-password", resetPassword);
 	
 	// partie utilisateur connecté
-	// app.use("/api/signinAuto", [authJwt.verifyToken, authJwt.isAdmin], signinAuto_route);
+	app.use("/auth/signinAuto", [authJwt.verifyToken], signinAuto_route);
+	// app.use("/auth/signinAuto", signinAuto_route);
 
 	// partie Admin
 	// app.use("/api/admin/tags", [authJwt.verifyToken, authJwt.isAdmin], tag_route);

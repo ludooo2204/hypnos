@@ -10,7 +10,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Modal from "react-modal";
 import styles from "./Navbar.module.css";
 import LoginForm from "../LoginForm/LoginForm";
-import axios from "axios";
 const customStyles = {
 	content: {
 		top: "50%",
@@ -32,7 +31,7 @@ const customStyles = {
 
 Modal.setAppElement("body");
 
-const Navbar = ({userGlobal}) => {
+const Navbar = ({ userGlobal, userProp }) => {
 	const [userConnected, setUserConnected] = useState(null);
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [isAdmin, setAdmin] = useState(false);
@@ -46,7 +45,27 @@ const Navbar = ({userGlobal}) => {
 		} else {
 			setNavBg(styles.navBg2);
 		}
+
+	
 	}, [location]);
+	React.useEffect(() => {
+		if (userProp) {
+			console.log("userProp");
+			console.log(userProp);
+			setUserConnected(true);
+			if (userProp.roles.includes("ROLE_ADMIN")) {
+				console.log("ROLE ADMIN");
+				setAdmin(true);
+			} else if (userProp.roles.includes("ROLE_MANAGER")) {
+				console.log("ROLE MANAGER");
+				setManager(true);
+			} else if (userProp.roles.includes("ROLE_USER")) {
+				console.log("ROLE USER");
+				setUser(true);
+			}
+		}
+	
+	}, [userProp]);
 	// useEffect(() => {
 	// 	if (defaultIsOpen) setIsOpen(true);
 	// }, []);
@@ -57,16 +76,30 @@ const Navbar = ({userGlobal}) => {
 	// 			"content-type": "application/json",
 	// 		},
 	// 	};
+	// 	console.log("headers!!")
+	// 	console.log("headers!!")
+	// 	console.log("headers!!")
+	// 	console.log(header)
 	// 	axios
-	// 		.get("/api/signinAuto", header)
+	// 		.get("/auth/signinAuto", header)
 	// 		// .get("/api/sendmail")
-	// 		.then((e) => {
+	// 		.then((user) => {
 	// 			console.log("signinauto");
-	// 			console.log(e.data);
-	// 			setUserConnected(e.data.username);
-	// 			setUser(e.data);
+	// 			console.log(user.data);
+	// 			setUserConnected(true);
+	// 			if (user.data.roles.includes("ROLE_ADMIN")) {
+	// 				console.log("ROLE ADMIN");
+	// 				setAdmin(true);
+	// 			}
+	// 			else if (user.data.roles.includes("ROLE_MANAGER")) {
+	// 				console.log("ROLE MANAGER");
+	// 				setManager(true);
+	// 			}
+	// 			else if (user.data.roles.includes("ROLE_USER")) {
+	// 				console.log("ROLE USER");
+	// 				setUser(true);
+	// 			}
 
-	// 			isAdmin(true);
 	// 		})
 	// 		.catch((err) => console.log("bye", err));
 	// }, []);
@@ -80,19 +113,18 @@ const Navbar = ({userGlobal}) => {
 		if (user.roles.includes("ROLE_ADMIN")) {
 			console.log("ROLE ADMIN");
 			setAdmin(true);
-		}
-		else if (user.roles.includes("ROLE_MANAGER")) {
+		} else if (user.roles.includes("ROLE_MANAGER")) {
 			console.log("ROLE MANAGER");
 			setManager(true);
-		}
-		else if (user.roles.includes("ROLE_USER")) {
+		} else if (user.roles.includes("ROLE_USER")) {
 			console.log("ROLE USER");
 			setUser(true);
 		}
 		setUserConnected(true);
-		userGlobal(user)
+		userGlobal(user);
 	};
 	const seDeconnecter = () => {
+		window.localStorage.removeItem("token");
 		setUserConnected(null);
 		window.location.reload(false);
 	};

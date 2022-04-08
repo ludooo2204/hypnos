@@ -128,7 +128,7 @@ mysql
 								.create({ nom: fakeEtablissement.nom, description: fakeEtablissement.description, adresse: fakeEtablissement.adresse, ville: fakeEtablissement.ville, image: fakeEtablissement.image, userId: fakeEtablissement.userId })
 								.then((a) => {
 									console.log("un etablissement a été crée");
-									console.log(JSON.stringify(a, null, 2));
+									// console.log(JSON.stringify(a, null, 2));
 									db.sequelize.models.user_roles.create({ userId: a.userId, roleId: 2 }).then((e) => {
 										console.log("role manager!!");
 									});
@@ -172,8 +172,8 @@ mysql
 		//   console.log('Drop and Resync Database with { force: true }');
 
 		// routes
-		require("./app/routes/auth.routes")(app);
 		require("./app/routes/all.routes")(app);
+		require("./app/routes/auth.routes")(app);
 	});
 
 // set port, listen for requests

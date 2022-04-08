@@ -23,16 +23,37 @@ verifyToken = (req, res, next) => {
       });
     }
     console.log("token decodé !")
-    req.userId = decoded.id;
-    req.username = decoded.username;
-    next();
+    let rolesTemp=[]
+    User.findByPk(decoded.id).then(user => {
+      console.log(JSON.stringify(user,null,2))
+  
+      user.getRoles().then(roles => {
+        console.log(JSON.stringify(roles,null,2))
+        for (let i = 0; i < roles.length; i++) {
+          rolesTemp.push(roles[i].name)
+        }
+  
+        req.roles=rolesTemp
+        req.userId = decoded.id;
+        req.email = decoded.email;
+        // req.password = decoded.password;
+
+        next();
+
+      });
+    });
+   
   });
 };
 isAdmin = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
+      console.log(JSON.stringify(roles,null,2))
+
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "admin") {
+          req.roles = roles[i].name;
+
           next();
           return;
         }
@@ -44,9 +65,30 @@ isAdmin = (req, res, next) => {
     });
   });
 };
+isManager = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+    user.getRoles().then(roles => {
+      console.log(JSON.stringify(roles,null,2))
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "manager") {
+          req.roles = roles[i].name;
+
+          next();
+          return;
+        }
+      }
+      res.status(403).send({
+        message: "Require Manager Role!"
+      });
+      return;
+    });
+  });
+};
+
 
 const authJwt = {
-  verifyToken: verifyToken,
-  isAdmin: isAdmin,
+  verifyToken,
+  isAdmin,
+  isManager,
 };
 module.exports = authJwt;
