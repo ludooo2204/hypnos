@@ -16,6 +16,8 @@
 	font-size: calc(20px + 0.8vw);
 	color: #f1f1f1;
 	font-family: Parisienne;
+	animation: apparition 6s;
+     
 }
 .logoHypnos {
 	position: absolute;
@@ -27,4 +29,15 @@
 	background-size: contain;
     background-repeat: no-repeat;
 	background-position: center;
+	animation: apparition 6s ;
+}
+@keyframes apparition {
+    from {
+       
+        opacity: 0;
+    }
+    to {
+       
+        opacity: 1;
+    }
 }

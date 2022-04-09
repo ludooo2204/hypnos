@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import Navbar from "./components/navbar/Navbar";
@@ -15,17 +15,19 @@ import MesReservations from "./components/User/MesReservations";
 // import RenouvellerPassword from "./RenouvellerPassword/RenouvellerPassword";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 const App = () => {
-const [user, setuserGlobal] = useState(null)
-const [userData, setUserData] = useState(null)
-const [userConnected, setUserConnected] = useState(null);
+	const [userData, setUserData] = useState(null);
+	// const [userConnected, setUserConnected] = useState(null);
 
-	console.log("user from App")
-	const setUserF=(aa)=>{
-		console.log("aa")
-		console.log(aa)
-		setuserGlobal(aa)
-	}
+	console.log("user from App");
+	const setUserFromNavBar = (user) => {
+		console.log("user connecté depuis la navbar !!!!");
+		console.log("user connecté depuis la navbar !!!!");
+		console.log("user connecté depuis la navbar !!!!");
+		console.log("user connecté depuis la navbar !!!!");
+		console.log(user);
+		// setUserData(user.data);
 
+	};
 
 	useEffect(() => {
 		const header = {
@@ -34,27 +36,27 @@ const [userConnected, setUserConnected] = useState(null);
 				"content-type": "application/json",
 			},
 		};
-		console.log("headers!!")
-		console.log("headers!!")
-		console.log("headers!!")
-		console.log(header)
+		console.log("headers!!");
+		console.log("headers!!");
+		console.log("headers!!");
+		console.log(header);
 		axios
 			.get("/auth/signinAuto", header)
 			// .get("/api/sendmail")
 			.then((user) => {
 				console.log("signinauto");
-				console.log(user.data)
+				console.log(user.data);
 				setUserData(user.data);
-				setUserConnected(true);
-			
-
+				// setUserConnected(true);
 			})
 			.catch((err) => console.log("bye", err));
 	}, []);
 
 	return (
 		<Router>
-            <Navbar   userGlobal={setUserF} userProp={userData}/>
+			<Navbar
+			 userGlobal={setUserFromNavBar} 
+			 userProp={userData} />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/admin" element={<Admin />} />
@@ -64,8 +66,8 @@ const [userConnected, setUserConnected] = useState(null);
 				<Route path="/etablissements" element={<Etablissements />} />
 				<Route path="/suites" element={<Suites />} />
 				<Route path="/suite" element={<Suite />} />
-				<Route path="/reservation" element={<Reservation user={user}  />} />
-				<Route path="/mesReservations" element={<MesReservations user={userData}  />} />
+				<Route path="/reservation" element={<Reservation user={userData} />} />
+				<Route path="/mesReservations" element={<MesReservations user={userData} />} />
 				{/* <Route path="contact" element={<Contact />} />  */}
 			</Routes>
 		</Router>

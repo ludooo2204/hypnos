@@ -20,13 +20,20 @@ const Reservation = ({ user }) => {
 	const [etablissementChoisi, setEtablissementChoisi] = useState(null);
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
-const navigate=useNavigate()
+	const navigate = useNavigate();
+
+	console.log("user from RESERVAZTION");
+	console.log("user from RESERVAZTION");
+	console.log("user from RESERVAZTION");
+	console.log("user from RESERVAZTION");
+	console.log("user from RESERVAZTION");
+	console.log(user);
 	const { state } = useLocation();
 	// console.log("state from resa");
 	// console.log(state);
 	useEffect(() => {
 		axios.get("user/etablissements").then((_etablissements) => {
-			console.log("refresh from useEffet")
+			console.log("refresh from useEffet");
 			let etablissementsTemp = _etablissements.data.etablissement;
 			etablissementsTemp.unshift({ nom: "---" });
 			setEtablissements(etablissementsTemp);
@@ -54,10 +61,9 @@ const navigate=useNavigate()
 	}, [etablissementChoisi]);
 	useEffect(() => {
 		if (suiteChoisi) {
-			console.log(suiteChoisi	)
+			console.log(suiteChoisi);
 			let resaTemp = [];
 			for (const resa of suiteChoisi.reservations) {
-			
 				resaTemp.push({ start: new Date(resa.dateDebut).setDate(new Date(resa.dateDebut).getDate() - 1), end: new Date(resa.dateFin) });
 			}
 			setReservations(resaTemp);
@@ -85,11 +91,11 @@ const navigate=useNavigate()
 		console.log("valider");
 		console.log("suiteChoisi");
 		console.log(suiteChoisi);
-		console.log("user id == ", user.userId);
-		axios.post("/user/reservation", { dateDebut: startDate, dateFin: endDate, userId: user.userId, suiteId: suiteChoisi.id }).then((e) => {
+		console.log("user id == ", user.id);
+		axios.post("/user/reservation", { dateDebut: startDate, dateFin: endDate, userId: user.id, suiteId: suiteChoisi.id }).then((e) => {
 			if (e.data.validation === "ok") {
-				alert("la reservation à été validé du "+new Date(e.data.dateDebut).toLocaleDateString()+" au "+new Date(e.data.dateFin).toLocaleDateString());
-				navigate('../')
+				alert("la reservation à été validé du " + new Date(e.data.dateDebut).toLocaleDateString() + " au " + new Date(e.data.dateFin).toLocaleDateString());
+				navigate("../");
 			} else alert("la reservation à échoué!");
 
 			// ;
@@ -100,12 +106,12 @@ const navigate=useNavigate()
 	};
 	const onChangeDate = (dates) => {
 		const [start, end] = dates;
-		console.log(start)
+		console.log(start);
 		// if (start) start.setHours(0);
-		console.log(start)
-		console.log(end)
+		console.log(start);
+		console.log(end);
 		// if (end) end.setHours(0);
-		console.log(end)
+		console.log(end);
 		setStartDate(start);
 		setEndDate(end);
 	};
@@ -115,7 +121,7 @@ const navigate=useNavigate()
 				<div className={styles.agence}>
 					<label> Agence de : </label>
 					<select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}>
-					{/* <select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}> */}
+						{/* <select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}> */}
 						{etablissements.map((x, y) => (
 							<option key={y}>{x.nom}</option>
 						))}
@@ -125,7 +131,7 @@ const navigate=useNavigate()
 			<div className={styles.inputs}>
 				<div className={styles.input}>
 					<label>Suites </label>
-					<select className={styles.selectAgence} value={suiteChoisi?suiteChoisi.nom:"suiteChoisi"} onChange={handleChangeSuite}>
+					<select className={styles.selectAgence} value={suiteChoisi ? suiteChoisi.nom : "suiteChoisi"} onChange={handleChangeSuite}>
 						{suites && suites.map((x, y) => <option key={y}>{x.nom}</option>)}
 					</select>
 				</div>

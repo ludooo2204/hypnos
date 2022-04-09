@@ -45,11 +45,12 @@ const Navbar = ({ userGlobal, userProp }) => {
 		} else {
 			setNavBg(styles.navBg2);
 		}
-
-	
 	}, [location]);
 	React.useEffect(() => {
 		if (userProp) {
+			console.log("userProp ");
+			console.log("userProp");
+			console.log("userProp");
 			console.log("userProp");
 			console.log(userProp);
 			setUserConnected(true);
@@ -64,52 +65,10 @@ const Navbar = ({ userGlobal, userProp }) => {
 				setUser(true);
 			}
 		}
-	
 	}, [userProp]);
-	// useEffect(() => {
-	// 	if (defaultIsOpen) setIsOpen(true);
-	// }, []);
-	// useEffect(() => {
-	// 	const header = {
-	// 		headers: {
-	// 			"x-access-Token": window.localStorage.getItem("token"),
-	// 			"content-type": "application/json",
-	// 		},
-	// 	};
-	// 	console.log("headers!!")
-	// 	console.log("headers!!")
-	// 	console.log("headers!!")
-	// 	console.log(header)
-	// 	axios
-	// 		.get("/auth/signinAuto", header)
-	// 		// .get("/api/sendmail")
-	// 		.then((user) => {
-	// 			console.log("signinauto");
-	// 			console.log(user.data);
-	// 			setUserConnected(true);
-	// 			if (user.data.roles.includes("ROLE_ADMIN")) {
-	// 				console.log("ROLE ADMIN");
-	// 				setAdmin(true);
-	// 			}
-	// 			else if (user.data.roles.includes("ROLE_MANAGER")) {
-	// 				console.log("ROLE MANAGER");
-	// 				setManager(true);
-	// 			}
-	// 			else if (user.data.roles.includes("ROLE_USER")) {
-	// 				console.log("ROLE USER");
-	// 				setUser(true);
-	// 			}
-
-	// 		})
-	// 		.catch((err) => console.log("bye", err));
-	// }, []);
 
 	const seConnecter = (user) => {
-		console.log("user");
-		console.log(user);
-		console.log("user.roles");
-		console.log(user.roles);
-		// setUsername(user.username)
+
 		if (user.roles.includes("ROLE_ADMIN")) {
 			console.log("ROLE ADMIN");
 			setAdmin(true);
@@ -122,6 +81,7 @@ const Navbar = ({ userGlobal, userProp }) => {
 		}
 		setUserConnected(true);
 		userGlobal(user);
+		window.location.reload()
 	};
 	const seDeconnecter = () => {
 		window.localStorage.removeItem("token");
