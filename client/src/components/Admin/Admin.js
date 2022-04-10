@@ -74,9 +74,9 @@ const Admin = () => {
 			setModalUserFindedVisible(false);
 		} else {
 			console.log("users");
-			console.log(users.users);
+			const usersOnlyUser=(users.users.filter((user)=>user.roles.length==1));
 			const resultatDeRecherche = matchSorter(
-				users.users,
+				usersOnlyUser,
 				// users.users.map((user) => user.email),
 				e.target.value,
 				{ keys: ["email"] }
@@ -114,7 +114,7 @@ const Admin = () => {
 		console.log("manager origine");
 		console.log(managerOrigine);
 		if (etablissementChoisi) {
-			const etablissementData = { nom, adresse, ville, description, manager: manager.id, images: images.map((image) => (image.name ? image.name : image)) };
+			const etablissementData = { nom, adresse, ville, description, manager: manager.id, image: images.map((image) => (image.name ? image.name : image))[0] };
 			console.log("validerEtablissement");
 			console.log(etablissementData);
 			axios
@@ -122,9 +122,13 @@ const Admin = () => {
 				.then(() => axios.patch("/admin/etablissement/manager/" + etablissementChoisi.id, { userId: manager.id }))
 				.then(() => axios.patch("/admin/userToManager/" + manager.id))
 				.then(() => axios.patch("/admin/managerToUser/" + managerOrigine.id))
-				.then(() => alert(`l'ancien manager ${managerOrigine.email} a été viré et ${manager.email} a été nommé !!`));
+				.then(() => {
+					alert("Les modifications ont été sauvegardée !");
+					navigate("../");
+				});
+		} else {
+			alert("Merci de choisir un établissement à modifier !");
 		}
-		else {alert('Merci de choisir un établissement à modifier !')}
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");

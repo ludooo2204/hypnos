@@ -10,7 +10,8 @@
 }
 .titre {
 	font-family: Parisienne;
-	margin: 1rem auto;
+	margin: 0 auto;
+	margin-top: 3%;
 	font-size: 3rem;
 	/* color: #5b5b5b; */
 	font-weight: 500;
@@ -31,30 +32,36 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	margin-bottom: 0 3%;
 }
 
-.main {
+/* .main {
 	background-color: #f1f1f1;
 	display: flex;
-	flex-wrap: wrap;
+
+	min-height: 92vh;
+
 	justify-content: center;
-}
+	flex-direction: column;
+} */
 .mainSuite {
 	background-color: #f1f1f1;
 	display: flex;
-	min-height: 92VH;
+	min-height: 92vh;
 	justify-content: center;
 	flex-direction: column;
 }
 .photoSuite {
 	height: auto;
 	width: 30%;
-	margin: 1%;
+	margin: 3% 1%;
 }
-.infoEtablissement{
-   list-style:  none;
-   font-family: Trirong;
-   font-size: 1.5rem;
+.infoEtablissement {
+	list-style: none;
+	font-family: Trirong;
+	font-size: 1.5rem;
+	text-align: center;
+	margin-bottom: 5%;
 }
 .photo {
 	height: 100%;
@@ -62,7 +69,6 @@
 }
 .bookingLien {
 	font-weight: 500;
-	
 }
 .buttonReserver {
 	color: black;
@@ -91,13 +97,13 @@
 	opacity: 0.5;
 	/* color: rgb(241, 239, 239); */
 }
-.infoSuite{
+.infoSuite {
 	display: flex;
 	align-items: center;
-justify-content: space-between;
-padding: 0 5%;
+	justify-content: space-between;
+	padding: 0 5%;
 }
-.mainResa{
+.mainResa {
 	background-color: #f1f1f1;
 	display: flex;
 	flex-direction: column;
@@ -105,6 +111,35 @@ padding: 0 5%;
 	align-items: center;
 	justify-content: center;
 }
-.datePicker{
-	background-color: #fa63a4;
+.datePicker {
+	background-color: #fa63a440;
+	margin: 2rem;
+	padding: 1rem;
+	font-size: 1.5rem;
+	border-radius: 1rem;
+	transition: all 0.2s;
+
+}
+.datePicker:hover {
+transform: scale(1.03);
+}
+
+.selectAgence {
+	font-size: 2rem;
+	padding: 0.3rem;
+	border-radius: 0.2rem;
+	min-width: 25VW;
+}
+.calendarIcon {
+	font-size: 1.5rem !important;
+}
+.input {
+	margin: 2rem;
+}
+.inputwithSelect {
+	text-align: end;
+	margin: 2rem;
+}
+.datePickerContainer {
+	margin: 0 auto;
 }

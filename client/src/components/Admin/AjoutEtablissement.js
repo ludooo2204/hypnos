@@ -74,12 +74,10 @@ const Admin = () => {
 		setManager(e);
 	};
 	const validerEtablissement = () => {
-		console.log("images");
-		console.log(images);
 		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images: images.map((image) => (image.name ? image.name : image)) };
-		console.log("validerEtablissement");
-		console.log(etablissementData);
-		axios.post("/admin/etablissement", etablissementData).then(navigate("../"));
+		axios.post("/admin/etablissement", etablissementData)
+		.then(() => axios.patch("/admin/userToManager/" + manager.id))
+		.then(navigate("../"));
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");

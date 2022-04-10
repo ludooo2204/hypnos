@@ -22,27 +22,16 @@ const Reservation = ({ user }) => {
 	const [endDate, setEndDate] = useState(new Date());
 	const navigate = useNavigate();
 
-	console.log("user from RESERVAZTION");
-	console.log("user from RESERVAZTION");
-	console.log("user from RESERVAZTION");
-	console.log("user from RESERVAZTION");
-	console.log("user from RESERVAZTION");
-	console.log(user);
 	const { state } = useLocation();
-	// console.log("state from resa");
-	// console.log(state);
 	useEffect(() => {
 		axios.get("user/etablissements").then((_etablissements) => {
-			console.log("refresh from useEffet");
 			let etablissementsTemp = _etablissements.data.etablissement;
 			etablissementsTemp.unshift({ nom: "---" });
 			setEtablissements(etablissementsTemp);
-			// setEtablissements(_etablissements.data.etablissement);
 			if (state) {
 				setSuites(_etablissements.data.etablissement.filter((e) => e.id === state.etablissementId)[0].suites);
 				setEtablissementChoisi(_etablissements.data.etablissement.filter((e) => e.id === state.id)[0]);
 				setSuiteChoisi(state);
-				// setSuiteChoisi(state.nom);
 				const resaSuiteChoisi = _etablissements.data.etablissement.filter((e) => e.id === state.id)[0].suites.filter((_suite) => _suite.id === state.id)[0].reservations;
 				let resaTemp = [];
 				for (const resa of resaSuiteChoisi) {
@@ -61,7 +50,7 @@ const Reservation = ({ user }) => {
 	}, [etablissementChoisi]);
 	useEffect(() => {
 		if (suiteChoisi) {
-			console.log(suiteChoisi);
+			// console.log(suiteChoisi);
 			let resaTemp = [];
 			for (const resa of suiteChoisi.reservations) {
 				resaTemp.push({ start: new Date(resa.dateDebut).setDate(new Date(resa.dateDebut).getDate() - 1), end: new Date(resa.dateFin) });
@@ -72,26 +61,26 @@ const Reservation = ({ user }) => {
 	// const { id, nom, UrlBooking, description, images, etablissementId, imageMiseEnAvant, prix } = state;
 	const CustomInput = forwardRef(({ onClick }, ref) => (
 		<button className={styles.datePicker} onClick={onClick} ref={ref}>
-			<CalendarMonthIcon /> Nuitées à choisir
+			<CalendarMonthIcon sx={{ fontSize:"3rem",color:"#fa63a4" }} /> Nuitées à choisir
 		</button>
 	));
 	const handleChangeEtablissement = (e) => {
-		console.log(etablissements);
-		console.log(e.target.value);
-		console.log(etablissements.filter((element) => element.nom == e.target.value)[0]);
+		// console.log(etablissements);
+		// console.log(e.target.value);
+		// console.log(etablissements.filter((element) => element.nom == e.target.value)[0]);
 		setEtablissementChoisi(etablissements.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const handleChangeSuite = (e) => {
-		console.log(suiteChoisi);
-		console.log(e.target.value);
-		console.log(suites.filter((element) => element.nom == e.target.value)[0]);
+		// console.log(suiteChoisi);
+		// console.log(e.target.value);
+		// console.log(suites.filter((element) => element.nom == e.target.value)[0]);
 		setSuiteChoisi(suites.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const validerReservation = () => {
-		console.log("valider");
-		console.log("suiteChoisi");
-		console.log(suiteChoisi);
-		console.log("user id == ", user.id);
+		// console.log("valider");
+		// console.log("suiteChoisi");
+		// console.log(suiteChoisi);
+		// console.log("user id == ", user.id);
 		axios.post("/user/reservation", { dateDebut: startDate, dateFin: endDate, userId: user.id, suiteId: suiteChoisi.id }).then((e) => {
 			if (e.data.validation === "ok") {
 				alert("la reservation à été validé du " + new Date(e.data.dateDebut).toLocaleDateString() + " au " + new Date(e.data.dateFin).toLocaleDateString());
@@ -106,36 +95,29 @@ const Reservation = ({ user }) => {
 	};
 	const onChangeDate = (dates) => {
 		const [start, end] = dates;
-		console.log(start);
-		// if (start) start.setHours(0);
-		console.log(start);
-		console.log(end);
-		// if (end) end.setHours(0);
-		console.log(end);
 		setStartDate(start);
 		setEndDate(end);
 	};
 	return (
 		<div className={styles.mainResa}>
-			{etablissements && (
-				<div className={styles.agence}>
-					<label> Agence de : </label>
-					<select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}>
-						{/* <select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}> */}
-						{etablissements.map((x, y) => (
-							<option key={y}>{x.nom}</option>
-						))}
-					</select>
-				</div>
-			)}
 			<div className={styles.inputs}>
-				<div className={styles.input}>
+				{etablissements && (
+					<div className={styles.inputwithSelect}>
+						<label> Agence de : </label>
+						<select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}>
+							{/* <select className={styles.selectAgence} value={etablissementChoisi ? etablissementChoisi.nom : "---"} onChange={handleChangeEtablissement}> */}
+							{etablissements.map((x, y) => (
+								<option key={y}>{x.nom}</option>
+							))}
+						</select>
+					</div>
+				)}
+				<div className={styles.inputwithSelect}>
 					<label>Suites </label>
 					<select className={styles.selectAgence} value={suiteChoisi ? suiteChoisi.nom : "suiteChoisi"} onChange={handleChangeSuite}>
 						{suites && suites.map((x, y) => <option key={y}>{x.nom}</option>)}
 					</select>
 				</div>
-				<div className={styles.input}>
 					<DatePicker
 						selected={startDate}
 						onChange={onChangeDate}
@@ -146,9 +128,11 @@ const Reservation = ({ user }) => {
 						selectsRange
 						withPortal
 						excludeDateIntervals={reservations}
+						// className={styles.datePickerContainer}
 						// inline
 						customInput={<CustomInput />}
 					/>
+				<div className={styles.input}>
 					<label>Première nuitée : </label>
 					{startDate && startDate.toLocaleDateString()}
 					{/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy"  startDate={startDate} locale="fr" includeDateIntervals={[{ start: subDays(new Date(), 5), end: addDays(new Date(), 5) },{ start: addDays(new Date(), 8), end: addDays(new Date(), 25) }]} selectsRange withPortal endDate={endDate} /> */}
