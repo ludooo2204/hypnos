@@ -12,6 +12,7 @@ import Reservation from "./components/User/Reservation";
 import Manager from "./components/Manager/Manager";
 import AjoutSuite from "./components/Manager/AjoutSuite";
 import MesReservations from "./components/User/MesReservations";
+import Contact from "./components/Contact/Contact";
 // import RenouvellerPassword from "./RenouvellerPassword/RenouvellerPassword";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 const App = () => {
@@ -60,15 +61,15 @@ const App = () => {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/admin" element={<Admin />} />
-				<Route path="/AjoutSuite" element={<AjoutSuite />} />
-				<Route path="/manager" element={<Manager />} />
+				<Route path="/AjoutSuite" element={<AjoutSuite user={userData}/>} />
+				<Route path="/manager" element={<Manager user={userData}/>} />
 				<Route path="/AjoutEtablissement" element={<AjoutEtablissement />} />
 				<Route path="/etablissements" element={<Etablissements />} />
 				<Route path="/suites" element={<Suites />} />
 				<Route path="/suite" element={<Suite />} />
 				<Route path="/reservation" element={<Reservation user={userData} />} />
 				<Route path="/mesReservations" element={<MesReservations user={userData} />} />
-				{/* <Route path="contact" element={<Contact />} />  */}
+				<Route path="contact" element={<Contact user={userData}/>} /> 
 			</Routes>
 		</Router>
 	);

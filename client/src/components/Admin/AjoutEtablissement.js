@@ -111,7 +111,7 @@ const Admin = () => {
 					<label className={styles.inputLabelManager}> en tant que manager </label>
 				</div>
 				<div className={styles.input}>
-					<label>Nom : </label>
+					<label>Nom de l'établissement : </label>
 					<input type="text" className={styles.inputText} value={nom} onChange={handleNom}></input>
 				</div>
 				<div className={styles.input}>

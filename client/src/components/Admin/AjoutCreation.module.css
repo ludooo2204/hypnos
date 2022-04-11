@@ -30,6 +30,11 @@
 	flex-direction: row;
 	padding-bottom: 5%;
 }
+.ListeImagesGalerie {
+	flex-direction: column;
+	display: flex;
+	padding-bottom: 5%;
+}
 .svg1 {
 	display: flex;
 	width: 10%;
@@ -132,7 +137,7 @@
 	.inputFile + label:hover {
 		background-color: red;
 	} */
-.euro {
+/* .euro {
 	border: 0 inset #ccc;
 	width: 100%;
 	margin: 0 auto;
@@ -141,7 +146,6 @@
 .euro input {
 	border: 1px black solid;
 	text-align: right;
-	/* width: 100%; */
 	line-height: 2rem;
 }
 .tag {
@@ -188,4 +192,4 @@
 	right: 20%;
 	top: 35%;
 	width: auto;
-}
+} */

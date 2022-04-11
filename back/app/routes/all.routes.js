@@ -3,7 +3,7 @@ const { authJwt } = require("../middleware");
 let admin_route = require("./admin.routes");
 let manager_route = require("./manager.routes");
 let user_route = require("./user.routes");
-// let sendMail_route = require("./sendMail.routes");
+let sendMail_route = require("./sendMail.routes");
 // let forgotPassword = require("./forgotPassword.routes");
 // let forgotLogin = require("./forgotLogin.routes");
 // let resetPassword = require("./resetPassword.routes");
@@ -16,7 +16,7 @@ module.exports = function (app) {
 	});
 
 	// partie visiteur
-	// app.use("/api/sendmail", sendMail_route);
+	app.use("/sendmail", sendMail_route);
 	// app.use("/api/forgot-password", forgotPassword);
 	// app.use("/api/forgot-login", forgotLogin);
 	// app.use("/api/reset-password", resetPassword);

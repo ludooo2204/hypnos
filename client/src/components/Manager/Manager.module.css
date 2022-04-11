@@ -2,7 +2,7 @@
 	background-color: #f1f1f1;
 	display: flex;
 	flex-direction: column;
-	height: 130vh;
+	min-height: 95vh;
 	align-items: center;
 	justify-content: center;
 }
@@ -102,6 +102,13 @@ label{
 	justify-content: center;
     align-items: flex-start;
 margin-top: 1REM;
+}
+.ajoutImageGalerie {
+	width: 40VW;
+	display: flex;
+	justify-content: center;
+    align-items: flex-start;
+margin: 1REM;
 }
 
 .button {

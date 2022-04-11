@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import styles from "../Suites/Suites.module.css";
 
 const MesReservations = ({ user }) => {
 	const [mesReservations, setMesReservations] = useState(null);
@@ -31,17 +32,18 @@ const MesReservations = ({ user }) => {
 	};
 
 	return (
-		<div>
-			{mesReservations &&
-				mesReservations.map((resa, i) => (
-					<div>
-						{console.log( new Date().getTime() )}
-						{console.log(new Date(resa.dateDebut).getTime() )}
-						{console.log()}
-						{ ((new Date(resa.dateDebut).getTime()-new Date().getTime() )/86400000)>3  && <HighlightOffIcon onClick={() => onDelete(mesReservations[i])} />} {new Date(resa.dateDebut).toLocaleDateString()}-{new Date(resa.dateFin).toLocaleDateString()}-{resa.etablissement}-{resa.suite.nom}-
-					</div>
-				))}
-		</div>
+		<>
+			<div className={styles.header}>Vos reservations</div>
+			<div className={styles.mainMesResa}>
+				{mesReservations &&
+					mesReservations.map((resa, i) => (
+						<div className={styles.reservationItem}>
+							{(new Date(resa.dateDebut).getTime() - new Date().getTime()) / 86400000 > 3 && <HighlightOffIcon onClick={() => onDelete(mesReservations[i])} />} {new Date(resa.dateDebut).toLocaleDateString()} - {new Date(resa.dateFin).toLocaleDateString()} - {resa.etablissement} - {resa.suite.nom}
+							
+						</div>
+					))}
+			</div>
+		</>
 	);
 };
 

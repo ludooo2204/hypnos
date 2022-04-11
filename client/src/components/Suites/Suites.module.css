@@ -81,12 +81,14 @@
 	font-family: Trirong, serif;
 	font-size: 1.85rem;
 	border-radius: 0.55rem;
+	margin: 3rem 5rem;
 	/* color: rgb(241, 239, 239); */
 }
 .buttonReserverOpaque {
 	color: black;
 	height: 3rem;
 	line-height: 2rem;
+	margin: 3rem 5rem;
 	background: #efea5a;
 	/* width: 5%; */
 	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
@@ -95,6 +97,20 @@
 	font-size: 1.85rem;
 	border-radius: 0.55rem;
 	opacity: 0.5;
+	/* color: rgb(241, 239, 239); */
+}
+.buttonAnnulation {
+	color: black;
+	height: 3rem;
+	line-height: 2rem;
+	background: #efea5a60;
+	/* width: 30%; */
+	margin: 3rem 5rem;
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Trirong, serif;
+	font-size: 1.85rem;
+	border-radius: 0.55rem;
 	/* color: rgb(241, 239, 239); */
 }
 .infoSuite {
@@ -109,11 +125,16 @@
 	flex-direction: column;
 	min-height: 92vh;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
+}
+.mainMesResa {
+	background-color: #f1f1f1;
+	min-height: 82vh;
+	padding: 2rem
 }
 .datePicker {
 	background-color: #fa63a440;
-	margin: 2rem;
+	margin: 2rem ;
 	padding: 1rem;
 	font-size: 1.5rem;
 	border-radius: 1rem;
@@ -142,4 +163,30 @@ transform: scale(1.03);
 }
 .datePickerContainer {
 	margin: 0 auto;
+}
+.dateTexte{
+	font-size: 2REM;
+	font-weight: 600;
+	margin-left: 6rem;
+}
+.header{
+	width: 100VW;
+	height: 10VH;
+	background-color: #fa63a4;
+	font-family: Parisienne;
+	text-align: center;
+	font-size: 3rem;
+	/* color: #5b5b5b; */
+	font-weight: 500;
+	line-height: 10VH;
+
+}
+
+.reservationItem{
+	background-color: #5b5b5b10;
+	height: 6VH;
+	margin-bottom: 1rem;
+	border-radius: 0.3rem;
+	font-family: Trirong, serif;
+	font-size: 1.85rem;
 }

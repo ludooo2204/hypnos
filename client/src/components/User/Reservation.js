@@ -27,6 +27,7 @@ const Reservation = ({ user }) => {
 		axios.get("user/etablissements").then((_etablissements) => {
 			let etablissementsTemp = _etablissements.data.etablissement;
 			etablissementsTemp.unshift({ nom: "---" });
+			console.log("etablissementsTemp.unshift({ nom: '---' })");
 			setEtablissements(etablissementsTemp);
 			if (state) {
 				setSuites(_etablissements.data.etablissement.filter((e) => e.id === state.etablissementId)[0].suites);
@@ -43,14 +44,17 @@ const Reservation = ({ user }) => {
 	}, []);
 	useEffect(() => {
 		if (etablissementChoisi) {
+			console.log("etablissementsTemp.unshift({ nom: '---' })2222");
 			let suitesTemp = etablissementChoisi.suites;
-			suitesTemp.unshift({ nom: "---" });
+			if (!etablissementChoisi.suites.map((e) => e.nom).includes("---")) {
+				suitesTemp.unshift({ nom: "---" });
+			}
 			setSuites(suitesTemp);
 		}
 	}, [etablissementChoisi]);
 	useEffect(() => {
-		if (suiteChoisi) {
-			// console.log(suiteChoisi);
+		if (suiteChoisi && suiteChoisi.nom != "---") {
+			console.log(suiteChoisi.nom != "---");
 			let resaTemp = [];
 			for (const resa of suiteChoisi.reservations) {
 				resaTemp.push({ start: new Date(resa.dateDebut).setDate(new Date(resa.dateDebut).getDate() - 1), end: new Date(resa.dateFin) });
@@ -61,7 +65,7 @@ const Reservation = ({ user }) => {
 	// const { id, nom, UrlBooking, description, images, etablissementId, imageMiseEnAvant, prix } = state;
 	const CustomInput = forwardRef(({ onClick }, ref) => (
 		<button className={styles.datePicker} onClick={onClick} ref={ref}>
-			<CalendarMonthIcon sx={{ fontSize:"3rem",color:"#fa63a4" }} /> Nuitées à choisir
+			<CalendarMonthIcon sx={{ fontSize: "3rem", color: "#fa63a4" }} /> Nuitées à choisir
 		</button>
 	));
 	const handleChangeEtablissement = (e) => {
@@ -77,21 +81,19 @@ const Reservation = ({ user }) => {
 		setSuiteChoisi(suites.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const validerReservation = () => {
-		// console.log("valider");
-		// console.log("suiteChoisi");
-		// console.log(suiteChoisi);
-		// console.log("user id == ", user.id);
-		axios.post("/user/reservation", { dateDebut: startDate, dateFin: endDate, userId: user.id, suiteId: suiteChoisi.id }).then((e) => {
-			if (e.data.validation === "ok") {
-				alert("la reservation à été validé du " + new Date(e.data.dateDebut).toLocaleDateString() + " au " + new Date(e.data.dateFin).toLocaleDateString());
-				navigate("../");
-			} else alert("la reservation à échoué!");
+		if (window.confirm("Etes-vous sur de valider cette reservation ?")) {
+			axios.post("/user/reservation", { dateDebut: startDate, dateFin: endDate, userId: user.id, suiteId: suiteChoisi.id }).then((e) => {
+				if (e.data.validation === "ok") {
+					alert("la reservation à été validé du " + new Date(e.data.dateDebut).toLocaleDateString() + " au " + new Date(e.data.dateFin).toLocaleDateString());
+					navigate("../");
+				} else alert("la reservation à échoué!");
 
-			// ;
-		});
+				// ;
+			});
+		}
 	};
 	const annulerReservation = () => {
-		console.log("valider");
+		window.location.reload();
 	};
 	const onChangeDate = (dates) => {
 		const [start, end] = dates;
@@ -100,6 +102,9 @@ const Reservation = ({ user }) => {
 	};
 	return (
 		<div className={styles.mainResa}>
+			<div className={styles.header}>
+				Trouvez le séjour de vos rêves !
+			</div>
 			<div className={styles.inputs}>
 				{etablissements && (
 					<div className={styles.inputwithSelect}>
@@ -118,29 +123,29 @@ const Reservation = ({ user }) => {
 						{suites && suites.map((x, y) => <option key={y}>{x.nom}</option>)}
 					</select>
 				</div>
-					<DatePicker
-						selected={startDate}
-						onChange={onChangeDate}
-						dateFormat="dd/MM/yyyy"
-						startDate={startDate}
-						locale="fr"
-						endDate={endDate}
-						selectsRange
-						withPortal
-						excludeDateIntervals={reservations}
-						// className={styles.datePickerContainer}
-						// inline
-						customInput={<CustomInput />}
-					/>
+				<DatePicker
+					selected={startDate}
+					onChange={onChangeDate}
+					dateFormat="dd/MM/yyyy"
+					startDate={startDate}
+					locale="fr"
+					endDate={endDate}
+					selectsRange
+					withPortal
+					excludeDateIntervals={reservations}
+					// className={styles.datePickerContainer}
+					// inline
+					customInput={<CustomInput />}
+				/>
 				<div className={styles.input}>
 					<label>Première nuitée : </label>
-					{startDate && startDate.toLocaleDateString()}
+					{startDate && <span className={styles.dateTexte}>{startDate.toLocaleDateString()}</span>}
 					{/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy"  startDate={startDate} locale="fr" includeDateIntervals={[{ start: subDays(new Date(), 5), end: addDays(new Date(), 5) },{ start: addDays(new Date(), 8), end: addDays(new Date(), 25) }]} selectsRange withPortal endDate={endDate} /> */}
 					{/* <input type="text" className={styles.inputText} value={nom} onChange={handleNom}></input> */}
 				</div>
 				<div className={styles.input}>
 					<label>Dernière nuitée : </label>
-					{endDate && endDate.toLocaleDateString()}
+					{endDate && <span className={styles.dateTexte}>{endDate.toLocaleDateString()}</span>}
 					{/* <DatePicker selected={endDate} onChange={(date) => setEndDate(date)}  dateFormat="dd/MM/yyyy" selectsEnd startDate={startDate} locale="fr" includeDateIntervals={[{ start: subDays(new Date(), 5), end: addDays(new Date(), 5) }]} withPortal endDate={endDate} minDate={startDate} /> */}
 					{/* <input type="text" className={styles.inputText} value={nom} onChange={handleNom}></input> */}
 				</div>

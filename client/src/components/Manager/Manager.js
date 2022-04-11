@@ -9,7 +9,7 @@ import InputImageGalerie from "../Admin/InputImageGalerie";
 import ListeImages from "../Admin/ListeImages";
 import ListeImagesGalerie from "../Admin/ListeImagesGalerie";
 
-const Manager = () => {
+const Manager = ({ user }) => {
 	const [suites, setSuites] = useState(null);
 	const [suiteChoisi, setSuiteChoisi] = useState(null);
 	const [nom, setNom] = useState("");
@@ -18,27 +18,29 @@ const Manager = () => {
 	const [description, setDescription] = useState("");
 	const [imageMiseEnAvant, setImageMiseEnAvant] = useState([]);
 	const [images, setImages] = useState([]);
-
+	console.log("user");
+	console.log("user");
+	console.log("user");
+	console.log(user);
 	let navigate = useNavigate();
 	useEffect(() => {
-		axios.get("/manager/suite").then((suite) => {
-			console.log(suite.data.suite);
-			let suitesTemp = suite.data.suite;
-			suitesTemp.unshift({ nom: "---" });
-			setSuites(suitesTemp);
+		axios.get("user/etablissements").then((etablissements) => {
+
+			if (user) {
+				if (etablissements.data.etablissement.filter((e) => e.user.id == user.id)[0].suites.length !=0 ) {
+				let	suitesTemp = etablissements.data.etablissement.filter((e) => e.user.id == user.id)[0].suites
+					suitesTemp.unshift({ nom: "---" });
+					setSuites(suitesTemp);
+				} else {
+					alert("Attention, aucune suite n'a encore été créé. Merci d'en ajouter une");
+					setSuites([{ nom: "---" }]);
+				}
+			}
 		});
-	}, []);
-	useEffect(() => {
-	console.log("images from useeffecet")
-	console.log("images from useeffecet")
-	console.log("images from useeffecet")
-	console.log(images)
-	}, [images]);
+	}, [user]);
+
 	useEffect(() => {
 		if (suiteChoisi) {
-			console.log("suite choisie !!");
-			console.log(suiteChoisi);
-
 			if (suiteChoisi.nom === "---") {
 				setNom("");
 				setPrix(0);
@@ -47,10 +49,6 @@ const Manager = () => {
 				setImages([]);
 				setImageMiseEnAvant([]);
 			} else {
-				console.log("SuiteChoisi");
-				console.log("SuiteChoisi");
-				console.log("SuiteChoisi");
-				console.log(suiteChoisi);
 				setNom(suiteChoisi.nom);
 				setPrix(suiteChoisi.prix);
 				setDescription(suiteChoisi.description);
@@ -62,9 +60,6 @@ const Manager = () => {
 	}, [suiteChoisi]);
 
 	const handleChangeSuite = (e) => {
-		console.log(suites);
-		console.log(e.target.value);
-		console.log(suites.filter((element) => element.nom == e.target.value)[0]);
 		setSuiteChoisi(suites.filter((element) => element.nom == e.target.value)[0]);
 	};
 
@@ -82,12 +77,8 @@ const Manager = () => {
 	};
 
 	const validerSuite = () => {
-		console.log("Suite from update");
-		console.log(suiteChoisi);
 		if (suiteChoisi) {
 			const suiteData = { nom, prix, lien, description, images: images.map((image) => (image.name ? image.name : image)) };
-			console.log("validerSuite");
-			console.log(suiteData);
 			axios.patch("/manager/suite/" + suiteChoisi.id, suiteData);
 			// .then(() => axios.patch("/admin/etablissement/manager/" + suiteChoisi.id, { userId: manager.id }))
 		} else {
@@ -104,41 +95,21 @@ const Manager = () => {
 		}
 	};
 	const handleImageMiseEnAvant = (e) => {
-		console.log("e handleImageMiseEnAvant")
-		console.log(e)
-		// setImages((images) => [...images, e]);
-		// setImageMiseEnAvant([e]);
-		// setImageMiseEnAvant([e.name]);
 		setImageMiseEnAvant([e.name]);
 	};
 	const handleImageGalerie = (e) => {
-		console.log("e handleImageGalerie")
-		console.log("e handleImageGalerie")
-		console.log(e.name)
-		console.log(images)
-		let temp = []
-		temp=[...images]
-		console.log("temp")
-		console.log(temp)
-		temp[0].push({nom:e.name})
-		console.log("temp")
-		console.log(temp)
-		setImages(temp)
-		// setImages((images) => [...images[0], {nom:e.name}]);
-		// setImages([e]);
+		let temp = [];
+		temp = [...images];
+		temp[0].push({ nom: e.name });
+		setImages(temp);
 	};
 	const onDelete = (img) => {
-		console.log(img);
 		const copie = [...imageMiseEnAvant];
 		copie.splice(img, 1);
 		setImageMiseEnAvant(copie);
 	};
 	const onDeleteGalerie = (img) => {
-		console.log(images);
-		console.log(img);
 		const copie = [...images];
-		console.log("copie")
-		console.log(copie)
 		copie[0].splice(img, 1);
 		setImages(copie);
 	};
@@ -184,7 +155,7 @@ const Manager = () => {
 					<label className={styles.labelPresentation}>
 						Images de galerie <span className={styles.miniText}>(format paysage)</span> :
 					</label>
-					<div className={styles.ajoutImage}>
+					<div className={styles.ajoutImageGalerie}>
 						<InputImageGalerie RecupererfileGalerie={handleImageGalerie} />
 						<ListeImagesGalerie images={images} onDelete={onDeleteGalerie} />
 					</div>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AjoutSuite = () => {
+const AjoutSuite = ({user}) => {
   return (
     <div>AjoutSuite</div>
   )

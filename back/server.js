@@ -71,7 +71,7 @@ mysql
 			})
 			.then(() => {
 				// Creation de l'admin
-				const emailAdmin = "admin";
+				const emailAdmin = "admin@lomano.fr";
 				// console.log(db);
 				db.user
 					.findAll({ where: { email: emailAdmin } })
