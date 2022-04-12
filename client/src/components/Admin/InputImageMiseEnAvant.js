@@ -20,7 +20,7 @@ console.log(file.size)
 	);
 };
 
-const InputImage = ({ Recupererfile }) => {
+const InputImageMiseEnAvant = ({ Recupererfile }) => {
 	const [selectedFile, setSelectedFile] = useState(null);
 	useEffect(() => {
 	 if (selectedFile) submitForm()}
@@ -37,7 +37,7 @@ const InputImage = ({ Recupererfile }) => {
 		console.log('URL.createObjectURL(selectedFile)');
 		console.log(URL.createObjectURL(selectedFile));
 		axios
-			.post("/admin/etablissement/postImage", formData)
+			.post("/manager/postImage", formData)
 			.then((res) => {
 				console.log("image Uploaded")
 				console.log(res)
@@ -64,4 +64,4 @@ const InputImage = ({ Recupererfile }) => {
 		</div>
 	);
 };
-export default InputImage;
+export default InputImageMiseEnAvant;

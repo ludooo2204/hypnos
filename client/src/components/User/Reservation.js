@@ -30,23 +30,30 @@ const Reservation = ({ user }) => {
 			console.log("etablissementsTemp.unshift({ nom: '---' })");
 			setEtablissements(etablissementsTemp);
 			if (state) {
-				console.log("state")
-				console.log("state")
-				console.log("state")
-				console.log("state")
-				console.log(state)
-				const etablissementsTemp= _etablissements.data.etablissement.filter((e) => e.id === state.id)[0]
+				console.log("state");
+				console.log("state");
+				console.log("state");
+				console.log("state");
+				console.log(state);
+				console.log(etablissementsTemp);
+
+				const etablissementChoisiTemp = etablissementsTemp.filter((e) => e.id === state.etablissementId)[0];
 				setSuites(etablissementsTemp.suites);
 
-				setEtablissementChoisi(etablissementsTemp);
+				setEtablissementChoisi(etablissementChoisiTemp);
 				setSuiteChoisi(state);
-				console.log(etablissementsTemp)
-				const resaSuiteChoisi = etablissementsTemp.reservations;
-				let resaTemp = [];
-				for (const resa of resaSuiteChoisi) {
-					resaTemp.push({ start: new Date(resa.dateDebut), end: new Date(resa.dateFin) });
+				if (etablissementsTemp.suites) {
+					const resaSuiteChoisi = etablissementsTemp.suites.reservations;
+					console.log(etablissementsTemp);
+					console.log(etablissementsTemp.suites);
+					console.log(resaSuiteChoisi);
+					console.log(etablissementChoisi);
+					let resaTemp = [];
+					for (const resa of resaSuiteChoisi) {
+						resaTemp.push({ start: new Date(resa.dateDebut), end: new Date(resa.dateFin) });
+					}
+					setReservations(resaTemp);
 				}
-				setReservations(resaTemp);
 			}
 		});
 	}, []);

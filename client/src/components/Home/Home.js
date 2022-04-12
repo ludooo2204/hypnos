@@ -4,7 +4,7 @@ import styles from "./Home.module.css";
 
 const Home = () => {
 useEffect(() => {
-//  alert("qd on nomme un manager, il faut enlever celiu en place !!!!")
+ alert("sur reservation. bug qd on passe d'un etablissement a ---")
 }, [])
 
   return (

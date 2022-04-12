@@ -79,7 +79,7 @@ mysql
 					.findAll({ where: { email: emailAdmin } })
 					.then((e) => {
 						if (e.length != 1) {
-							console.log("coucoud");
+						
 							db.user
 								.create({
 									nom: emailAdmin,
@@ -88,8 +88,7 @@ mysql
 									password: bcrypt.hashSync("admin", 8),
 								})
 								.then((user) => {
-									console.log("user");
-									console.log(user.id);
+								
 									db.sequelize.models.user_roles
 										.bulkCreate([
 											{ userId: user.id, roleId: 1 },
@@ -120,13 +119,7 @@ mysql
 										});
 									});
 							}
-							console.log("kfakeLudo");
-							console.log("kfakeLudo");
-							console.log("kfakeLudo");
-							console.log("kfakeLudo");
-							console.log("kfakeLudo");
-							console.log("kfakeLudo");
-							console.log(fakeData.fakeData.fakeChatellerault);
+					
 							db.user
 								.create({
 									nom: fakeData.fakeData.fakeChatellerault.user.nom,
@@ -143,8 +136,6 @@ mysql
 											console.log("role client!!");
 										})
 										.then(() => {
-											console.log("vachonId");
-											console.log(vachonId);
 											db.etablissement
 												.create({
 													nom: fakeData.fakeData.fakeChatellerault.nom,
@@ -155,12 +146,6 @@ mysql
 													userId: vachonId,
 												})
 												.then((a) => {
-													console.log("l'etablissement de chatellerault a été crée");
-													console.log(JSON.stringify(a, null, 2));
-													console.log("etablissementChatelleraultId from etabl");
-
-													console.log(a.id);
-
 													etablissementChatelleraultId = a.id;
 													db.sequelize.models.user_roles
 														.create({ userId: a.userId, roleId: 2 })
@@ -168,11 +153,6 @@ mysql
 															console.log("role manager!!");
 														})
 														.then(() => {
-															console.log("etablissementChatelleraultId");
-															console.log("etablissementChatelleraultId");
-															console.log("etablissementChatelleraultId");
-															console.log("etablissementChatelleraultId");
-															console.log(etablissementChatelleraultId);
 															for (const fakeSuite of fakeData.fakeData.suites) {
 																db.suite
 																	.create(
@@ -215,7 +195,7 @@ mysql
 								.create({ nom: fakeEtablissement.nom, description: fakeEtablissement.description, adresse: fakeEtablissement.adresse, ville: fakeEtablissement.ville, image: fakeEtablissement.image, userId: fakeEtablissement.userId })
 								.then((a) => {
 									console.log("un etablissement a été crée");
-									// console.log(JSON.stringify(a, null, 2));
+									console.log("hotel ",a.nom," user ",a.userId);
 									db.sequelize.models.user_roles.create({ userId: a.userId, roleId: 2 }).then((e) => {
 										console.log("role manager!!");
 									});

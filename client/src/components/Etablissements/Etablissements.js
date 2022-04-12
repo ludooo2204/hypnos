@@ -22,6 +22,7 @@ const EtablissementCard = (etablissementData) => {
 };
 const Etablissements = () => {
 	const [etablissements, setEtablissements] = useState(null);
+	console.log("sdgsg")
 	useEffect(() => {
 		axios.get("user/etablissements").then((data) => {
 			console.log("etablissements from Etablissements");

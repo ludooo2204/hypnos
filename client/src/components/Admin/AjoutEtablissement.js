@@ -16,7 +16,7 @@ const Admin = () => {
 	const [ville, setVille] = useState("");
 	const [description, setDescription] = useState("");
 	const [userFinded, setUserFinded] = useState(null);
-	const [images, setImages] = useState([]);
+	const [images, setImages] = useState(null);
 
 	const [modalUserFindedVisible, setModalUserFindedVisible] = useState(false);
 	const [manager, setManager] = useState("");
@@ -74,7 +74,15 @@ const Admin = () => {
 		setManager(e);
 	};
 	const validerEtablissement = () => {
-		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images: images.map((image) => (image.name ? image.name : image)) };
+		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images:images.name };
+	console.log("images")
+	console.log("images")
+	console.log("images")
+	console.log("images")
+	console.log("images")
+	console.log("images")
+	console.log(images)
+	
 		axios.post("/admin/etablissement", etablissementData)
 		.then(() => axios.patch("/admin/userToManager/" + manager.id))
 		.then(navigate("../"));
@@ -83,13 +91,16 @@ const Admin = () => {
 		console.log("annulerEtablissement");
 	};
 	const handleImage = (e) => {
-		setImages((images) => [...images, e]);
+	
+		setImages(e);
+
 	};
 	const onDelete = (img) => {
-		console.log(images);
-		const copie = [...images];
-		copie.splice(img, 1);
-		setImages(copie);
+		setImages(null);
+		// console.log(images);
+		// const copie = [...images];
+		// copie.splice(img, 1);
+		// setImages(copie);
 	};
 	return (
 		<div className={styles.mainAjout}>

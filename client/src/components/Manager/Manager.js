@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import styles from "./Manager.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import InputImage from "../Admin/InputImage";
+import InputImageMiseEnAvant from "../Admin/InputImageMiseEnAvant";
 import InputImageGalerie from "../Admin/InputImageGalerie";
-import ListeImages from "../Admin/ListeImages";
+import ListeImagesMiseEnAvant from "../Admin/ListeImagesMiseEnAvant";
 import ListeImagesGalerie from "../Admin/ListeImagesGalerie";
 
 const Manager = ({ user }) => {
@@ -34,13 +34,7 @@ const Manager = ({ user }) => {
 			}
 		});
 	}, [user]);
-	useEffect(() => {
-		console.log("images from usseEFFECT")
-		console.log("images from usseEFFECT")
-		console.log("images from usseEFFECT")
-		console.log(images)
-		console.log(images[0])
-	}, [images]);
+
 
 	useEffect(() => {
 		if (suiteChoisi) {
@@ -98,7 +92,12 @@ const Manager = ({ user }) => {
 			 const imagesToSave=images.map((image)=> image.nom?image.nom:image.name)
 			 console.log("imagesToSave")
 			 console.log(imagesToSave)
-			const suiteData = { nom, prix, lien, description,imageMiseEnAvant, images: imagesToSave };
+			 console.log("imageMiseEnAvant")
+			 console.log("imageMiseEnAvant")
+			 console.log("imageMiseEnAvant")
+			 console.log("imageMiseEnAvant")
+			 console.log(imageMiseEnAvant)
+			const suiteData = { nom, prix, lien, description,imageMiseEnAvant:imageMiseEnAvant.name, images: imagesToSave };
 			console.log("suiteData")
 			console.log(JSON.stringify(suiteData,null,2))
 			axios.patch("/manager/suite/" + suiteChoisi.id, suiteData).then((e) => {
@@ -117,11 +116,17 @@ const Manager = ({ user }) => {
 	const supprimerSuite = () => {
 		console.log("supprimerSuite");
 		if (window.confirm("Etes-vous sur de supprimer l'établissement " + suiteChoisi.nom + " ?")) {
-			axios.delete("/manager/suide/" + suiteChoisi.id).then(() => window.location.reload());
+			axios.delete("/manager/suite/" + suiteChoisi.id).then(() => window.location.reload());
 		}
 	};
 	const handleImageMiseEnAvant = (e) => {
-		setImageMiseEnAvant(e.name);
+		console.log("e")
+		console.log("e")
+		console.log("e")
+		console.log("e")
+		console.log("e")
+		console.log(e)
+		setImageMiseEnAvant(e);
 	};
 	const handleImageGalerie = (e) => {
 
@@ -171,8 +176,8 @@ const Manager = ({ user }) => {
 						Image de présentation <span className={styles.miniText}>(format paysage)</span> :
 					</label>
 					<div className={styles.ajoutImage}>
-						<InputImage Recupererfile={handleImageMiseEnAvant} />
-						<ListeImages images={imageMiseEnAvant} onDelete={onDelete} />
+						<InputImageMiseEnAvant Recupererfile={handleImageMiseEnAvant} />
+						<ListeImagesMiseEnAvant images={imageMiseEnAvant} onDelete={onDelete} />
 					</div>
 				</div>
 				<div className={styles.inputImage}>

@@ -17,6 +17,12 @@ const MesReservations = ({ user }) => {
 					let etablissements = etablissement.data.etablissement;
 
 					for (let iterator of mesReservationsTemp) {
+						console.log("mesReservationsTemp" )
+						console.log(mesReservationsTemp )
+						console.log("iterator" )
+						console.log(iterator )
+						console.log("etablissements")
+						console.log(etablissements)
 						iterator.etablissement = etablissements.filter((e) => e.id == iterator.suite.etablissementId)[0].nom;
 					}
 					setMesReservations(mesReservationsTemp);

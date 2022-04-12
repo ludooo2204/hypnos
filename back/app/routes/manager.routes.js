@@ -8,6 +8,7 @@ const controller = require("../controllers/manager.controller");
 router.get("/suite", controller.getSuites);
 
 router.post("/suite", controller.postSuite);
+router.post("/postImage", controller.postImage);
 
 router.delete("/suite/:id", controller.deleteSuite);
 

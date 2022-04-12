@@ -21,10 +21,11 @@ exports.getSuites = (req, res) => {
 };
 
 exports.postSuite = (req, res) => {
-	const { nom, imageMiseEnAvant, prix, description, UrlBooking, images, etablissementId } = req.body;
+	console.log("postsuite!")
+	const { nom, imageMiseEnAvant, prix, description, lien, images, etablissementId } = req.body;
 	suite
 		.create(
-			{ nom, imageMiseEnAvant, prix, description, UrlBooking, images, etablissementId },
+			{ nom, imageMiseEnAvant, prix, description, UrlBooking:lien, images:images.map(e=> {return{nom:e}}), etablissementId },
 			{
 				include: [image],
 			}
@@ -32,10 +33,11 @@ exports.postSuite = (req, res) => {
 		.then((suite) => {
 			console.log("suite créé !!");
 			console.log(JSON.stringify(suite, null, 2));
-			res.status(200).json({ suite });
+			res.status(200).json({ status: "ok" });
 		});
 };
 exports.deleteSuite = (req, res) => {
+	console.log("DELETE!!!!")
 	suite
 		.destroy({
 			where: { id: req.params.id },
@@ -92,4 +94,54 @@ exports.updateSuite = (req, res) => {
 			console.log("suite modifiée !!");
 			res.status(200).json({ status: "ok" });
 		});
+};
+exports.postImage = (req, res) => {
+	console.log("post images");
+	console.log("req");
+	// console.log(req.files);
+	if (!req.files) {
+		console.log("!req");
+		console.log("!req");
+		console.log("!req");
+		console.log("!req");
+		res.send({
+			status: false,
+			message: "No file uploaded",
+		});
+	} else {
+		console.log("req");
+		console.log("req");
+		console.log("req");
+		console.log("req");
+		// console.log(req.files);
+		//Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+		let avatar = req.files.file;
+		console.log("avatar.name")
+		// const rnd= Math.random()
+		//Use the mv() method to place the file in upload directory (i.e. "uploads")
+		console.log(avatar.name)
+		avatar.mv("../client/src/uploads/" + avatar.name, function(err) {
+			if (err)
+			 return res.status(500).send(err);
+		   
+			 console.log("totototo")
+			 console.log("totototo")
+			 console.log("totototo")
+			 console.log("totototo")
+			 console.log("totototo")
+			res.send({
+				status: true,
+				message: "File is uploaded",
+				data: {
+					name: avatar.name,
+					// name: rnd+avatar.name,
+					mimetype: avatar.mimetype,
+					size: avatar.size,
+				},
+			});
+		   });
+
+
+
+	}
 };

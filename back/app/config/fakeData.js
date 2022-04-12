@@ -218,7 +218,7 @@ const fakeSuites = [
 		prix: 100,
 		description: "Vous ne trouverez pas mieux ailleurs!",
 		UrlBooking: "www.booking.com/totolescagot",
-		images: [{ nom: "suite_12.jpg" }, { nom: "suite_13.jpg" }, { nom: "suite_14.jpg" }, { nom: "suite_5.jpg" }],
+		images: [{ nom: "suite_12.jpg" }, { nom: "suite_2.jpg" }, { nom: "suite_8.jpg" }, { nom: "suite_5.jpg" }],
 		etablissementId: 1,
 	},
 	{

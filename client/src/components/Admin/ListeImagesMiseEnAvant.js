@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AjoutCreation.module.css";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-const ListeImages = ({ images, onDelete }) => {
+const ListeImagesMiseEnAvant = ({ images, onDelete }) => {
 	const [imagesState, setimagesState] = useState(null);
 	useEffect(() => {
 		setimagesState(images);
@@ -11,6 +11,8 @@ const ListeImages = ({ images, onDelete }) => {
 			{imagesState &&
 				
 						<div  className={styles.imageGroup}>
+                            {console.log("imagesState")    }
+                            {console.log(imagesState)    }
 							<img className={styles.image} src={typeof imagesState == "string" ? require("../../uploads/" + imagesState) : URL.createObjectURL(imagesState)} />
 							<HighlightOffIcon className={styles.iconeDelete} onClick={() => onDelete()} />
 						</div>
@@ -29,4 +31,4 @@ const ListeImages = ({ images, onDelete }) => {
 	);
 };
 
-export default ListeImages;
+export default ListeImagesMiseEnAvant;
