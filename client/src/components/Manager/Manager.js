@@ -16,19 +16,15 @@ const Manager = ({ user }) => {
 	const [lien, setLien] = useState("");
 	const [prix, setPrix] = useState("");
 	const [description, setDescription] = useState("");
-	const [imageMiseEnAvant, setImageMiseEnAvant] = useState([]);
+	const [imageMiseEnAvant, setImageMiseEnAvant] = useState(null);
 	const [images, setImages] = useState([]);
-	console.log("user");
-	console.log("user");
-	console.log("user");
-	console.log(user);
+
 	let navigate = useNavigate();
 	useEffect(() => {
 		axios.get("user/etablissements").then((etablissements) => {
-
 			if (user) {
-				if (etablissements.data.etablissement.filter((e) => e.user.id == user.id)[0].suites.length !=0 ) {
-				let	suitesTemp = etablissements.data.etablissement.filter((e) => e.user.id == user.id)[0].suites
+				if (etablissements.data.etablissement.filter((e) => e.user.id == user.id)[0].suites.length != 0) {
+					let suitesTemp = etablissements.data.etablissement.filter((e) => e.user.id == user.id)[0].suites;
 					suitesTemp.unshift({ nom: "---" });
 					setSuites(suitesTemp);
 				} else {
@@ -38,28 +34,49 @@ const Manager = ({ user }) => {
 			}
 		});
 	}, [user]);
+	useEffect(() => {
+		console.log("images from usseEFFECT")
+		console.log("images from usseEFFECT")
+		console.log("images from usseEFFECT")
+		console.log(images)
+		console.log(images[0])
+	}, [images]);
 
 	useEffect(() => {
 		if (suiteChoisi) {
+
+			console.log("suiteChoisi")
+			console.log(suiteChoisi)
+			console.log("suiteChoisi.images")
+			console.log("suiteChoisi.images")
+			console.log("suiteChoisi.images")
+			console.log("suiteChoisi.images")
+			console.log(suiteChoisi.images)
 			if (suiteChoisi.nom === "---") {
 				setNom("");
 				setPrix(0);
 				setDescription("");
 				setLien("");
-				setImages([]);
-				setImageMiseEnAvant([]);
+				setImages(null);
+				setImageMiseEnAvant(null);
 			} else {
 				setNom(suiteChoisi.nom);
 				setPrix(suiteChoisi.prix);
 				setDescription(suiteChoisi.description);
 				setLien(suiteChoisi.lien);
-				setImages([suiteChoisi.images]);
-				setImageMiseEnAvant([suiteChoisi.imageMiseEnAvant]);
+				setImages(suiteChoisi.images);
+				setImageMiseEnAvant(suiteChoisi.imageMiseEnAvant);
 			}
 		}
 	}, [suiteChoisi]);
 
 	const handleChangeSuite = (e) => {
+		console.log("suites")
+		console.log("suites")
+		console.log("suites")
+		console.log("suites")
+		console.log("suites")
+		console.log(suites)
 		setSuiteChoisi(suites.filter((element) => element.nom == e.target.value)[0]);
 	};
 
@@ -78,9 +95,18 @@ const Manager = ({ user }) => {
 
 	const validerSuite = () => {
 		if (suiteChoisi) {
-			const suiteData = { nom, prix, lien, description, images: images.map((image) => (image.name ? image.name : image)) };
-			axios.patch("/manager/suite/" + suiteChoisi.id, suiteData);
-			// .then(() => axios.patch("/admin/etablissement/manager/" + suiteChoisi.id, { userId: manager.id }))
+			 const imagesToSave=images.map((image)=> image.nom?image.nom:image.name)
+			 console.log("imagesToSave")
+			 console.log(imagesToSave)
+			const suiteData = { nom, prix, lien, description,imageMiseEnAvant, images: imagesToSave };
+			console.log("suiteData")
+			console.log(JSON.stringify(suiteData,null,2))
+			axios.patch("/manager/suite/" + suiteChoisi.id, suiteData).then((e) => {
+				if (e.data.status === "ok") {
+					alert("la suite à été modifiée");
+					window.location.reload()
+				}
+			});
 		} else {
 			alert("Merci de choisir un établissement à modifier !");
 		}
@@ -95,22 +121,20 @@ const Manager = ({ user }) => {
 		}
 	};
 	const handleImageMiseEnAvant = (e) => {
-		setImageMiseEnAvant([e.name]);
+		setImageMiseEnAvant(e.name);
 	};
 	const handleImageGalerie = (e) => {
-		let temp = [];
-		temp = [...images];
-		temp[0].push({ nom: e.name });
-		setImages(temp);
+
+		setImages((images) => [...images, e]);
 	};
 	const onDelete = (img) => {
-		const copie = [...imageMiseEnAvant];
-		copie.splice(img, 1);
-		setImageMiseEnAvant(copie);
+		
+		setImageMiseEnAvant(null);
 	};
 	const onDeleteGalerie = (img) => {
+		console.log(img)
 		const copie = [...images];
-		copie[0].splice(img, 1);
+		copie.splice(img, 1);
 		setImages(copie);
 	};
 	return (

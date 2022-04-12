@@ -50,15 +50,21 @@ const fakeUsers = [
 		email: "aaaa",
 	},
 ];
-const fakeEtablissements = [
-	{
-		nom: "Hotel de chatellerault",
-		description: "bel hotel",
-		adresse: "47 impasse marcel 86100 chatellerault",
-		ville: "chatellerault",
-		image: "min_etablissement_1.jpg",
-		userId: 2,
+const fakeChatellerault=	{
+	nom: "Hotel de chatellerault",
+	description: "bel hotel",
+	adresse: "47 impasse marcel 86100 chatellerault",
+	ville: "chatellerault",
+	image: "min_etablissement_1.jpg",
+	userId: 2,
+	user:{
+		nom: "vachon",
+		prenom: "ludo",
+		email: "ludo",
 	},
+}
+const fakeEtablissements = [
+
 	{
 		nom: "Hotel de poitiers",
 		description: "bel hotel",
@@ -225,5 +231,5 @@ const fakeSuites = [
 		etablissementId: 1,
 	},
 ];
-const fakeData = { suites: fakeSuites, users: fakeUsers, etablissements: fakeEtablissements, reservations: fakeReservations };
+const fakeData = { suites: fakeSuites, users: fakeUsers, etablissements: fakeEtablissements, reservations: fakeReservations, fakeChatellerault };
 exports.fakeData = fakeData;

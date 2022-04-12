@@ -72,6 +72,8 @@ mysql
 			.then(() => {
 				// Creation de l'admin
 				const emailAdmin = "admin@lomano.fr";
+				let vachonId;
+				let etablissementChatelleraultId;
 				// console.log(db);
 				db.user
 					.findAll({ where: { email: emailAdmin } })
@@ -118,10 +120,95 @@ mysql
 										});
 									});
 							}
+							console.log("kfakeLudo");
+							console.log("kfakeLudo");
+							console.log("kfakeLudo");
+							console.log("kfakeLudo");
+							console.log("kfakeLudo");
+							console.log("kfakeLudo");
+							console.log(fakeData.fakeData.fakeChatellerault);
+							db.user
+								.create({
+									nom: fakeData.fakeData.fakeChatellerault.user.nom,
+									prenom: fakeData.fakeData.fakeChatellerault.user.prenom,
+									email: fakeData.fakeData.fakeChatellerault.user.email,
+									password: bcrypt.hashSync("foot", 8),
+								})
+								.then((user) => {
+									console.log("user ludo :", user.id);
+									vachonId = user.id;
+									db.sequelize.models.user_roles
+										.create({ userId: user.id, roleId: 1 })
+										.then((e) => {
+											console.log("role client!!");
+										})
+										.then(() => {
+											console.log("vachonId");
+											console.log(vachonId);
+											db.etablissement
+												.create({
+													nom: fakeData.fakeData.fakeChatellerault.nom,
+													description: fakeData.fakeData.fakeChatellerault.description,
+													adresse: fakeData.fakeData.fakeChatellerault.adresse,
+													ville: fakeData.fakeData.fakeChatellerault.ville,
+													image: fakeData.fakeData.fakeChatellerault.image,
+													userId: vachonId,
+												})
+												.then((a) => {
+													console.log("l'etablissement de chatellerault a été crée");
+													console.log(JSON.stringify(a, null, 2));
+													console.log("etablissementChatelleraultId from etabl");
 
+													console.log(a.id);
+
+													etablissementChatelleraultId = a.id;
+													db.sequelize.models.user_roles
+														.create({ userId: a.userId, roleId: 2 })
+														.then((e) => {
+															console.log("role manager!!");
+														})
+														.then(() => {
+															console.log("etablissementChatelleraultId");
+															console.log("etablissementChatelleraultId");
+															console.log("etablissementChatelleraultId");
+															console.log("etablissementChatelleraultId");
+															console.log(etablissementChatelleraultId);
+															for (const fakeSuite of fakeData.fakeData.suites) {
+																db.suite
+																	.create(
+																		{
+																			nom: fakeSuite.nom,
+																			imageMiseEnAvant: fakeSuite.imageMiseEnAvant,
+																			prix: fakeSuite.prix,
+																			description: fakeSuite.description,
+																			UrlBooking: fakeSuite.UrlBooking,
+																			images: fakeSuite.images,
+																			etablissementId: etablissementChatelleraultId,
+																		},
+																		{
+																			include: [db.image],
+																		}
+																	)
+																	.then(() => console.log("une suite a été crée"))
+																	.catch((err) => console.log(err));
+															}
+														})
+														.then(() => {
+															for (const fakeReservation of fakeData.fakeData.reservations) {
+																db.reservation
+																	.create({ dateDebut: fakeReservation.dateDebut, dateFin: fakeReservation.dateFin, userId: fakeReservation.userId, suiteId: fakeReservation.suiteId })
+																	.then((resa) => console.log("une reservation a été crée"))
+																	.catch((err) => console.log(err));
+															}
+														});
+												})
+												.catch((err) => console.log("errrrrrrrrrrrrrrr", err));
+										});
+								});
 							console.log("Fake users créé !");
 						}
 					})
+
 					.then(() => {
 						for (const fakeEtablissement of fakeData.fakeData.etablissements) {
 							db.etablissement
@@ -135,37 +222,37 @@ mysql
 								})
 								.catch((err) => console.log("errrrrrrrrrrrrrrr", err));
 						}
-					})
-
-					.then(() => {
-						for (const fakeSuite of fakeData.fakeData.suites) {
-							db.suite
-								.create(
-									{
-										nom: fakeSuite.nom,
-										imageMiseEnAvant: fakeSuite.imageMiseEnAvant,
-										prix: fakeSuite.prix,
-										description: fakeSuite.description,
-										UrlBooking: fakeSuite.UrlBooking,
-										images: fakeSuite.images,
-										etablissementId: fakeSuite.etablissementId,
-									},
-									{
-										include: [db.image],
-									}
-								)
-								.then(() => console.log("une suite a été crée"))
-								.catch((err) => console.log(err));
-						}
-					})
-					.then(() => {
-						for (const fakeReservation of fakeData.fakeData.reservations) {
-							db.reservation
-								.create({ dateDebut: fakeReservation.dateDebut, dateFin: fakeReservation.dateFin, userId: fakeReservation.userId, suiteId: fakeReservation.suiteId })
-								.then((resa) => console.log("une reservation a été crée"))
-								.catch((err) => console.log(err));
-						}
 					});
+
+				// .then(() => {
+				// 	for (const fakeSuite of fakeData.fakeData.suites) {
+				// 		db.suite
+				// 			.create(
+				// 				{
+				// 					nom: fakeSuite.nom,
+				// 					imageMiseEnAvant: fakeSuite.imageMiseEnAvant,
+				// 					prix: fakeSuite.prix,
+				// 					description: fakeSuite.description,
+				// 					UrlBooking: fakeSuite.UrlBooking,
+				// 					images: fakeSuite.images,
+				// 					etablissementId: fakeSuite.etablissementId,
+				// 				},
+				// 				{
+				// 					include: [db.image],
+				// 				}
+				// 			)
+				// 			.then(() => console.log("une suite a été crée"))
+				// 			.catch((err) => console.log(err));
+				// 	}
+				// })
+				// .then(() => {
+				// 	for (const fakeReservation of fakeData.fakeData.reservations) {
+				// 		db.reservation
+				// 			.create({ dateDebut: fakeReservation.dateDebut, dateFin: fakeReservation.dateFin, userId: fakeReservation.userId, suiteId: fakeReservation.suiteId })
+				// 			.then((resa) => console.log("une reservation a été crée"))
+				// 			.catch((err) => console.log(err));
+				// 	}
+				// });
 			});
 		// force: true will drop the table if it already exists
 		// db.sequelize.sync({force: true}).then(() => {
