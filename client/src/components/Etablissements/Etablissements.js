@@ -9,8 +9,6 @@ const EtablissementCard = (etablissementData) => {
 	let navigate = useNavigate();
 
 	const { id, nom, adresse, description, image, user, ville } = etablissementData.etablissementData;
-	console.log("images")
-	console.log(image)
 	const selectionnerEtablissement = () => {
 		console.log("ta choisi " + nom);
 		navigate("../suites", { state: etablissementData.etablissementData });

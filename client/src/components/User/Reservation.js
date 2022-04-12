@@ -30,10 +30,18 @@ const Reservation = ({ user }) => {
 			console.log("etablissementsTemp.unshift({ nom: '---' })");
 			setEtablissements(etablissementsTemp);
 			if (state) {
-				setSuites(_etablissements.data.etablissement.filter((e) => e.id === state.etablissementId)[0].suites);
-				setEtablissementChoisi(_etablissements.data.etablissement.filter((e) => e.id === state.id)[0]);
+				console.log("state")
+				console.log("state")
+				console.log("state")
+				console.log("state")
+				console.log(state)
+				const etablissementsTemp= _etablissements.data.etablissement.filter((e) => e.id === state.id)[0]
+				setSuites(etablissementsTemp.suites);
+
+				setEtablissementChoisi(etablissementsTemp);
 				setSuiteChoisi(state);
-				const resaSuiteChoisi = _etablissements.data.etablissement.filter((e) => e.id === state.id)[0].suites.filter((_suite) => _suite.id === state.id)[0].reservations;
+				console.log(etablissementsTemp)
+				const resaSuiteChoisi = etablissementsTemp.reservations;
 				let resaTemp = [];
 				for (const resa of resaSuiteChoisi) {
 					resaTemp.push({ start: new Date(resa.dateDebut), end: new Date(resa.dateFin) });
@@ -102,9 +110,7 @@ const Reservation = ({ user }) => {
 	};
 	return (
 		<div className={styles.mainResa}>
-			<div className={styles.header}>
-				Trouvez le séjour de vos rêves !
-			</div>
+			<div className={styles.header}>Trouvez le séjour de vos rêves !</div>
 			<div className={styles.inputs}>
 				{etablissements && (
 					<div className={styles.inputwithSelect}>
