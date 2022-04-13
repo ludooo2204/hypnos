@@ -8,23 +8,23 @@ const controller = require("../controllers/admin.controller");
 
 
 router.get("/getUsers", controller.getUsers);
+router.get("/etablissement", controller.getEtablissements);
 
 // router.delete("/deleteUser/:id", controller.deleteUser);
 
-router.patch("/userToManager/:id", controller.userToManager);
-router.patch("/managerToUser/:id", controller.managerToUser);
+router.get("/userToManager/:id",[authJwt.isAdmin], controller.userToManager);
+router.get("/managerToUser/:id",[authJwt.isAdmin], controller.managerToUser);
 
-router.get("/etablissement", controller.getEtablissements);
 
-router.post("/etablissement", controller.postEtablissement);
+router.post("/etablissement",[authJwt.isAdmin], controller.postEtablissement);
 // router.post("/etablissement",[authJwt.verifyToken, authJwt.isAdmin], controller.postEtablissement);
 
-router.delete("/etablissement/:id", controller.deleteEtablissement);
-router.delete("/etablissement/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.deleteEtablissement);
+router.delete("/etablissement/:id",[authJwt.isAdmin], controller.deleteEtablissement);
+// router.delete("/etablissement/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.deleteEtablissement);
 
-router.patch("/etablissement/:id", controller.updateEtablissement);
+router.patch("/etablissement/:id",[authJwt.isAdmin], controller.updateEtablissement);
 // router.patch("/etablissement/manager/:id",[authJwt.verifyToken, authJwt.isAdmin], controller.affectManagerEtablissement);
-router.patch("/etablissement/manager/:id", controller.affectManagerEtablissement);
+router.patch("/etablissement/manager/:id",[authJwt.isAdmin], controller.affectManagerEtablissement);
 
 
 

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import InputImage from "./InputImage";
 import ListeImages from "./ListeImages";
 
-const Admin = () => {
+const Admin = ({ userData }) => {
 	const [etablissements, setEtablissements] = useState(null);
 	const [etablissementChoisi, setEtablissementChoisi] = useState(null);
 	const [users, setUsers] = useState("");
@@ -33,7 +33,7 @@ const Admin = () => {
 			})
 			.catch((err) => {
 				console.log("errreur!!!!");
-				alert("vous n'avez pas les droits d'administrateur!!!")
+				alert("vous n'avez pas les droits d'administrateur!!!");
 			});
 		axios.get("/admin/etablissement").then((etablissement) => {
 			console.log(etablissement.data);
@@ -116,6 +116,12 @@ const Admin = () => {
 		setManager(e);
 	};
 	const validerEtablissement = () => {
+		const header = {
+			headers: {
+				"x-access-Token": window.localStorage.getItem("token"),
+				"content-type": "application/json",
+			},
+		};
 		console.log("etablissement from update");
 		console.log(etablissementChoisi);
 		console.log("manager");
@@ -134,13 +140,13 @@ const Admin = () => {
 			console.log("validerEtablissement");
 			console.log(etablissementData);
 			axios
-				.patch("/admin/etablissement/" + etablissementChoisi.id, etablissementData)
-				.then(() => axios.patch("/admin/etablissement/manager/" + etablissementChoisi.id, { userId: manager.id }))
+				.patch("/admin/etablissement/" + etablissementChoisi.id, etablissementData, header)
+				.then(() => axios.patch("/admin/etablissement/manager/" + etablissementChoisi.id, { userId: manager.id }, header))
 				.then(() => {
-					if (!manager.id == managerOrigine.id) axios.patch("/admin/userToManager/" + manager.id);
+					if (!manager.id == managerOrigine.id) axios.get("/admin/userToManager/" + manager.id, header);
 				})
 				.then(() => {
-					if (!manager.id == managerOrigine.id) axios.patch("/admin/managerToUser/" + managerOrigine.id);
+					if (!manager.id == managerOrigine.id) axios.get("/admin/managerToUser/" + managerOrigine.id, header);
 				})
 				.then(() => {
 					alert("Les modifications ont été sauvegardée !");
@@ -152,13 +158,20 @@ const Admin = () => {
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");
+		window.location.reload();
 	};
 	const supprimerEtablissement = () => {
+		const header = {
+			headers: {
+				"x-access-Token": window.localStorage.getItem("token"),
+				"content-type": "application/json",
+			},
+		};
 		console.log("supprimerEtablissement");
 		if (window.confirm("Etes-vous sur de supprimer l'établissement " + etablissementChoisi.nom + " ?")) {
 			axios
-				.delete("/admin/etablissement/" + etablissementChoisi.id)
-				.then(() => axios.patch("/admin/managerToUser/" + managerOrigine.id))
+				.delete("/admin/etablissement/" + etablissementChoisi.id, header)
+				.then(() => axios.get("/admin/managerToUser/" + managerOrigine.id, header))
 				.then(() => window.location.reload());
 		}
 	};

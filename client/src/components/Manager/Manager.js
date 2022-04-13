@@ -32,21 +32,18 @@ const Manager = ({ user }) => {
 					setSuites([{ nom: "---" }]);
 				}
 			}
-		})
-		
+		});
 	}, [user]);
-
 
 	useEffect(() => {
 		if (suiteChoisi) {
-
-			console.log("suiteChoisi")
-			console.log(suiteChoisi)
-			console.log("suiteChoisi.images")
-			console.log("suiteChoisi.images")
-			console.log("suiteChoisi.images")
-			console.log("suiteChoisi.images")
-			console.log(suiteChoisi.images)
+			console.log("suiteChoisi");
+			console.log(suiteChoisi);
+			console.log("suiteChoisi.images");
+			console.log("suiteChoisi.images");
+			console.log("suiteChoisi.images");
+			console.log("suiteChoisi.images");
+			console.log(suiteChoisi.images);
 			if (suiteChoisi.nom === "---") {
 				setNom("");
 				setPrix(0);
@@ -66,12 +63,12 @@ const Manager = ({ user }) => {
 	}, [suiteChoisi]);
 
 	const handleChangeSuite = (e) => {
-		console.log("suites")
-		console.log("suites")
-		console.log("suites")
-		console.log("suites")
-		console.log("suites")
-		console.log(suites)
+		console.log("suites");
+		console.log("suites");
+		console.log("suites");
+		console.log("suites");
+		console.log("suites");
+		console.log(suites);
 		setSuiteChoisi(suites.filter((element) => element.nom == e.target.value)[0]);
 	};
 
@@ -89,63 +86,80 @@ const Manager = ({ user }) => {
 	};
 
 	const validerSuite = () => {
+		const header = {
+			headers: {
+				"x-access-Token": window.localStorage.getItem("token"),
+				"content-type": "application/json",
+			},
+		};
 		if (suiteChoisi) {
-			 const imagesToSave=images.map((image)=> image.nom?image.nom:image.name)
-			 console.log("imagesToSave")
-			 console.log(imagesToSave)
-			 console.log("imageMiseEnAvant")
-			 console.log("imageMiseEnAvant")
-			 console.log("imageMiseEnAvant")
-			 console.log("imageMiseEnAvant")
-			 console.log(imageMiseEnAvant)
-			const suiteData = { nom, prix, lien, description,imageMiseEnAvant:imageMiseEnAvant.name, images: imagesToSave };
-			console.log("suiteData")
-			console.log(JSON.stringify(suiteData,null,2))
-			axios.patch("/manager/suite/" + suiteChoisi.id, suiteData).then((e) => {
-				if (e.data.status === "ok") {
-					alert("la suite à été modifiée");
-					window.location.reload()
-				}
-			}).catch((err) => {
-				console.log("errreur!!!!");
-				alert("vous n'avez pas les droits de Manager!!!")
-			});
+			const imagesToSave = images.map((image) => (image.nom ? image.nom : image.name));
+			console.log("imagesToSave");
+			console.log(imagesToSave);
+			console.log("imageMiseEnAvant");
+			console.log("imageMiseEnAvant");
+			console.log("imageMiseEnAvant");
+			console.log("imageMiseEnAvant");
+			console.log(imageMiseEnAvant);
+			const suiteData = { nom, prix, lien, description, imageMiseEnAvant: imageMiseEnAvant.name, images: imagesToSave };
+			console.log("suiteData");
+			console.log(JSON.stringify(suiteData, null, 2));
+			axios
+				.patch("/manager/suite/" + suiteChoisi.id, suiteData,header)
+				.then((e) => {
+					if (e.data.status === "ok") {
+						alert("la suite à été modifiée");
+						window.location.reload();
+					}
+				})
+				.catch((err) => {
+					console.log("errreur!!!!");
+					alert("vous n'avez pas les droits de Manager!!!");
+				});
 		} else {
 			alert("Merci de choisir un établissement à modifier !");
 		}
 	};
 	const annulerSuite = () => {
 		console.log("annulerSuite");
+		window.location.reload();
 	};
 	const supprimerSuite = () => {
+		const header = {
+			headers: {
+				"x-access-Token": window.localStorage.getItem("token"),
+				"content-type": "application/json",
+			},
+		};
+
 		console.log("supprimerSuite");
 		if (window.confirm("Etes-vous sur de supprimer l'établissement " + suiteChoisi.nom + " ?")) {
-			axios.delete("/manager/suite/" + suiteChoisi.id).then(() => window.location.reload())
-			.catch((err) => {
-				console.log("errreur!!!!");
-				alert("vous n'avez pas les droits de Manager!!!")
-			});
+			axios
+				.delete("/manager/suite/" + suiteChoisi.id, header)
+				.then(() => window.location.reload())
+				.catch((err) => {
+					console.log("errreur!!!!");
+					alert("vous n'avez pas les droits de Manager!!!");
+				});
 		}
 	};
 	const handleImageMiseEnAvant = (e) => {
-		console.log("e")
-		console.log("e")
-		console.log("e")
-		console.log("e")
-		console.log("e")
-		console.log(e)
+		console.log("e");
+		console.log("e");
+		console.log("e");
+		console.log("e");
+		console.log("e");
+		console.log(e);
 		setImageMiseEnAvant(e);
 	};
 	const handleImageGalerie = (e) => {
-
 		setImages((images) => [...images, e]);
 	};
 	const onDelete = (img) => {
-		
 		setImageMiseEnAvant(null);
 	};
 	const onDeleteGalerie = (img) => {
-		console.log(img)
+		console.log(img);
 		const copie = [...images];
 		copie.splice(img, 1);
 		setImages(copie);

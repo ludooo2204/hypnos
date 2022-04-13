@@ -4,7 +4,7 @@ import styles from "./Home.module.css";
 
 const Home = () => {
 useEffect(() => {
- alert("securité a revoir et bouton annuler")
+ alert("probleme a la generation user_role sur pc maison")
 }, [])
 
   return (

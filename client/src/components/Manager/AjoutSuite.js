@@ -81,13 +81,19 @@ const AjoutSuite = ({ user }) => {
 	};
 
 	const validerSuite = () => {
+		const header = {
+			headers: {
+				"x-access-Token": window.localStorage.getItem("token"),
+				"content-type": "application/json",
+			},
+		};
 		const imagesToSave = images.map((image) => (image.nom ? image.nom : image.name));
 		console.log("imagesToSave");
 		console.log(imagesToSave);
 		const suiteData = { nom, prix, lien, description, imageMiseEnAvant:imageMiseEnAvant.name, images: imagesToSave, etablissementId };
 		console.log("suiteData");
 		console.log(JSON.stringify(suiteData, null, 2));
-		axios.post("/manager/suite/", suiteData).then((e) => {
+		axios.post("/manager/suite/", suiteData,header).then((e) => {
 			if (e.data.status === "ok") {
 				alert("la suite à été créée");
 				window.location.reload();
@@ -96,6 +102,8 @@ const AjoutSuite = ({ user }) => {
 	};
 	const annulerSuite = () => {
 		console.log("annulerSuite");
+		window.location.reload()
+
 	};
 
 	const handleImageMiseEnAvant = (e) => {

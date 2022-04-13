@@ -79,7 +79,6 @@ mysql
 					.findAll({ where: { email: emailAdmin } })
 					.then((e) => {
 						if (e.length != 1) {
-						
 							db.user
 								.create({
 									nom: emailAdmin,
@@ -88,7 +87,6 @@ mysql
 									password: bcrypt.hashSync("admin", 8),
 								})
 								.then((user) => {
-								
 									db.sequelize.models.user_roles
 										.bulkCreate([
 											{ userId: user.id, roleId: 1 },
@@ -117,9 +115,10 @@ mysql
 										db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
 											console.log("role client!!");
 										});
-									});
+									})
+									.catch((err)=>console.log("erreur fakeData.users",err))
 							}
-					
+
 							db.user
 								.create({
 									nom: fakeData.fakeData.fakeChatellerault.user.nom,
@@ -195,7 +194,7 @@ mysql
 								.create({ nom: fakeEtablissement.nom, description: fakeEtablissement.description, adresse: fakeEtablissement.adresse, ville: fakeEtablissement.ville, image: fakeEtablissement.image, userId: fakeEtablissement.userId })
 								.then((a) => {
 									console.log("un etablissement a été crée");
-									console.log("hotel ",a.nom," user ",a.userId);
+									console.log("hotel ", a.nom, " user ", a.userId);
 									db.sequelize.models.user_roles.create({ userId: a.userId, roleId: 2 }).then((e) => {
 										console.log("role manager!!");
 									});

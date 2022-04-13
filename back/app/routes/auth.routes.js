@@ -8,8 +8,8 @@ module.exports = function (app) {
 		res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
 		next();
 	});
-	// app.post("/auth/signup", [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted], controller.signup);
-	app.post("/auth/signup",  controller.signup);
+	app.post("/auth/signup", [verifySignUp.checkDuplicateUsernameOrEmail], controller.signup);
+	// app.post("/auth/signup",  controller.signup);
 	app.post("/auth/signin", controller.signin);
 	// app.post("/auth/signinAuto",  controller.signinAuto);
 	// app.use("/auth/signinAuto", [authJwt.verifyToken], controller.signinAuto);

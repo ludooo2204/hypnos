@@ -15,7 +15,7 @@ exports.getUsers = (req, res) => {
 		attributes: { exclude: ["createdAt", "updatedAt", "password"] },
 		include: [{ model: role, attributes: { exclude: ["createdAt", "updatedAt"] } }],
 	}).then((users) => {
-		console.log(JSON.stringify(users, null, 2));
+		// console.log(JSON.stringify(users, null, 2));
 		res.status(200).json({ users });
 	});
 };
@@ -30,7 +30,7 @@ exports.getEtablissements = (req, res) => {
 			],
 		})
 		.then((etablissement) => {
-			console.log(JSON.stringify(etablissement, null, 2));
+			// console.log(JSON.stringify(etablissement, null, 2));
 			res.status(200).json({ etablissement });
 		});
 };

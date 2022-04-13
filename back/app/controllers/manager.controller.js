@@ -2,8 +2,15 @@ const db = require("../models");
 const suite = db.suite;
 const image = db.image;
 const images = db.sequelize.models.image;
-
 exports.getSuites = (req, res) => {
+	console.log("req from get suite")
+	console.log("req from get suite")
+	console.log("req from get suite")
+	console.log("req from get suite")
+	console.log("req from get suite")
+	console.log("req from get suite")
+	console.log("req from get suite")
+	console.log(req)
 	suite
 		.findAll({
 			model: suite,
@@ -60,6 +67,7 @@ exports.postSuite = (req, res) => {
 
 exports.updateSuite = (req, res) => {
 	const { nom, imageMiseEnAvant, prix, description, UrlBooking } = req.body;
+	
 	// const { nom, imageMiseEnAvant, prix, description, UrlBooking, images } = req.body;
 	console.log(req.body.imageMiseEnAvant);
 	console.log("req.params.id");
@@ -109,6 +117,10 @@ exports.updateSuite = (req, res) => {
 
 exports.deleteSuite = (req, res) => {
 	console.log("DELETE!!!!")
+	console.log("DELETE!!!!")
+	console.log("DELETE!!!!")
+
+
 	suite
 		.destroy({
 			where: { id: req.params.id },

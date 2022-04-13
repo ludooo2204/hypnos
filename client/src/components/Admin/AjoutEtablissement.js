@@ -74,6 +74,12 @@ const Admin = () => {
 		setManager(e);
 	};
 	const validerEtablissement = () => {
+		const header = {
+			headers: {
+				"x-access-Token": window.localStorage.getItem("token"),
+				"content-type": "application/json",
+			},
+		};
 		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images:images.name };
 	console.log("images")
 	console.log("images")
@@ -83,12 +89,14 @@ const Admin = () => {
 	console.log("images")
 	console.log(images)
 	
-		axios.post("/admin/etablissement", etablissementData)
-		.then(() => axios.patch("/admin/userToManager/" + manager.id))
+		axios.post("/admin/etablissement", etablissementData,header)
+		.then(() => axios.patch("/admin/userToManager/" + manager.id,header))
 		.then(navigate("../"));
 	};
 	const annulerEtablissement = () => {
 		console.log("annulerEtablissement");
+		window.location.reload()
+
 	};
 	const handleImage = (e) => {
 	
