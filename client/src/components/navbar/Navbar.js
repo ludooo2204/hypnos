@@ -37,9 +37,29 @@ const Navbar = ({ userGlobal, userProp }) => {
 	const [isAdmin, setAdmin] = useState(false);
 	const [isManager, setManager] = useState(false);
 	const [isUser, setUser] = useState(false);
-	const [navBg, setNavBg] = React.useState(styles.navBg1);
+	const [navBg, setNavBg] = useState(styles.navBg1);
+	const [toggleMenu, setToggleMenu] = useState(false);
+	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
 	const location = useLocation();
-	React.useEffect(() => {
+	const toggleNav = () => {
+		console.log(toggleMenu);
+		setToggleMenu(!toggleMenu);
+	};
+	//Permet de recuperer la screenWidth en cas de redimensionnement
+	useEffect(() => {
+		const changeWidth = () => {
+			setScreenWidth(window.innerWidth);
+		};
+
+		window.addEventListener("resize", changeWidth);
+
+		return () => {
+			window.removeEventListener("resize", changeWidth);
+		};
+	}, []);
+
+	useEffect(() => {
 		if (window.location.pathname === "/") {
 			setNavBg(styles.navBg1);
 		} else {
@@ -68,7 +88,6 @@ const Navbar = ({ userGlobal, userProp }) => {
 	}, [userProp]);
 
 	const seConnecter = (user) => {
-
 		if (user.roles.includes("ROLE_ADMIN")) {
 			console.log("ROLE ADMIN");
 			setAdmin(true);
@@ -81,7 +100,7 @@ const Navbar = ({ userGlobal, userProp }) => {
 		}
 		setUserConnected(true);
 		userGlobal(user);
-		window.location.reload()
+		window.location.reload();
 	};
 	const seDeconnecter = () => {
 		window.localStorage.removeItem("token");
@@ -99,60 +118,71 @@ const Navbar = ({ userGlobal, userProp }) => {
 	return (
 		<>
 			<nav className={`${styles.navbar} ${navBg}`}>
-				<ol className={styles.ol}>
-					<li>
-						<Link to="/" className={styles.text}>
-							<div className={styles.logoHypnos}></div>
-						</Link>
-					</li>
-					<li>
-						<Link to="/etablissements" className={styles.text}>
-							Nos hôtels
-						</Link>
-					</li>
-					<li>
-						<Link to="/contact" className={styles.text}>
-							Nous contacter
-						</Link>
-					</li>
-					<li>
-						<Link to="/reservation" className={styles.text}>
-							Réservez un séjour
-						</Link>
-					</li>
+				{(toggleMenu || screenWidth > 600) && (<>
+					<ol className={styles.ol}>
+						<li className={styles.items}>
+							<Link to="/" className={styles.text}>
+								<div className={styles.logoHypnos}></div>
+							</Link>
+						</li>
+						<li className={styles.items}>
+							<Link to="/etablissements" className={styles.text}>
+								Nos hôtels
+							</Link>
+						</li>
+						<li className={styles.items}>
+							<Link to="/contact" className={styles.text}>
+								Nous contacter
+							</Link>
+						</li>
+						<li className={styles.items}>
+							<Link to="/reservation" className={styles.text}>
+								Réservez un séjour
+							</Link>
+						</li>
 
-					{isAdmin && (
-						<li>
-							<Link to="/admin" className={styles.text}>
-								Section Admin
-							</Link>
-						</li>
-					)}
-					{isManager && (
-						<li>
-							<Link to="/manager" className={styles.text}>
-								Section Manager
-							</Link>
-						</li>
-					)}
-					{isUser && (
-						<li>
-							<Link to="/mesReservations" className={styles.text}>
-								Mes réservations
-							</Link>
-						</li>
-					)}
-				</ol>
-
-				{userConnected ? (
-					<div onClick={seDeconnecter} className={`${styles.text}  ${styles.connexionButton}`}>
-						<LogoutIcon />
+						{isAdmin && (
+							<li className={styles.items}>
+								<Link to="/admin" className={styles.text}>
+									Section Admin
+								</Link>
+							</li>
+						)}
+						{isManager && (
+							<li className={styles.items}>
+								<Link to="/manager" className={styles.text}>
+									Section Manager
+								</Link>
+							</li>
+						)}
+						{isUser && (
+							<li className={styles.items}>
+								<Link to="/mesReservations" className={styles.text}>
+									Mes réservations
+								</Link>
+							</li>
+						)}
+					</ol>	{userConnected ? (
+					<div onClick={seDeconnecter} className={`${styles.text}  ${styles.connexionButton} `}>
+						<LogoutIcon sx={{fontSize:screenWidth > 600? 25:35,paddingTop:screenWidth > 600?0:2 }} />
+						{/* <LogoutIcon className={styles.itemsLog}/> */}
 					</div>
 				) : (
-					<div onClick={openModal} className={`${styles.text}  ${styles.connexionButton}`}>
-						<AccountCircleIcon data-tip data-for="AccountCircleIcon" />
+					<div onClick={openModal} className={`${styles.text}  ${styles.connexionButton} `}>
+						<AccountCircleIcon data-tip data-for="AccountCircleIcon" sx={{fontSize:screenWidth > 600? 25:35,paddingTop:screenWidth > 600?0:2 }} />
+						{/* <AccountCircleIcon data-tip data-for="AccountCircleIcon" className={styles.itemsLog} /> */}
 					</div>
 				)}
+				</>
+				)}
+				<div onClick={toggleNav} className={styles.btn}>
+					<svg viewBox="0 0 100 80" width="30" height="25">
+						<rect width="100" height="20" stroke="blue" fill="#f1f1f1" rx="8" ry="8"></rect>
+						<rect y="30" width="100" height="20" stroke="blue" fill="#f1f1f1" rx="8" ry="8"></rect>
+						<rect y="60" width="100" height="20" stroke="blue" fill="#f1f1f1" rx="8" ry="8"></rect>
+					</svg>
+				</div>
+			
 
 				<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
 					<LoginForm closeModal={closeModal} seConnecter={seConnecter} />

@@ -25,10 +25,16 @@ const Admin = () => {
 	const [managerOrigine, setManagerOrigine] = useState("");
 	let navigate = useNavigate();
 	useEffect(() => {
-		axios.get("/admin/getUsers").then((users) => {
-			console.log(users.data);
-			setUsers(users.data);
-		});
+		axios
+			.get("/admin/getUsers")
+			.then((users) => {
+				console.log(users.data);
+				setUsers(users.data);
+			})
+			.catch((err) => {
+				console.log("errreur!!!!");
+				alert("vous n'avez pas les droits d'administrateur!!!")
+			});
 		axios.get("/admin/etablissement").then((etablissement) => {
 			console.log(etablissement.data);
 			let etablissementsTemp = etablissement.data.etablissement;
@@ -77,7 +83,7 @@ const Admin = () => {
 			setModalUserFindedVisible(false);
 		} else {
 			console.log("users");
-			const usersOnlyUser=(users.users.filter((user)=>user.roles.length==1));
+			const usersOnlyUser = users.users.filter((user) => user.roles.length == 1);
 			const resultatDeRecherche = matchSorter(
 				usersOnlyUser,
 				// users.users.map((user) => user.email),
@@ -117,14 +123,12 @@ const Admin = () => {
 		console.log("manager origine");
 		console.log(managerOrigine);
 		if (etablissementChoisi) {
-
-			console.log("images" )
-			console.log(images )
-		// 	const imageToSave=image.nom?image.nom:image.name)
-		// 	console.log("imagesToSave")
-		// 	console.log(imagesToSave)
-		//    const suiteData = { nom, prix, lien, description,imageMiseEnAvant, images: imagesToSave };
-
+			console.log("images");
+			console.log(images);
+			// 	const imageToSave=image.nom?image.nom:image.name)
+			// 	console.log("imagesToSave")
+			// 	console.log(imagesToSave)
+			//    const suiteData = { nom, prix, lien, description,imageMiseEnAvant, images: imagesToSave };
 
 			const etablissementData = { nom, adresse, ville, description, manager: manager.id, image: images.name };
 			console.log("validerEtablissement");
@@ -132,8 +136,12 @@ const Admin = () => {
 			axios
 				.patch("/admin/etablissement/" + etablissementChoisi.id, etablissementData)
 				.then(() => axios.patch("/admin/etablissement/manager/" + etablissementChoisi.id, { userId: manager.id }))
-				.then(() =>{if (!manager.id==managerOrigine.id) axios.patch("/admin/userToManager/" + manager.id)})
-				.then(() =>{if (!manager.id==managerOrigine.id) axios.patch("/admin/managerToUser/" + managerOrigine.id)})
+				.then(() => {
+					if (!manager.id == managerOrigine.id) axios.patch("/admin/userToManager/" + manager.id);
+				})
+				.then(() => {
+					if (!manager.id == managerOrigine.id) axios.patch("/admin/managerToUser/" + managerOrigine.id);
+				})
 				.then(() => {
 					alert("Les modifications ont été sauvegardée !");
 					navigate("../");
@@ -148,9 +156,10 @@ const Admin = () => {
 	const supprimerEtablissement = () => {
 		console.log("supprimerEtablissement");
 		if (window.confirm("Etes-vous sur de supprimer l'établissement " + etablissementChoisi.nom + " ?")) {
-			axios.delete("/admin/etablissement/" + etablissementChoisi.id)
-			.then(() => axios.patch("/admin/managerToUser/" + managerOrigine.id))
-			.then(() => window.location.reload());
+			axios
+				.delete("/admin/etablissement/" + etablissementChoisi.id)
+				.then(() => axios.patch("/admin/managerToUser/" + managerOrigine.id))
+				.then(() => window.location.reload());
 		}
 	};
 	const handleImage = (e) => {

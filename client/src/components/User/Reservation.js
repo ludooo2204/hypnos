@@ -61,7 +61,7 @@ const Reservation = ({ user }) => {
 		if (etablissementChoisi) {
 			console.log("etablissementsTemp.unshift({ nom: '---' })2222");
 			let suitesTemp = etablissementChoisi.suites;
-			if (!etablissementChoisi.suites.map((e) => e.nom).includes("---")) {
+			if (etablissementChoisi.suites && !etablissementChoisi.suites.map((e) => e.nom).includes("---")) {
 				suitesTemp.unshift({ nom: "---" });
 			}
 			setSuites(suitesTemp);

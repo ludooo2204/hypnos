@@ -190,3 +190,14 @@ transform: scale(1.03);
 	font-family: Trirong, serif;
 	font-size: 1.85rem;
 }
+
+@media screen and (max-width: 600px){
+	.cardMain {
+		background-color: #5b5b5b;
+		display: flex;
+		flex-direction: column;
+		width: 90%;
+		margin: 3% 1%;
+		/* animation-delay: 2s; */
+	}
+}

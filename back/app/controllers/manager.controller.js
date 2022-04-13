@@ -23,31 +23,41 @@ exports.getSuites = (req, res) => {
 exports.postSuite = (req, res) => {
 	console.log("postsuite!")
 	const { nom, imageMiseEnAvant, prix, description, lien, images, etablissementId } = req.body;
+	console.log(req.body)
+	console.log(req.body.images)
+	console.log(req.body.imageMiseEnAvant)
 	suite
 		.create(
-			{ nom, imageMiseEnAvant, prix, description, UrlBooking:lien, images:images.map(e=> {return{nom:e}}), etablissementId },
-			{
-				include: [image],
-			}
+			{ nom, imageMiseEnAvant, prix, description, UrlBooking:lien,  etablissementId },
+			// { nom, imageMiseEnAvant, prix, description, UrlBooking:lien, images, etablissementId },
+			// { nom, imageMiseEnAvant, prix, description, UrlBooking:lien, images:images.map(e=> {return{nom:e}}), etablissementId },
+			// {
+			// 	include: [image],
+			// }
 		)
 		.then((suite) => {
-			console.log("suite créé !!");
-			console.log(JSON.stringify(suite, null, 2));
-			res.status(200).json({ status: "ok" });
-		});
-};
-exports.deleteSuite = (req, res) => {
-	console.log("DELETE!!!!")
-	suite
-		.destroy({
-			where: { id: req.params.id },
+			console.log("suite")
+			console.log("suite")
+			console.log("suite")
+			console.log(suite)
+			for (const iterator of req.body.images) {
+				console.log("iterator");
+				console.log(iterator);
+				image
+					.create({ nom: iterator, suiteId: suite.id })
+					.then(() => {
+						console.log("images recrée");
+					})
+					.catch((err) => console.log("erreur", err));
+			}
 		})
 		.then((suite) => {
 			console.log("suite créé !!");
-			console.log(JSON.stringify(suite, null, 2));
-			res.status(200).json({ suite });
-		});
+			res.status(200).json({ status: "ok" });
+		})
+		.catch((error=>console.log("err",error)))
 };
+
 exports.updateSuite = (req, res) => {
 	const { nom, imageMiseEnAvant, prix, description, UrlBooking } = req.body;
 	// const { nom, imageMiseEnAvant, prix, description, UrlBooking, images } = req.body;
@@ -95,6 +105,23 @@ exports.updateSuite = (req, res) => {
 			res.status(200).json({ status: "ok" });
 		});
 };
+
+
+exports.deleteSuite = (req, res) => {
+	console.log("DELETE!!!!")
+	suite
+		.destroy({
+			where: { id: req.params.id },
+		})
+		.then((suite) => {
+			console.log("suite créé !!");
+			console.log(JSON.stringify(suite, null, 2));
+			res.status(200).json({ suite });
+		});
+};
+
+
+
 exports.postImage = (req, res) => {
 	console.log("post images");
 	console.log("req");

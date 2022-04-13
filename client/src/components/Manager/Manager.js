@@ -32,7 +32,8 @@ const Manager = ({ user }) => {
 					setSuites([{ nom: "---" }]);
 				}
 			}
-		});
+		})
+		
 	}, [user]);
 
 
@@ -105,6 +106,9 @@ const Manager = ({ user }) => {
 					alert("la suite à été modifiée");
 					window.location.reload()
 				}
+			}).catch((err) => {
+				console.log("errreur!!!!");
+				alert("vous n'avez pas les droits de Manager!!!")
 			});
 		} else {
 			alert("Merci de choisir un établissement à modifier !");
@@ -116,7 +120,11 @@ const Manager = ({ user }) => {
 	const supprimerSuite = () => {
 		console.log("supprimerSuite");
 		if (window.confirm("Etes-vous sur de supprimer l'établissement " + suiteChoisi.nom + " ?")) {
-			axios.delete("/manager/suite/" + suiteChoisi.id).then(() => window.location.reload());
+			axios.delete("/manager/suite/" + suiteChoisi.id).then(() => window.location.reload())
+			.catch((err) => {
+				console.log("errreur!!!!");
+				alert("vous n'avez pas les droits de Manager!!!")
+			});
 		}
 	};
 	const handleImageMiseEnAvant = (e) => {

@@ -34,6 +34,7 @@ module.exports = function (app) {
 	app.use("/admin", admin_route);
 	// app.use("/admin", [authJwt.verifyToken, authJwt.isAdmin], admin_route);
 //Route des managers
-	app.use("/manager", manager_route);
+	app.use("/manager",  manager_route);
+	// app.use("/manager", [authJwt.verifyToken, authJwt.isManager], manager_route);
 	app.use("/user", user_route);
 };

@@ -4,7 +4,7 @@ import styles from "./Home.module.css";
 
 const Home = () => {
 useEffect(() => {
- alert("sur reservation. bug qd on passe d'un etablissement a ---")
+ alert("securité a revoir et bouton annuler")
 }, [])
 
   return (
