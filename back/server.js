@@ -87,7 +87,7 @@ mysql
 													console.log("err3", err);
 												})
 												.then((e) => {
-							console.log("roles de l'admin créé")
+							console.log("role de l'admin créé")
 
 													//C4est ici que ca se passe !!! comment changer cette boucle ????
 
