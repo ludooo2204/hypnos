@@ -164,25 +164,7 @@ const fakeReservations = [
 		dateFin: new Date("02/06/2021 12:00:00"),
 		userId: 4,
 		suiteId: 2,
-	},
-	{
-		dateDebut: new Date("01/03/2021 12:00:00"),
-		dateFin: new Date("06/03/2021 12:00:00"),
-		userId: 4,
-		suiteId: 3,
-	},
-	{
-		dateDebut: new Date("01/03/2021 12:00:00"),
-		dateFin: new Date("06/03/2021 12:00:00"),
-		userId: 5,
-		suiteId: 3,
-	},
-	{
-		dateDebut: new Date("01/03/2021 12:00:00"),
-		dateFin: new Date("06/03/2021 12:00:00"),
-		userId: 5,
-		suiteId: 3,
-	},
+	}
 ];
 const fakeSuites = [
 	{

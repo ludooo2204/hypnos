@@ -3,9 +3,9 @@ import React, { useEffect } from 'react'
 import styles from "./Home.module.css";
 
 const Home = () => {
-useEffect(() => {
- alert("probleme a la generation user_role sur pc maison")
-}, [])
+// useEffect(() => {
+//  alert("probleme a la generation user_role sur pc maison")
+// }, [])
 
   return (
     <div className={styles.fondEcran}>

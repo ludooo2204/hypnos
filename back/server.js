@@ -10,7 +10,7 @@ const config = require("./app/config/db.config");
 const mysql = require("mysql2/promise");
 
 const fakeData = require("./app/config/fakeData");
-console.log(fakeData);
+// console.log(fakeData);
 // enable files upload
 app.use(
 	fileUpload({
@@ -18,7 +18,7 @@ app.use(
 	})
 );
 
-console.log("coucou");
+// console.log("coucou");
 var corsOptions = {
 	origin: "http://localhost:3000",
 };
@@ -44,195 +44,168 @@ mysql
 		connection.query(`CREATE DATABASE IF NOT EXISTS ${config.DB};`);
 	})
 	.then(() => {
-		// database
 		const db = require("./app/models");
 
-		// const Role = db.role;
-
-		db.sequelize
-			.sync({ force: true })
-			.then(() => {
-				db.role.findAll({ where: { id: 1 } }).then((e) => {
-					if (e.length != 1) {
-						db.role.create({
-							id: 1,
-							name: "user",
-						});
-						db.role.create({
-							id: 2,
-							name: "manager",
-						});
-						db.role.create({
-							id: 3,
-							name: "admin",
-						});
-					}
-				});
-			})
-			.then(() => {
-				// Creation de l'admin
-				const emailAdmin = "admin@lomano.fr";
-				let vachonId;
-				let etablissementChatelleraultId;
-				// console.log(db);
-				db.user
-					.findAll({ where: { email: emailAdmin } })
-					.then((e) => {
-						if (e.length != 1) {
-							db.user
-								.create({
-									nom: emailAdmin,
-									prenom: emailAdmin,
-									email: emailAdmin,
-									password: bcrypt.hashSync("admin", 8),
-								})
-								.then((user) => {
-									db.sequelize.models.user_roles
-										.bulkCreate([
-											{ userId: user.id, roleId: 1 },
-											{ userId: user.id, roleId: 2 },
-											{ userId: user.id, roleId: 3 },
-										])
-										.then((e) => {
-											console.log("admin créé!!");
-										});
-								})
-
-								.catch((err) => {
-									console.log(err);
-								});
-
-							//creation de user fictif (pour avoir de potentiel manager)
-							for (const fakeUser of fakeData.fakeData.users) {
-								db.user
-									.create({
-										nom: fakeUser.nom,
-										prenom: fakeUser.prenom,
-										email: fakeUser.email,
-										password: bcrypt.hashSync("foot", 8),
-									})
-									.then((user) => {
-										db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).then((e) => {
-											console.log("role client!!");
-										});
-									})
-									.catch((err)=>console.log("erreur fakeData.users",err))
-							}
-
-							db.user
-								.create({
-									nom: fakeData.fakeData.fakeChatellerault.user.nom,
-									prenom: fakeData.fakeData.fakeChatellerault.user.prenom,
-									email: fakeData.fakeData.fakeChatellerault.user.email,
-									password: bcrypt.hashSync("foot", 8),
-								})
-								.then((user) => {
-									console.log("user ludo :", user.id);
-									vachonId = user.id;
-									db.sequelize.models.user_roles
-										.create({ userId: user.id, roleId: 1 })
-										.then((e) => {
-											console.log("role client!!");
+		db.sequelize.sync({ force: true }).then(() => {
+			db.role.findAll({ where: { id: 1 } }).then((e) => {
+				if (e.length != 1) {
+					db.role
+						.bulkCreate([
+							{ id: 1, name: "user" },
+							{ id: 2, name: "manager" },
+							{ id: 3, name: "admin" },
+						])
+						.catch((err) => console.log("err1", err))
+						.then(() => {
+							// Creation de l'admin
+							console.log("roles user/manager/admin crée")
+							const emailAdmin = "admin@lomano.fr";
+							let vachonId;
+							let etablissementChatelleraultId;
+							db.user.findAll({ where: { email: emailAdmin } }).then((e) => {
+								if (e.length != 1) {
+									db.user
+										.create({
+											nom: emailAdmin,
+											prenom: emailAdmin,
+											email: emailAdmin,
+											password: bcrypt.hashSync("admin", 8),
 										})
-										.then(() => {
-											db.etablissement
-												.create({
-													nom: fakeData.fakeData.fakeChatellerault.nom,
-													description: fakeData.fakeData.fakeChatellerault.description,
-													adresse: fakeData.fakeData.fakeChatellerault.adresse,
-													ville: fakeData.fakeData.fakeChatellerault.ville,
-													image: fakeData.fakeData.fakeChatellerault.image,
-													userId: vachonId,
+										.catch((err) => {
+											console.log("err2", err);
+										})
+										.then((user) => {
+							console.log("admin créé")
+
+											db.sequelize.models.user_roles
+												.bulkCreate([
+													{ userId: user.id, roleId: 1 },
+													{ userId: user.id, roleId: 2 },
+													{ userId: user.id, roleId: 3 },
+												])
+												.catch((err) => {
+													console.log("err3", err);
 												})
-												.then((a) => {
-													etablissementChatelleraultId = a.id;
-													db.sequelize.models.user_roles
-														.create({ userId: a.userId, roleId: 2 })
-														.then((e) => {
-															console.log("role manager!!");
-														})
-														.then(() => {
-															for (const fakeSuite of fakeData.fakeData.suites) {
-																db.suite
-																	.create(
-																		{
-																			nom: fakeSuite.nom,
-																			imageMiseEnAvant: fakeSuite.imageMiseEnAvant,
-																			prix: fakeSuite.prix,
-																			description: fakeSuite.description,
-																			UrlBooking: fakeSuite.UrlBooking,
-																			images: fakeSuite.images,
-																			etablissementId: etablissementChatelleraultId,
-																		},
-																		{
-																			include: [db.image],
+												.then((e) => {
+							console.log("roles de l'admin créé")
+
+													//C4est ici que ca se passe !!! comment changer cette boucle ????
+
+													//creation de user fictif (pour avoir de potentiel manager)
+													for (const fakeUser of fakeData.fakeData.users) {
+														db.user
+															.create(
+																{
+																	nom: fakeUser.nom,
+																	prenom: fakeUser.prenom,
+																	email: fakeUser.email,
+																	password: bcrypt.hashSync("foot", 8),
+																	roles: 1,
+																},
+																{
+																	include: [db.role],
+																}
+															)
+															.catch((err) => console.log("erreur fakeData.users", err))
+															// .then((user) => {
+															// 	console.log("role client!!");
+															// });
+													}
+
+													//creation du user ludo sur chatellerault
+													db.user
+														.create(
+															{
+																nom: fakeData.fakeData.fakeChatellerault.user.nom,
+																prenom: fakeData.fakeData.fakeChatellerault.user.prenom,
+																email: fakeData.fakeData.fakeChatellerault.user.email,
+																password: bcrypt.hashSync("foot", 8),
+																roles: 1,
+															},
+															{
+																include: [db.role],
+															}
+														)
+														.then((user) => {
+															console.log("user ludo vachon créé")
+
+															vachonId = user.id;
+															db.sequelize.models.user_roles.create({ userId: user.id, roleId: 2 }).then(() => {
+																//Creation de l'etablissement de chatellerault
+																db.etablissement
+																	.create({
+																		nom: fakeData.fakeData.fakeChatellerault.nom,
+																		description: fakeData.fakeData.fakeChatellerault.description,
+																		adresse: fakeData.fakeData.fakeChatellerault.adresse,
+																		ville: fakeData.fakeData.fakeChatellerault.ville,
+																		image: fakeData.fakeData.fakeChatellerault.image,
+																		userId: vachonId,
+																	})
+																	.catch((err) => console.log(err))
+
+																	.then(() => {
+							console.log("etablissement de chatellerault créé")
+
+																		///creation des suite de chatellerault
+																		for (const fakeSuite of fakeData.fakeData.suites) {
+																			db.suite
+																				.create(
+																					{
+																						nom: fakeSuite.nom,
+																						imageMiseEnAvant: fakeSuite.imageMiseEnAvant,
+																						prix: fakeSuite.prix,
+																						description: fakeSuite.description,
+																						UrlBooking: fakeSuite.UrlBooking,
+																						images: fakeSuite.images,
+																						etablissementId: etablissementChatelleraultId,
+																					},
+																					{
+																						include: [db.image],
+																					}
+																				)
+																				// .then(() => {
+																				// 	console.log("une suite a été crée");
+																				// })
+																				.catch((err) => console.log(err));
 																		}
-																	)
-																	.then(() => console.log("une suite a été crée"))
-																	.catch((err) => console.log(err));
-															}
-														})
-														.then(() => {
-															for (const fakeReservation of fakeData.fakeData.reservations) {
-																db.reservation
-																	.create({ dateDebut: fakeReservation.dateDebut, dateFin: fakeReservation.dateFin, userId: fakeReservation.userId, suiteId: fakeReservation.suiteId })
-																	.then((resa) => console.log("une reservation a été crée"))
-																	.catch((err) => console.log(err));
-															}
+																	})
+																	.then(() => {
+																		// on creer les reservations a chatellerault
+																		for (const fakeReservation of fakeData.fakeData.reservations) {
+																			db.reservation
+																				.create({ dateDebut: fakeReservation.dateDebut, dateFin: fakeReservation.dateFin, userId: fakeReservation.userId, suiteId: fakeReservation.suiteId })
+																				.catch((err) => console.log(err))
+																				// .then((resa) => console.log("une reservation a été crée"));
+																		}
+																	})
+																	.then(() => {
+																		for (const fakeEtablissement of fakeData.fakeData.etablissements) {
+																			db.etablissement
+																				.create({ nom: fakeEtablissement.nom, description: fakeEtablissement.description, adresse: fakeEtablissement.adresse, ville: fakeEtablissement.ville, image: fakeEtablissement.image, userId: fakeEtablissement.userId })
+																				.then((a) => {
+																					// console.log("un etablissement a été crée");
+																					// console.log("hotel ", a.nom, " user ", a.userId);
+																					db.sequelize.models.user_roles.create({ userId: a.userId, roleId: 2 })
+																					// .then((e) => {
+																					// 	console.log("role manager!!");
+																					// });
+																				})
+																				.catch((err) => console.log("errrrrrrrrrrrrrrr", err));
+																		}
+																	});
+															});
+
+															// })
 														});
-												})
-												.catch((err) => console.log("errrrrrrrrrrrrrrr", err));
+												});
 										});
-								});
-							console.log("Fake users créé !");
-						}
-					})
-
-					.then(() => {
-						for (const fakeEtablissement of fakeData.fakeData.etablissements) {
-							db.etablissement
-								.create({ nom: fakeEtablissement.nom, description: fakeEtablissement.description, adresse: fakeEtablissement.adresse, ville: fakeEtablissement.ville, image: fakeEtablissement.image, userId: fakeEtablissement.userId })
-								.then((a) => {
-									console.log("un etablissement a été crée");
-									console.log("hotel ", a.nom, " user ", a.userId);
-									db.sequelize.models.user_roles.create({ userId: a.userId, roleId: 2 }).then((e) => {
-										console.log("role manager!!");
-									});
-								})
-								.catch((err) => console.log("errrrrrrrrrrrrrrr", err));
-						}
-					});
-
-				// .then(() => {
-				// 	for (const fakeSuite of fakeData.fakeData.suites) {
-				// 		db.suite
-				// 			.create(
-				// 				{
-				// 					nom: fakeSuite.nom,
-				// 					imageMiseEnAvant: fakeSuite.imageMiseEnAvant,
-				// 					prix: fakeSuite.prix,
-				// 					description: fakeSuite.description,
-				// 					UrlBooking: fakeSuite.UrlBooking,
-				// 					images: fakeSuite.images,
-				// 					etablissementId: fakeSuite.etablissementId,
-				// 				},
-				// 				{
-				// 					include: [db.image],
-				// 				}
-				// 			)
-				// 			.then(() => console.log("une suite a été crée"))
-				// 			.catch((err) => console.log(err));
-				// 	}
-				// })
-				// .then(() => {
-				// 	for (const fakeReservation of fakeData.fakeData.reservations) {
-				// 		db.reservation
-				// 			.create({ dateDebut: fakeReservation.dateDebut, dateFin: fakeReservation.dateFin, userId: fakeReservation.userId, suiteId: fakeReservation.suiteId })
-				// 			.then((resa) => console.log("une reservation a été crée"))
-				// 			.catch((err) => console.log(err));
-				// 	}
-				// });
+								}
+							});
+						});
+				}
 			});
+		});
+
 		// force: true will drop the table if it already exists
 		// db.sequelize.sync({force: true}).then(() => {
 		//   console.log('Drop and Resync Database with { force: true }');
