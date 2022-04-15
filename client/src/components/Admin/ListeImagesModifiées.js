@@ -21,7 +21,8 @@ const ListeImagesModifiées = ({ images }) => {
 				imagesState.map((image, i) => {
 					return (
 						<div key={i} className={styles.imageGroup}>
-							<img className={styles.image} src={require("../../uploads/" + images[i])} />
+							<img className={styles.image} src={"/uploads/" + images[i]} />
+							{/* <img className={styles.image} src={require("../../uploads/" + images[i])} /> */}
 							<HighlightOffIcon className={styles.iconeDelete} onClick={() => onDelete(i)} />
 						</div>
 					);

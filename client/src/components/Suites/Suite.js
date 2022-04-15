@@ -15,7 +15,8 @@ const reserverSuite = ()=>{
 	return (
 		<div className={styles.mainSuite}>
 			<h1 className={styles.titre}>{nom}</h1>
-			<div className={styles.suiteCardGroup}>{images && images.map((image, i) => <img className={styles.photoSuite} src={require("../../uploads/" + image.nom)}></img>)}</div>
+			<div className={styles.suiteCardGroup}>{images && images.map((image, i) => <img className={styles.photoSuite} src={"/uploads/" + image.nom}></img>)}</div>
+			{/* <div className={styles.suiteCardGroup}>{images && images.map((image, i) => <img className={styles.photoSuite} src={require("../../uploads/" + image.nom)}></img>)}</div> */}
 			<hr width="30%"></hr>
 			
 			<div className={styles.infoSuite}>

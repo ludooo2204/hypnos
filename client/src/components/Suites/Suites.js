@@ -14,7 +14,8 @@ const SuiteCard = (suiteData) => {
 	};
 	return (
 		<div className={styles.cardMain} onClick={selectionnerSuite}>
-			<img className={styles.photo} src={require("../../uploads/" + imageMiseEnAvant)}></img>
+			<img className={styles.photo} src={"/uploads/" + imageMiseEnAvant}></img>
+			{/* <img className={styles.photo} src={require("../../uploads/" + imageMiseEnAvant)}></img> */}
 			<h1 className={styles.titreSuite}>{nom} </h1>
 		</div>
 	);

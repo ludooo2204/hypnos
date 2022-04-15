@@ -13,7 +13,8 @@ const ListeImagesMiseEnAvant = ({ images, onDelete }) => {
 						<div  className={styles.imageGroup}>
                             {console.log("imagesState")    }
                             {console.log(imagesState)    }
-							<img className={styles.image} src={typeof imagesState == "string" ? require("../../uploads/" + imagesState) : URL.createObjectURL(imagesState)} />
+							<img className={styles.image} src={typeof imagesState == "string" ? "/uploads/" + imagesState : URL.createObjectURL(imagesState)} />
+							{/* <img className={styles.image} src={typeof imagesState == "string" ? require("../../uploads/" + imagesState) : URL.createObjectURL(imagesState)} /> */}
 							<HighlightOffIcon className={styles.iconeDelete} onClick={() => onDelete()} />
 						</div>
 					

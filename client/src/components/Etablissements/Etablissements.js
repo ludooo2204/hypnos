@@ -15,7 +15,8 @@ const EtablissementCard = (etablissementData) => {
 	};
 	return (
 		<div className={styles.cardMain} onClick={selectionnerEtablissement}>
-			<img className={styles.photo} src={require("../../uploads/" + image)}></img>
+			<img className={styles.photo} src={"/uploads/" + image}></img>
+			{/* <img className={styles.photo} src={require("../../uploads/" + image)}></img> */}
 			<h1 className={styles.titre}>{nom} </h1>
 		</div>
 	);

@@ -59,8 +59,9 @@ const ListeImagesGalerie = ({ images, onDelete }) => {
 							{console.log(image)}
 							{/* <img className={styles.image} src={require("../../uploads/" + image)} /> */}
 							{/* CA CA MARCHE POUR L'UPLOAD */}
-							<img className={styles.image} src={typeof image.nom == "string" ? require("../../uploads/" + image.nom) : URL.createObjectURL(image)} />
-							{/* <img className={styles.image} src={typeof image == "string" ? require("../../uploads/" + image) :(image.length==0?null: URL.createObjectURL(image))} /> */}
+							<img className={styles.image} src={typeof image.nom == "string" ?( "/uploads/" + image.nom ):( URL.createObjectURL(image))} />
+							{/* <img className={styles.image} src={typeof image.nom == "string" ? require("../../uploads/" + image.nom) : URL.createObjectURL(image)} /> */}
+						
 							<HighlightOffIcon className={styles.iconeDelete} onClick={() => onDelete(i)} />
 						</div>
 					);
