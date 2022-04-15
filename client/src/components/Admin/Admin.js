@@ -29,6 +29,10 @@ const Admin = ({ userData }) => {
 			.get("/admin/getUsers")
 			.then((users) => {
 				console.log(users.data);
+				console.log(users.data);
+				console.log(users.data);
+				console.log(users.data);
+				console.log(users.data);
 				setUsers(users.data);
 			})
 			.catch((err) => {
@@ -77,12 +81,13 @@ const Admin = ({ userData }) => {
 		setEtablissementChoisi(etablissements.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const handleUserSearch = (e) => {
-		console.log(e.target.value);
 		setManager(e.target.value);
 		if (e.target.value == "") {
 			setModalUserFindedVisible(false);
 		} else {
 			console.log("users");
+			console.log("users");
+			console.log(users.users);
 			const usersOnlyUser = users.users.filter((user) => user.roles.length == 1);
 			const resultatDeRecherche = matchSorter(
 				usersOnlyUser,
@@ -238,20 +243,20 @@ const Admin = ({ userData }) => {
 					</div>
 				</div>
 			</div>
-			<div className={styles.buttonGroup}>
-				<button className={styles.buttonValidation} onClick={validerEtablissement}>
-					Valider
-				</button>
-				<button className={styles.buttonAnnulation} onClick={annulerEtablissement}>
-					Annuler
-				</button>
-			</div>
 			<div>
 				<button className={styles.buttonAjoutEtablissement} onClick={() => navigate("../AjoutEtablissement")}>
 					Ajouter un établissement
 				</button>
 				<button className={styles.buttonSupprimerEtablissement} onClick={supprimerEtablissement}>
 					Supprimer un établissement
+				</button>
+			</div>
+			<div className={styles.buttonGroup}>
+				<button className={styles.buttonValidation} onClick={validerEtablissement}>
+					Valider
+				</button>
+				<button className={styles.buttonAnnulation} onClick={annulerEtablissement}>
+					Annuler
 				</button>
 			</div>
 		</div>

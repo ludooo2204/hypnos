@@ -113,3 +113,24 @@ top: 2.7rem;*/
 border-radius: 5px;
 width: 100%;
 } */
+
+
+
+@media screen and (max-width: 600px){
+
+	.buttonValidation {
+		color: black;
+		height: 3rem;
+		line-height: 2rem;
+		background: #efea5a;
+		width: 50%;
+		margin: 0 auto;
+		-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+		box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+		font-family: Trirong, serif;
+		font-size: 1.55rem;
+		border-radius: 0.55rem;
+		/* color: rgb(241, 239, 239); */
+	}
+
+}

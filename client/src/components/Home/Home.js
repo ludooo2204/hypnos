@@ -4,7 +4,7 @@ import styles from "./Home.module.css";
 
 const Home = () => {
 // useEffect(() => {
-//  alert("probleme a la generation user_role sur pc maison")
+//  alert("fermer navbar on click")
 // }, [])
 
   return (

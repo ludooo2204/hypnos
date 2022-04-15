@@ -18,7 +18,7 @@
     "sharp": "^0.30.3"
   },
   "scripts": {
-    "start": "nodemon -r dotenv/config server.js",
+    "start": "nodemon -r dotenv/config App.js",
     "test": "jest"
   },
   "proxy": "http://127.0.0.1:7000/",

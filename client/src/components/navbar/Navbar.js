@@ -28,6 +28,24 @@ const customStyles = {
 		borderRadius: "6px",
 	},
 };
+const customStylesMobile = {
+	content: {
+		top: "50%",
+		left: "30%",
+		width: "80VW",
+		height: "90VH",
+		right: "auto",
+		bottom: "auto",
+		marginRight: "-30%",
+		transform: "translate(-30%, -50%)",
+		backgroundColor: "#f1f1f120",
+		display: "flex",
+		justifyContent: "center",
+		padding: "0.5REM",
+		boxShadow: "3px 3px 30px 2px",
+		borderRadius: "6px",
+	},
+};
 
 Modal.setAppElement("body");
 
@@ -104,10 +122,12 @@ const Navbar = ({ userGlobal, userProp }) => {
 	};
 	const seDeconnecter = () => {
 		window.localStorage.removeItem("token");
+		toggleNav()
 		setUserConnected(null);
 		window.location.reload(false);
 	};
 	function openModal() {
+		toggleNav()
 		setIsOpen(true);
 	}
 
@@ -120,43 +140,43 @@ const Navbar = ({ userGlobal, userProp }) => {
 			<nav className={`${styles.navbar} ${navBg}`}>
 				{(toggleMenu || screenWidth > 600) && (<>
 					<ol className={styles.ol}>
-						<li className={styles.items}>
+						<li className={styles.items} onClick={toggleNav}>
 							<Link to="/" className={styles.text}>
 								<div className={styles.logoHypnos}></div>
 							</Link>
 						</li>
-						<li className={styles.items}>
+						<li className={styles.items} onClick={toggleNav}>
 							<Link to="/etablissements" className={styles.text}>
 								Nos hôtels
 							</Link>
 						</li>
-						<li className={styles.items}>
+						<li className={styles.items} onClick={toggleNav}>
 							<Link to="/contact" className={styles.text}>
 								Nous contacter
 							</Link>
 						</li>
-						<li className={styles.items}>
+						<li className={styles.items} onClick={toggleNav}>
 							<Link to="/reservation" className={styles.text}>
 								Réservez un séjour
 							</Link>
 						</li>
 
 						{isAdmin && (
-							<li className={styles.items}>
+							<li className={styles.items} onClick={toggleNav}>
 								<Link to="/admin" className={styles.text}>
 									Section Admin
 								</Link>
 							</li>
 						)}
 						{isManager && (
-							<li className={styles.items}>
+							<li className={styles.items} onClick={toggleNav}>
 								<Link to="/manager" className={styles.text}>
 									Section Manager
 								</Link>
 							</li>
 						)}
 						{isUser && (
-							<li className={styles.items}>
+							<li className={styles.items} onClick={toggleNav}>
 								<Link to="/mesReservations" className={styles.text}>
 									Mes réservations
 								</Link>
@@ -184,7 +204,7 @@ const Navbar = ({ userGlobal, userProp }) => {
 				</div>
 			
 
-				<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
+				<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={screenWidth > 600?customStyles:customStylesMobile} contentLabel="Example Modal">
 					<LoginForm closeModal={closeModal} seConnecter={seConnecter} />
 				</Modal>
 			</nav>

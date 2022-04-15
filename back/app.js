@@ -10,6 +10,7 @@ const config = require("./app/config/db.config");
 const mysql = require("mysql2/promise");
 
 const fakeData = require("./app/config/fakeData");
+const { etablissement } = require("./app/models");
 // console.log(fakeData);
 // enable files upload
 app.use(
@@ -62,7 +63,6 @@ mysql
 							// Creation de l'admin
 							const emailAdmin = "admin@lomano.fr";
 							let vachonId;
-							let etablissementChatelleraultId;
 							db.user
 								.findAll({ where: { email: emailAdmin } })
 								.catch((err) => console.log("err2", err))
@@ -93,55 +93,126 @@ mysql
 													})
 													.then((e) => {
 														console.log("role de l'admin créé");
+														console.log(JSON.stringify(e, null, 2));
 
 														//C4est ici que ca se passe !!! comment changer cette boucle ????
 
-														//creation de user fictif (pour avoir de potentiel manager)
+														//creation de user fictif (pour avoir des manager)
 														for (const fakeUser of fakeData.fakeData.users) {
 															db.user
-																.create(
-																	{
-																		nom: fakeUser.nom,
-																		prenom: fakeUser.prenom,
-																		email: fakeUser.email,
-																		password: bcrypt.hashSync("foot", 8),
-																		roles: 1,
-																	},
-																	{
-																		include: [db.role],
-																	}
-																)
+																.create({
+																	nom: fakeUser.nom,
+																	prenom: fakeUser.prenom,
+																	email: fakeUser.email,
+																	password: bcrypt.hashSync("foot", 8),
+																})
 																.catch((err) => console.log("err5", err))
 																.then((user) => {
-																	db.sequelize.models.user_roles.create({ userId: user.id, roleId: 2 }).catch((err) => {
-																		console.log("err6", err);
-																	});
+																	db.sequelize.models.user_roles
+																		.bulkCreate([
+																			{ userId: user.id, roleId: 1 },
+																			{ userId: user.id, roleId: 2 },
+																		])
+																		.catch((err) => {
+																			console.log("err6", err);
+																		});
 																});
 														}
-
+														//creation clients
+														db.user
+															.create({
+																nom: "tom",
+																prenom: "tartuffe",
+																email: "tom.tartuffe@gmail.com",
+																password: bcrypt.hashSync("foot", 8),
+															})
+															.catch((err) => console.log("err5", err))
+															.then((user) => {
+																db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).catch((err) => {
+																	console.log("err6", err);
+																});
+															});
+														db.user
+															.create({
+																nom: "john",
+																prenom: "doe",
+																email: "john.doe@gmail.com",
+																password: bcrypt.hashSync("foot", 8),
+															})
+															.then((user) => {
+																db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).catch((err) => {
+																	console.log("err6", err);
+																});
+															});
+														db.user
+															.create({
+																nom: "dimitri",
+																prenom: "dokokoe",
+																email: "dokokoe.dmitri@gmail.com",
+																password: bcrypt.hashSync("foot", 8),
+															})
+															.then((user) => {
+																db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).catch((err) => {
+																	console.log("err6", err);
+																});
+															});
+														db.user
+															.create({
+																nom: "paul",
+																prenom: "jon",
+																email: "paul.jon@gmail.com",
+																password: bcrypt.hashSync("foot", 8),
+															})
+															.then((user) => {
+																db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).catch((err) => {
+																	console.log("err6", err);
+																});
+															});
+														db.user
+															.create({
+																nom: "marie",
+																prenom: "tata",
+																email: "marie.tata@gmail.com",
+																password: bcrypt.hashSync("foot", 8),
+															})
+															.then((user) => {
+																db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).catch((err) => {
+																	console.log("err6", err);
+																});
+															});
+														db.user
+															.create({
+																nom: "tom",
+																prenom: "dtomoe",
+																email: "tom.tom@gmail.com",
+																password: bcrypt.hashSync("foot", 8),
+															})
+															.then((user) => {
+																db.sequelize.models.user_roles.create({ userId: user.id, roleId: 1 }).catch((err) => {
+																	console.log("err6", err);
+																});
+															});
 														//creation du user ludo sur chatellerault
 														db.user
-															.create(
-																{
-																	nom: fakeData.fakeData.fakeChatellerault.user.nom,
-																	prenom: fakeData.fakeData.fakeChatellerault.user.prenom,
-																	email: fakeData.fakeData.fakeChatellerault.user.email,
-																	password: bcrypt.hashSync("foot", 8),
-																	roles: 1,
-																},
-																{
-																	include: [db.role],
-																}
-															)
+															.create({
+																nom: fakeData.fakeData.fakeChatellerault.user.nom,
+																prenom: fakeData.fakeData.fakeChatellerault.user.prenom,
+																email: fakeData.fakeData.fakeChatellerault.user.email,
+																password: bcrypt.hashSync("foot", 8),
+															})
 															.catch((err) => console.log("err7", err))
 
 															.then((user) => {
-																console.log("user ludo vachon créé");
-
 																vachonId = user.id;
+																console.log("user ludo vachon créé");
 																db.sequelize.models.user_roles
-																	.create({ userId: user.id, roleId: 2 })
-																	.catch((err) => console.log("err8", err))
+																	.bulkCreate([
+																		{ userId: user.id, roleId: 1 },
+																		{ userId: user.id, roleId: 2 },
+																	])
+																	.catch((err) => {
+																		console.log("err6", err);
+																	})
 
 																	.then(() => {
 																		//Creation de l'etablissement de chatellerault
@@ -156,9 +227,9 @@ mysql
 																			})
 																			.catch((err) => console.log("err9", err))
 
-																			.then(() => {
+																			.then((etablissementChatellerault) => {
 																				console.log("etablissement de chatellerault créé");
-
+																				console.log(JSON.stringify(etablissementChatellerault, null, 2));
 																				///creation des suite de chatellerault
 																				for (const fakeSuite of fakeData.fakeData.suites) {
 																					db.suite
@@ -170,7 +241,7 @@ mysql
 																								description: fakeSuite.description,
 																								UrlBooking: fakeSuite.UrlBooking,
 																								images: fakeSuite.images,
-																								etablissementId: etablissementChatelleraultId,
+																								etablissementId: etablissementChatellerault.id,
 																							},
 																							{
 																								include: [db.image],
