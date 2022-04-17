@@ -175,7 +175,7 @@ exports.postEtablissementImage = (req, res) => {
 		// const rnd= Math.random()
 		//Use the mv() method to place the file in upload directory (i.e. "uploads")
 		console.log(avatar.name)
-		avatar.mv("../client/src/uploads/" + avatar.name, function(err) {
+		avatar.mv("../client/public/uploads/" + avatar.name, function(err) {
 			if (err)
 			 return res.status(500).send(err);
 		   
