@@ -19,7 +19,6 @@ app.use(
 	})
 );
 
-// console.log("coucou");
 var corsOptions = {
 	origin: "http://localhost:3000",
 };
@@ -27,13 +26,10 @@ var corsOptions = {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(cors());
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
 app.use(express.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
 mysql
@@ -93,9 +89,6 @@ mysql
 													})
 													.then((e) => {
 														console.log("role de l'admin créé");
-														console.log(JSON.stringify(e, null, 2));
-
-														//C4est ici que ca se passe !!! comment changer cette boucle ????
 
 														//creation de user fictif (pour avoir des manager)
 														for (const fakeUser of fakeData.fakeData.users) {
@@ -229,7 +222,6 @@ mysql
 
 																			.then((etablissementChatellerault) => {
 																				console.log("etablissement de chatellerault créé");
-																				console.log(JSON.stringify(etablissementChatellerault, null, 2));
 																				///creation des suite de chatellerault
 																				for (const fakeSuite of fakeData.fakeData.suites) {
 																					db.suite
@@ -247,9 +239,6 @@ mysql
 																								include: [db.image],
 																							}
 																						)
-																						// .then(() => {
-																						// 	console.log("une suite a été crée");
-																						// })
 																						.catch((err) => console.log("err10", err));
 																				}
 																			})
@@ -257,7 +246,6 @@ mysql
 																				// on crée les reservations a chatellerault
 																				for (const fakeReservation of fakeData.fakeData.reservations) {
 																					db.reservation.create({ dateDebut: fakeReservation.dateDebut, dateFin: fakeReservation.dateFin, userId: fakeReservation.userId, suiteId: fakeReservation.suiteId }).catch((err) => console.log("err11", err));
-																					// .then((resa) => console.log("une reservation a été crée"));
 																				}
 																			})
 																			.then(() => {

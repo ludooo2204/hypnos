@@ -8,7 +8,6 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { addDays, subDays } from "date-fns";
 import fr from "date-fns/locale/fr";
 import "react-datepicker/dist/react-datepicker.css";
-// import { style } from "@mui/system";
 
 registerLocale("fr", fr);
 // setDefaultLocale('fr');
@@ -30,24 +29,12 @@ const Reservation = ({ user }) => {
 			console.log("etablissementsTemp.unshift({ nom: '---' })");
 			setEtablissements(etablissementsTemp);
 			if (state) {
-				console.log("state");
-				console.log("state");
-				console.log("state");
-				console.log("state");
-				console.log(state);
-				console.log(etablissementsTemp);
-
 				const etablissementChoisiTemp = etablissementsTemp.filter((e) => e.id === state.etablissementId)[0];
 				setSuites(etablissementsTemp.suites);
-
 				setEtablissementChoisi(etablissementChoisiTemp);
 				setSuiteChoisi(state);
 				if (etablissementsTemp.suites) {
 					const resaSuiteChoisi = etablissementsTemp.suites.reservations;
-					console.log(etablissementsTemp);
-					console.log(etablissementsTemp.suites);
-					console.log(resaSuiteChoisi);
-					console.log(etablissementChoisi);
 					let resaTemp = [];
 					for (const resa of resaSuiteChoisi) {
 						resaTemp.push({ start: new Date(resa.dateDebut), end: new Date(resa.dateFin) });
@@ -59,7 +46,6 @@ const Reservation = ({ user }) => {
 	}, []);
 	useEffect(() => {
 		if (etablissementChoisi) {
-			console.log("etablissementsTemp.unshift({ nom: '---' })2222");
 			let suitesTemp = etablissementChoisi.suites;
 			if (etablissementChoisi.suites && !etablissementChoisi.suites.map((e) => e.nom).includes("---")) {
 				suitesTemp.unshift({ nom: "---" });
@@ -69,7 +55,6 @@ const Reservation = ({ user }) => {
 	}, [etablissementChoisi]);
 	useEffect(() => {
 		if (suiteChoisi && suiteChoisi.nom != "---") {
-			console.log(suiteChoisi.nom != "---");
 			let resaTemp = [];
 			for (const resa of suiteChoisi.reservations) {
 				resaTemp.push({ start: new Date(resa.dateDebut).setDate(new Date(resa.dateDebut).getDate() - 1), end: new Date(resa.dateFin) });
@@ -77,22 +62,15 @@ const Reservation = ({ user }) => {
 			setReservations(resaTemp);
 		}
 	}, [suiteChoisi]);
-	// const { id, nom, UrlBooking, description, images, etablissementId, imageMiseEnAvant, prix } = state;
 	const CustomInput = forwardRef(({ onClick }, ref) => (
 		<button className={styles.datePicker} onClick={onClick} ref={ref}>
 			<CalendarMonthIcon sx={{ fontSize: "3rem", color: "#fa63a4" }} /> Nuitées à choisir
 		</button>
 	));
 	const handleChangeEtablissement = (e) => {
-		// console.log(etablissements);
-		// console.log(e.target.value);
-		// console.log(etablissements.filter((element) => element.nom == e.target.value)[0]);
 		setEtablissementChoisi(etablissements.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const handleChangeSuite = (e) => {
-		// console.log(suiteChoisi);
-		// console.log(e.target.value);
-		// console.log(suites.filter((element) => element.nom == e.target.value)[0]);
 		setSuiteChoisi(suites.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const validerReservation = () => {
@@ -136,31 +114,14 @@ const Reservation = ({ user }) => {
 						{suites && suites.map((x, y) => <option key={y}>{x.nom}</option>)}
 					</select>
 				</div>
-				<DatePicker
-					selected={startDate}
-					onChange={onChangeDate}
-					dateFormat="dd/MM/yyyy"
-					startDate={startDate}
-					locale="fr"
-					endDate={endDate}
-					selectsRange
-					withPortal
-					excludeDateIntervals={reservations}
-					// className={styles.datePickerContainer}
-					// inline
-					customInput={<CustomInput />}
-				/>
+				<DatePicker selected={startDate} onChange={onChangeDate} dateFormat="dd/MM/yyyy" startDate={startDate} locale="fr" endDate={endDate} selectsRange withPortal excludeDateIntervals={reservations} customInput={<CustomInput />} />
 				<div className={styles.input}>
 					<label>Première nuitée : </label>
 					{startDate && <span className={styles.dateTexte}>{startDate.toLocaleDateString()}</span>}
-					{/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy"  startDate={startDate} locale="fr" includeDateIntervals={[{ start: subDays(new Date(), 5), end: addDays(new Date(), 5) },{ start: addDays(new Date(), 8), end: addDays(new Date(), 25) }]} selectsRange withPortal endDate={endDate} /> */}
-					{/* <input type="text" className={styles.inputText} value={nom} onChange={handleNom}></input> */}
 				</div>
 				<div className={styles.input}>
 					<label>Dernière nuitée : </label>
 					{endDate && <span className={styles.dateTexte}>{endDate.toLocaleDateString()}</span>}
-					{/* <DatePicker selected={endDate} onChange={(date) => setEndDate(date)}  dateFormat="dd/MM/yyyy" selectsEnd startDate={startDate} locale="fr" includeDateIntervals={[{ start: subDays(new Date(), 5), end: addDays(new Date(), 5) }]} withPortal endDate={endDate} minDate={startDate} /> */}
-					{/* <input type="text" className={styles.inputText} value={nom} onChange={handleNom}></input> */}
 				</div>
 			</div>
 			<div className={styles.buttonGroup}>
@@ -182,5 +143,3 @@ const Reservation = ({ user }) => {
 };
 
 export default Reservation;
-
-// VOIR POUR RESTREINDRE LA ROUTE ADMIN SELON ACCORD DU BACKEND

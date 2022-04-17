@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./Admin.module.css";
-import imagePresentation from "../../img/1.jpg";
 import axios from "axios";
 import { matchSorter } from "match-sorter";
 import { useNavigate } from "react-router-dom";
@@ -23,34 +22,20 @@ const Admin = () => {
 	let navigate = useNavigate();
 	useEffect(() => {
 		axios.get("/admin/getUsers").then((users) => {
-			console.log(users.data);
 			setUsers(users.data);
 		});
-		axios.get("/admin/etablissement").then((etablissement) => {
-			console.log(etablissement);
-			console.log(etablissement.data);
-		});
+	
 	}, []);
 
-	const handleChangeEtablissement = () => {
-		console.log("select");
-	};
+
 	const handleUserSearch = (e) => {
 		setManager(e.target.value);
 		if (e.target.value == "") {
 			setModalUserFindedVisible(false);
 		} else {
-			console.log("users");
-			console.log(users.users);
-			const resultatDeRecherche = matchSorter(
-				users.users,
-				// users.users.map((user) => user.email),
-				e.target.value,
-				{ keys: ["email"] }
-			);
+			const usersOnlyUser = users.users.filter((user) => user.roles.length == 1);
+			const resultatDeRecherche = matchSorter(usersOnlyUser, e.target.value, { keys: ["email"] });
 			if (resultatDeRecherche.length < 10) {
-				console.log("resultats");
-				console.log(resultatDeRecherche);
 				setModalUserFindedVisible(true);
 				setUserFinded(resultatDeRecherche);
 			}
@@ -69,7 +54,6 @@ const Admin = () => {
 		setDescription(e.target.value);
 	};
 	const handleSetManager = (e) => {
-		console.log(e);
 		setModalUserFindedVisible(false);
 		setManager(e);
 	};
@@ -81,20 +65,12 @@ const Admin = () => {
 			},
 		};
 		const etablissementData = { nom, adresse, ville, description, manager: manager.id, images:images.name };
-	console.log("images")
-	console.log("images")
-	console.log("images")
-	console.log("images")
-	console.log("images")
-	console.log("images")
-	console.log(images)
 	
 		axios.post("/admin/etablissement", etablissementData,header)
-		.then(() => axios.patch("/admin/userToManager/" + manager.id,header))
+		.then(() => axios.get("/admin/userToManager/" + manager.id,header))
 		.then(navigate("../"));
 	};
 	const annulerEtablissement = () => {
-		console.log("annulerEtablissement");
 		window.location.reload()
 
 	};
@@ -105,10 +81,6 @@ const Admin = () => {
 	};
 	const onDelete = (img) => {
 		setImages(null);
-		// console.log(images);
-		// const copie = [...images];
-		// copie.splice(img, 1);
-		// setImages(copie);
 	};
 	return (
 		<div className={styles.mainAjout}>

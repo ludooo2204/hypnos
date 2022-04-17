@@ -8,7 +8,7 @@ const EtablissementCard = (etablissementData) => {
 	console.log("coucou from Card");
 	let navigate = useNavigate();
 
-	const { id, nom, adresse, description, image, user, ville } = etablissementData.etablissementData;
+	const {  nom,  image } = etablissementData.etablissementData;
 	const selectionnerEtablissement = () => {
 		console.log("ta choisi " + nom);
 		navigate("../suites", { state: etablissementData.etablissementData });
@@ -16,14 +16,12 @@ const EtablissementCard = (etablissementData) => {
 	return (
 		<div className={styles.cardMain} onClick={selectionnerEtablissement}>
 			<img className={styles.photo} src={"/uploads/" + image}></img>
-			{/* <img className={styles.photo} src={require("../../uploads/" + image)}></img> */}
 			<h1 className={styles.titre}>{nom} </h1>
 		</div>
 	);
 };
 const Etablissements = () => {
 	const [etablissements, setEtablissements] = useState(null);
-	console.log("sdgsg")
 	useEffect(() => {
 		axios.get("user/etablissements").then((data) => {
 			console.log("etablissements from Etablissements");

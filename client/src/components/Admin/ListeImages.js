@@ -8,24 +8,12 @@ const ListeImages = ({ images, onDelete }) => {
 	}, [images]);
 	return (
 		<div className={styles.ListeImages}>
-			{imagesState &&
-				
-						<div  className={styles.imageGroup}>
-							<img className={styles.image} src={typeof imagesState == "string" ? "/uploads/" + imagesState : URL.createObjectURL(imagesState)} />
-							{/* <img className={styles.image} src={typeof imagesState == "string" ? require("../../uploads/" + imagesState) : URL.createObjectURL(imagesState)} /> */}
-							<HighlightOffIcon className={styles.iconeDelete} onClick={() => onDelete()} />
-						</div>
-					
-				}
-			{/* {imagesState &&
-				imagesState.map((image, i) => {
-					return (
-						<div key={i} className={styles.imageGroup}>
-							<img className={styles.image} src={typeof image == "string" ? require("../../uploads/" + image) : URL.createObjectURL(image)} />
-							<HighlightOffIcon className={styles.iconeDelete} onClick={() => onDelete(i)} />
-						</div>
-					);
-				})} */}
+			{imagesState && (
+				<div className={styles.imageGroup}>
+					<img className={styles.image} src={typeof imagesState == "string" ? "/uploads/" + imagesState : URL.createObjectURL(imagesState)} />
+					<HighlightOffIcon className={styles.iconeDelete} onClick={() => onDelete()} />
+				</div>
+			)}
 		</div>
 	);
 };

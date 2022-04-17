@@ -51,7 +51,7 @@ const fakeUsers = [
 	},
 ];
 const fakeChatellerault=	{
-	nom: "Hotel de chatellerault",
+	nom: "Hotel de Chatellerault",
 	description: "bel hotel",
 	adresse: "47 impasse marcel 86100 chatellerault",
 	ville: "chatellerault",
@@ -66,7 +66,7 @@ const fakeChatellerault=	{
 const fakeEtablissements = [
 
 	{
-		nom: "Hotel de poitiers",
+		nom: "Hotel de Poitiers",
 		description: "bel hotel",
 		adresse: "47 impasse marcel 86100 poitiers",
 		ville: "poitiers",

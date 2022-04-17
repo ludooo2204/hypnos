@@ -19,28 +19,22 @@ const Admin = ({ userData }) => {
 	const [description, setDescription] = useState("");
 	const [userFinded, setUserFinded] = useState(null);
 	const [images, setImages] = useState(null);
-
 	const [modalUserFindedVisible, setModalUserFindedVisible] = useState(false);
 	const [manager, setManager] = useState("");
 	const [managerOrigine, setManagerOrigine] = useState("");
+
 	let navigate = useNavigate();
+
 	useEffect(() => {
 		axios
 			.get("/admin/getUsers")
 			.then((users) => {
-				console.log(users.data);
-				console.log(users.data);
-				console.log(users.data);
-				console.log(users.data);
-				console.log(users.data);
 				setUsers(users.data);
 			})
 			.catch((err) => {
-				console.log("errreur!!!!");
 				alert("vous n'avez pas les droits d'administrateur!!!");
 			});
 		axios.get("/admin/etablissement").then((etablissement) => {
-			console.log(etablissement.data);
 			let etablissementsTemp = etablissement.data.etablissement;
 			etablissementsTemp.unshift({ nom: "---" });
 			setEtablissements(etablissementsTemp);
@@ -56,13 +50,6 @@ const Admin = ({ userData }) => {
 				setManager({ email: "" });
 				setImages(null);
 			} else {
-				console.log("etablissementChoisi");
-				console.log("etablissementChoisi");
-				console.log("etablissementChoisi");
-				console.log("etablissementChoisi");
-				console.log("etablissementChoisi");
-				console.log("etablissementChoisi");
-				console.log(etablissementChoisi);
 				setNom(etablissementChoisi.nom);
 				setAdresse(etablissementChoisi.adresse);
 				setDescription(etablissementChoisi.description);
@@ -75,9 +62,6 @@ const Admin = ({ userData }) => {
 	}, [etablissementChoisi]);
 
 	const handleChangeEtablissement = (e) => {
-		console.log(etablissements);
-		console.log(e.target.value);
-		console.log(etablissements.filter((element) => element.nom == e.target.value)[0]);
 		setEtablissementChoisi(etablissements.filter((element) => element.nom == e.target.value)[0]);
 	};
 	const handleUserSearch = (e) => {
@@ -85,19 +69,9 @@ const Admin = ({ userData }) => {
 		if (e.target.value == "") {
 			setModalUserFindedVisible(false);
 		} else {
-			console.log("users");
-			console.log("users");
-			console.log(users.users);
 			const usersOnlyUser = users.users.filter((user) => user.roles.length == 1);
-			const resultatDeRecherche = matchSorter(
-				usersOnlyUser,
-				// users.users.map((user) => user.email),
-				e.target.value,
-				{ keys: ["email"] }
-			);
+			const resultatDeRecherche = matchSorter(usersOnlyUser, e.target.value, { keys: ["email"] });
 			if (resultatDeRecherche.length < 10) {
-				console.log("resultats");
-				console.log(resultatDeRecherche);
 				setModalUserFindedVisible(true);
 				setUserFinded(resultatDeRecherche);
 			}
@@ -116,7 +90,6 @@ const Admin = ({ userData }) => {
 		setDescription(e.target.value);
 	};
 	const handleSetManager = (e) => {
-		console.log(e);
 		setModalUserFindedVisible(false);
 		setManager(e);
 	};
@@ -127,31 +100,21 @@ const Admin = ({ userData }) => {
 				"content-type": "application/json",
 			},
 		};
-		console.log("etablissement from update");
-		console.log(etablissementChoisi);
-		console.log("manager");
-		console.log(manager);
-		console.log("manager origine");
-		console.log(managerOrigine);
-		if (etablissementChoisi) {
-			console.log("images");
-			console.log(images);
-			// 	const imageToSave=image.nom?image.nom:image.name)
-			// 	console.log("imagesToSave")
-			// 	console.log(imagesToSave)
-			//    const suiteData = { nom, prix, lien, description,imageMiseEnAvant, images: imagesToSave };
 
+		if (etablissementChoisi) {
 			const etablissementData = { nom, adresse, ville, description, manager: manager.id, image: images.name };
-			console.log("validerEtablissement");
-			console.log(etablissementData);
 			axios
 				.patch("/admin/etablissement/" + etablissementChoisi.id, etablissementData, header)
 				.then(() => axios.patch("/admin/etablissement/manager/" + etablissementChoisi.id, { userId: manager.id }, header))
 				.then(() => {
-					if (!manager.id == managerOrigine.id) axios.get("/admin/userToManager/" + manager.id, header);
+					console.log("manager.id")
+					console.log(manager.id)
+					console.log("managerOrigine.id")
+					console.log(managerOrigine.id)
+					if (manager.id !== managerOrigine.id) axios.get("/admin/userToManager/" + manager.id, header).then(user=>console.log("userTomanager ",user));
 				})
 				.then(() => {
-					if (!manager.id == managerOrigine.id) axios.get("/admin/managerToUser/" + managerOrigine.id, header);
+					if (manager.id !== managerOrigine.id) axios.get("/admin/managerToUser/" + managerOrigine.id, header).then(user=>console.log("managertoUser ",user));
 				})
 				.then(() => {
 					alert("Les modifications ont été sauvegardée !");
@@ -162,7 +125,6 @@ const Admin = ({ userData }) => {
 		}
 	};
 	const annulerEtablissement = () => {
-		console.log("annulerEtablissement");
 		window.location.reload();
 	};
 	const supprimerEtablissement = () => {
@@ -181,7 +143,6 @@ const Admin = ({ userData }) => {
 		}
 	};
 	const handleImage = (e) => {
-		// setImages((images) => [...images, e]);
 		setImages(e);
 	};
 	const onDelete = (img) => {
@@ -189,8 +150,6 @@ const Admin = ({ userData }) => {
 	};
 	return (
 		<div className={styles.main}>
-			{console.log("userFinded")}
-			{console.log(userFinded)}
 			{modalUserFindedVisible && userFinded.length > 0 && (
 				<div className={styles.userFinded}>
 					{userFinded &&

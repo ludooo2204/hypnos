@@ -1,5 +1,4 @@
 let express = require("express");
-const { authJwt } = require("../middleware");
 
 let router = express.Router();
 
@@ -11,7 +10,5 @@ router.get("/reservations/:id", controller.getReservationsByUser);
 router.post("/reservation", controller.postReservation);
 
 router.delete("/reservation/:id", controller.deleteReservation);
-
-// router.patch("/reservation/:id", controller.patchReservation);
 
 module.exports = router;

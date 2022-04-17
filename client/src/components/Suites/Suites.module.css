@@ -131,26 +131,25 @@
 .mainMesResa {
 	background-color: #f1f1f1;
 	min-height: 82vh;
-	padding: 2rem
+	padding: 2rem;
 }
 .datePicker {
 	background-color: #fa63a440;
-	margin: 2rem ;
+	margin: 2rem;
 	padding: 1rem;
 	font-size: 1.5rem;
 	border-radius: 1rem;
 	transition: all 0.2s;
-
 }
 .datePicker:hover {
-transform: scale(1.03);
+	transform: scale(1.03);
 }
 
 .selectAgence {
 	font-size: 2rem;
 	padding: 0.3rem;
 	border-radius: 0.2rem;
-	min-width: 25VW;
+	min-width: 25vw;
 }
 .calendarIcon {
 	font-size: 1.5rem !important;
@@ -165,34 +164,33 @@ transform: scale(1.03);
 .datePickerContainer {
 	margin: 0 auto;
 }
-.dateTexte{
-	font-size: 2REM;
+.dateTexte {
+	font-size: 2rem;
 	font-weight: 600;
 	margin-left: 6rem;
 }
-.header{
-	width: 100VW;
-	height: 10VH;
+.header {
+	width: 100vw;
+	height: 10vh;
 	background-color: #fa63a4;
 	font-family: Parisienne;
 	text-align: center;
 	font-size: 3rem;
 	/* color: #5b5b5b; */
 	font-weight: 500;
-	line-height: 10VH;
-
+	line-height: 10vh;
 }
 
-.reservationItem{
+.reservationItem {
 	background-color: #5b5b5b10;
-	height: 6VH;
+	height: 6vh;
 	margin-bottom: 1rem;
 	border-radius: 0.3rem;
 	font-family: Trirong, serif;
 	font-size: 1.85rem;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
 	.cardMain {
 		background-color: #5b5b5b;
 		display: flex;
@@ -221,17 +219,16 @@ transform: scale(1.03);
 		width: 80%;
 		margin: 3% 1%;
 	}
-	.header{
-		width: 100VW;
-		height: 10VH;
+	.header {
+		width: 100vw;
+		height: 10vh;
 		background-color: #fa63a4;
 		font-family: Parisienne;
 		text-align: center;
 		font-size: 2rem;
 		/* color: #5b5b5b; */
 		font-weight: 500;
-		line-height: 10VH;
-	
+		line-height: 10vh;
 	}
 	.infoEtablissement {
 		list-style: none;

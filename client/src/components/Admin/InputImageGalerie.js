@@ -6,8 +6,6 @@ const FileUploader2 = ({ onFileSelectError, onFileSelectSuccess }) => {
 	const handleFileInput2 = (e) => {
 		// handle validations
 		const file = e.target.files[0];
-		console.log(file.size);
-		console.log("file.size from inputGalerie");
 		if (file.size > 10000024) onFileSelectError({ error: "File size cannot exceed more than 10MB" });
 		else onFileSelectSuccess(file);
 	};
@@ -29,12 +27,7 @@ const InputImageGalerie = ({ RecupererfileGalerie }) => {
 		const formData = new FormData();
 		// console.log(selectedFile)
 		formData.append("file", selectedFile);
-		// console.log("selectedFileé");
-		// console.log(selectedFile);
-		// console.log("formData")
-		// console.log(formData)
-		// console.log('URL.createObjectURL(selectedFile)');
-		// console.log(URL.createObjectURL(selectedFile));
+
 		axios
 			.post("/admin/etablissement/postImage", formData)
 			.then((res) => {

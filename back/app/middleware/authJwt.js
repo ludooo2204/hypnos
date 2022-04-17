@@ -13,29 +13,13 @@ verifyToken = (req, res, next) => {
 		});
 	}
 	jwt.verify(token, config.secret, (err, decoded) => {
-		console.log("decoded");
-		console.log("decoded");
-		console.log("decoded");
-		console.log("decoded");
-		console.log(decoded);
 		if (err) {
 			return res.status(401).send({
 				message: "Unauthorized!",
 			});
 		}
-		console.log("token decodé !");
-		console.log("token decodé !");
-		console.log("token decodé !");
-		console.log("token decodé !");
 		let rolesTemp = [];
 		User.findAll({ where: { email: decoded.email } }).then((user) => {
-			console.log("trouvé");
-			console.log("trouvé");
-			console.log("trouvé");
-			console.log("trouvé");
-			console.log("trouvé");
-			console.log(JSON.stringify(user, null, 2));
-
 			user[0].getRoles().then((roles) => {
 				for (let i = 0; i < roles.length; i++) {
 					rolesTemp.push(roles[i].name);
@@ -43,7 +27,6 @@ verifyToken = (req, res, next) => {
 				req.roles = rolesTemp;
 				req.userId = user[0].id;
 				req.email = decoded.email;
-				// req.password = decoded.password;
 
 				next();
 			});
@@ -51,11 +34,6 @@ verifyToken = (req, res, next) => {
 	});
 };
 isAdmin = (req, res, next) => {
-	console.log("IsAdmin ");
-	console.log("IsAdmin ");
-	console.log("IsAdmin ");
-	console.log("IsAdmin ");
-	console.log("IsAdmin ");
 	let token = req.headers["x-access-token"];
 	if (!token) {
 		return res.status(403).send({
@@ -63,8 +41,6 @@ isAdmin = (req, res, next) => {
 		});
 	}
 	jwt.verify(token, config.secret, (err, decoded) => {
-		console.log("decoded");
-		console.log(decoded);
 		if (err) {
 			return res.status(401).send({
 				message: "Unauthorized!",
@@ -72,7 +48,6 @@ isAdmin = (req, res, next) => {
 		}
 		let rolesTemp = [];
 		User.findAll({ where: { email: decoded.email } }).then((user) => {
-
 			user[0].getRoles().then((roles) => {
 				for (let i = 0; i < roles.length; i++) {
 					rolesTemp.push(roles[i].name);
@@ -90,10 +65,6 @@ isAdmin = (req, res, next) => {
 	});
 };
 isManager = (req, res, next) => {
-	console.log("ISmanager ");
-	console.log("ISmanager ");
-	console.log("ISmanager ");
-	console.log("ISmanager ");
 	let token = req.headers["x-access-token"];
 	if (!token) {
 		return res.status(403).send({
@@ -101,8 +72,6 @@ isManager = (req, res, next) => {
 		});
 	}
 	jwt.verify(token, config.secret, (err, decoded) => {
-		console.log("decoded");
-		console.log(decoded);
 		if (err) {
 			return res.status(401).send({
 				message: "Unauthorized!",
@@ -110,20 +79,10 @@ isManager = (req, res, next) => {
 		}
 		let rolesTemp = [];
 		User.findAll({ where: { email: decoded.email } }).then((user) => {
-			console.log("trouvé");
-			console.log("trouvé");
-			console.log("trouvé");
-			console.log("trouvé");
-			console.log("trouvé");
-			console.log(JSON.stringify(user, null, 2));
-
 			user[0].getRoles().then((roles) => {
 				for (let i = 0; i < roles.length; i++) {
 					rolesTemp.push(roles[i].name);
 				}
-				console.log("rolesTemp");
-				console.log("rolesTemp");
-				console.log(rolesTemp);
 				if (rolesTemp.includes("manager") && !rolesTemp.includes("admin")) {
 					console.log("ta les droits !!!");
 					next();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import styles from "./Suites.module.css";
@@ -8,7 +8,7 @@ const Suite = () => {
 	const { state } = useLocation();
 	console.log("state from suite");
 	console.log(state);
-	const { id, nom, UrlBooking, description, images, etablissementId, imageMiseEnAvant, prix } = state;
+	const {  nom, UrlBooking, description, images,  prix } = state;
 const reserverSuite = ()=>{
 	navigate('../reservation',{state})
 }
@@ -16,7 +16,6 @@ const reserverSuite = ()=>{
 		<div className={styles.mainSuite}>
 			<h1 className={styles.titre}>{nom}</h1>
 			<div className={styles.suiteCardGroup}>{images && images.map((image, i) => <img className={styles.photoSuite} src={"/uploads/" + image.nom}></img>)}</div>
-			{/* <div className={styles.suiteCardGroup}>{images && images.map((image, i) => <img className={styles.photoSuite} src={require("../../uploads/" + image.nom)}></img>)}</div> */}
 			<hr width="30%"></hr>
 			
 			<div className={styles.infoSuite}>

@@ -9,20 +9,18 @@ const SuiteCard = (suiteData) => {
 	const { id, nom, UrlBooking, description, images, etablissementId, imageMiseEnAvant, prix } = suiteData.suiteData;
 	const selectionnerSuite = () => {
 		console.log("ta choisi " + nom);
-		console.log("ta choisi " + nom);
 		navigate("../suite", { state: suiteData.suiteData });
 	};
 	return (
 		<div className={styles.cardMain} onClick={selectionnerSuite}>
 			<img className={styles.photo} src={"/uploads/" + imageMiseEnAvant}></img>
-			{/* <img className={styles.photo} src={require("../../uploads/" + imageMiseEnAvant)}></img> */}
 			<h1 className={styles.titreSuite}>{nom} </h1>
 		</div>
 	);
 };
 const Suites = () => {
 	const { state } = useLocation();
-	const { id, nom, adresse, description, image, user, ville } = state;
+	const {  nom, adresse, description,  user, ville } = state;
 
 	return (
 		<div className={styles.mainSuite}>
