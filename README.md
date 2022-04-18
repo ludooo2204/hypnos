@@ -22,4 +22,5 @@ pour garder les modifs à chaque redémarrage du serveur
 
 
 Le terminal client lance automatiquement votre navigateur sur l'adresse http://localhost:3000/
-enjoy!
+
+**enjoy!**
