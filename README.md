@@ -11,7 +11,7 @@ Revenez au dossier initial avec "cd .." puis la commande "cd client && yarn" ou 
 packages client.
 
 ## lancement de l'application en local
-Une fois nodejs , wampserver (il faut que l'application soit lancée) et les différents packages installés, lancez la commande "yarn back" ou placez vous dans le dossier
+Une fois nodejs , wampserver (il faut que l'application soit lancée avec le compte par defaut ou il faudra modifier les infos dans "back/config/db.config") et les différents packages installés, lancez la commande "yarn back" ou placez vous dans le dossier
 "back" et saisissez "yarn start" ou "npm start". ouvrez un nouveau terminal puis lancez la commande "yarn client" ou placez vous dans le dossier
 "client" et saisissez "yarn start" ou "npm start".
 Logiquement, le terminal back vous indique que le serveur tourne sur le port 7000 et que different user / etablissement on été créé. Il peut etre necessaire de relancer la
